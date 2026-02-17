@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Radio Limay</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #001f33;
+      color: white;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+
+    header img {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+
+    nav {
+      background-color: #00334d;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav a {
+      padding: 15px;
+      color: #00ff88;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    nav a:hover {
+      background-color: #004766;
+    }
+
+    section {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+      line-height: 1.6;
+      font-size: 18px;
+    }
+
+    h2 {
+      color: #00ff88;
+      text-align: center;
+      font-size: 28px;
+      letter-spacing: 1px;
+      font-weight: bold;
+    }
+
+    .social-icons {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      font-size: 30px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .social-icons a:hover {
+      color: #00ff88;
+    }
+
+    footer {
+      background-color: #002233;
+      color: #ccc;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+    }
+
+    iframe {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+      iframe.reproductor {
+        height: 520px !important;
+      }
+      iframe.chat {
+        height: 500px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://radiolimay.webcindario.com/Img/radiolimaylogo.jpg" alt="Logo Radio Limay" />
+</header>
+
+<nav>
+  <a href="#inicio">Inicio</a>
+  <a href="#sobre">Sobre nosotros</a>
+  <a href="#programacion">Programaci&oacute;n</a>
+  <a href="#chat">Chat</a>
+  <a href="#contacto">Contacto</a>
+</nav>
+
+<section id="inicio">
+  <div style="max-width: 400px; margin: 0 auto;">
+    <iframe 
+      class="reproductor"
+      src="https://radiolimay.webcindario.com/reproductor/index.html" 
+      style="height: 550px;" 
+      allow="autoplay">
+    </iframe>
+  </div>
+  <!-- Bot�n de descarga de la app -->
+  <div style="text-align:center; margin-top:20px;">
+    <a href="https://apk.e-droid.net/apk/app2639526-az321x.apk?v=4" download>
+        <img src="https://radiolimay.webcindario.com/Img/BOTON-DE-DESCARGA.png" alt="Descargar App Radio Limay" 
+             style="width:280px; max-width:90%; cursor:pointer;">
+    </a>
+  </div>
+</section>
+
+<section id="sobre">
+  <h2>Sobre nosotros</h2>
+  <p>
+    Radio Limay es una emisora dedicada al mejor rock nacional e internacional.
+    Nuestro objetivo es acompa&ntilde;arte con la mejor m&uacute;sica, buena onda y programaci&oacute;n
+    variada todos los d&iacute;as. Somos pasi&oacute;n por el rock.
+  </p>
+</section>
+
+<section id="programacion">
+  <h2>Programaci&oacute;n</h2>
+  <p>Lunes a viernes: Rock cl&aacute;sico &mdash; 08:00 a 12:00</p>
+  <p>Tardes alternativas &mdash; 14:00 a 18:00</p>
+  <p>Noches metaleras &mdash; 21:00 a 00:00</p>
+</section>
+
+<section id="chat">
+  <h2>Chat</h2>
+
+  <div style="width: 100%; max-width: 600px; margin: auto;">
+    <iframe 
+      class="chat"
+      src="https://radiolimaychat.chatango.com/" 
+      style="height: 500px;">
+    </iframe>
+  </div>
+</section>
+
+<section id="contacto">
+  <h2>Contacto</h2>
+
+  <p style="text-align: center;">
+    Comunicate con Radio Limay<br>
+    Estamos siempre atentos a tus mensajes, sugerencias, saludos y pedidos musicales.<br><br>
+    Pod&eacute;s escribirnos por correo a <b>radiolimay@outlook.com</b> o completar el formulario que aparece abajo.<br>
+    Leemos todos los mensajes y respondemos a la brevedad.<br><br>
+    Tu participaci&oacute;n es muy importante para nosotros.<br>
+    &iexcl;Gracias por ser parte de Radio Limay!
+  </p>
+
+  <iframe
+    id="JotFormIFrame-253238040862050"
+    title="Radio Limay"
+    allowtransparency="true"
+    allow="geolocation; microphone; camera; fullscreen; payment"
+    src="https://form.jotform.com/253238040862050"
+    frameborder="0"
+    style="min-width:100%;max-width:100%;height:539px;border:none;"
+    scrolling="no"
+  ></iframe>
+
+  <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script>
+  <script>
+      window.jotformEmbedHandler(
+        "iframe[id='JotFormIFrame-253238040862050']", 
+        "https://form.jotform.com/"
+      );
+  </script>
+
+  <div class="social-icons">
+    <a href="https://www.facebook.com/RadioLimay" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.instagram.com/radiolimay" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://x.com/radiolimay" target="_blank"><i class="fab fa-x-twitter"></i></a>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Radio Limay.<br>
+  Todos los derechos reservados.
+</footer>
+
+</body>
+</html>
