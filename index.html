@@ -24,16 +24,12 @@ header{
     background:rgba(0,0,0,.6);
     padding:15px;
     text-align:center;
-    position:sticky;
-    top:0;
-    z-index:1000;
-    transition: background 0.3s;
 }
 header img{width:55px;border-radius:50%;}
 header h1{font-size:1.3rem;margin-top:5px;}
 
 /* MENU */
-nav{background:#020817;position:sticky;top:72px;z-index:999;}
+nav{background:#020817;}
 .nav-container{
     max-width:1100px;
     margin:auto;
@@ -52,7 +48,7 @@ nav{background:#020817;position:sticky;top:72px;z-index:999;}
 .menu a:hover{color:var(--main);}
 .hamburger{display:none;font-size:26px;cursor:pointer;transition:transform 0.3s;}
 
-/* NUEVO PLAYER */
+/* PLAYER */
 .player{
     width:92%;
     max-width:420px;
@@ -77,12 +73,12 @@ nav{background:#020817;position:sticky;top:72px;z-index:999;}
 }
 .logo img{width:100%;height:100%;object-fit:contain;}
 
-/* TITULO */
+/* TITULOS */
 .station{font-size:22px;font-weight:600;margin-bottom:8px;}
 .song{font-size:18px;font-weight:500;margin-bottom:4px;}
 .artist{font-size:14px;opacity:.8;margin-bottom:18px;}
 
-/* VISUALIZER TIPO SPOTIFY DINÁMICO */
+/* VISUALIZER */
 .visualizer{
     display:flex;
     justify-content:center;
@@ -217,7 +213,6 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     </div>
 </nav>
 
-<!-- PLAYER -->
 <div class="player" id="player">
     <div class="logo">
         <img src="http://sonomixradio.xo.je/img/logo.png" alt="Sonomix Radio">
@@ -225,18 +220,22 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     <div class="station">Sonomix Radio</div>
     <div class="song" id="song">Cargando…</div>
     <div class="artist" id="artist"></div>
+
     <div class="visualizer" id="viz">
         <div class="wave"></div><div class="wave"></div><div class="wave"></div>
         <div class="wave"></div><div class="wave"></div><div class="wave"></div>
         <div class="wave"></div><div class="wave"></div>
     </div>
+
     <audio id="audio" src="https://s2.servicioderadio.com/8664/stream" crossorigin="anonymous"></audio>
     <button class="play" id="playBtn"><i class="fa-solid fa-play"></i></button>
+
     <div class="volume">
         <i class="fa-solid fa-volume-low"></i>
         <input type="range" min="0" max="1" step="0.01" value="0.9" id="volume">
         <i class="fa-solid fa-volume-high"></i>
     </div>
+
     <div class="live"><span></span> EN VIVO</div>
 </div>
 
@@ -244,8 +243,6 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     <h2>💬 Chat en Vivo</h2>
 </section>
 
-<!-- SECCIÓN DE CONTACTO ARREGLADA PARA FORMSPREE -->
-<!-- SECCIÓN DE CONTACTO CON MENSAJE PERSONALIZADO -->
 <section class="contacto" id="contacto">
     <h2>📩 Contacto</h2>
     <form id="contactForm" action="https://formspree.io/f/mjgeraek" method="POST">
@@ -256,35 +253,6 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     </form>
     <p id="formMessage" style="text-align:center; margin-top:10px; color:#4f7cff;"></p>
 </section>
-
-<script>
-const form = document.getElementById('contactForm');
-const formMessage = document.getElementById('formMessage');
-
-form.addEventListener('submit', async function(e) {
-  e.preventDefault(); // evita recargar la página
-  const formData = new FormData(form);
-
-  try {
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    });
-
-    if (response.ok) {
-      formMessage.textContent = "✅ Gracias! Tu mensaje fue enviado correctamente.";
-      form.reset();
-    } else {
-      const data = await response.json();
-      formMessage.textContent = data.errors ? "❌ " + data.errors.map(err => err.message).join(", ") : "❌ Error al enviar";
-    }
-  } catch (err) {
-    formMessage.textContent = "❌ Error de conexión. Intenta nuevamente.";
-  }
-});
-</script>
-
 
 <section class="redes" id="redes">
     <h2>📲 Seguinos</h2>
@@ -298,12 +266,10 @@ form.addEventListener('submit', async function(e) {
 </footer>
 
 <script>
-/* MENÚ HAMBURGUESA SUAVE */
 function toggleMenu(){
     document.getElementById("menu").classList.toggle("active");
 }
 
-/* AUDIO PLAYER CON VISUALIZER PROFESIONAL */
 const audio = document.getElementById("audio");
 const playBtn = document.getElementById("playBtn");
 const volume = document.getElementById("volume");
@@ -321,10 +287,10 @@ playBtn.onclick = () => {
         playBtn.innerHTML='<i class="fa-solid fa-play"></i>';
     }
 };
+
 audio.volume = volume.value;
 volume.oninput = () => audio.volume = volume.value;
 
-/* METADATOS */
 function loadMetadata(){
     fetch("https://s2.servicioderadio.com/cp/get_info.php?p=8664")
     .then(r=>r.json())
@@ -340,7 +306,6 @@ function loadMetadata(){
 loadMetadata();
 setInterval(loadMetadata,15000);
 
-/* VISUALIZER PROFESIONAL DINÁMICO */
 let audioCtx, analyser, source, dataArray;
 function initAudioCtx(){
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -358,9 +323,7 @@ function visualize(){
     waves.forEach((w,i)=>{
         const value = dataArray[i] || 0;
         w.style.height = `${Math.max(20, value/2)}%`;
-
-        // Cambiar color según intensidad
-        const hue = 120 - (value/255)*120; // verde a rojo
+        const hue = 120 - (value/255)*120;
         w.style.background = `hsl(${hue}, 100%, 50%)`;
     });
     requestAnimationFrame(visualize);
