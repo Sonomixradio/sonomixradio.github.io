@@ -46,7 +46,7 @@ nav{background:#020817;}
 }
 .menu a{color:#fff;text-decoration:none;font-size:.95rem;opacity:1;transition:opacity 0.3s;}
 .menu a:hover{color:var(--main);}
-.hamburger{display:none;font-size:26px;cursor:pointer;transition:transform 0.3s;}
+.hamburger{display:none;font-size:26px;cursor:pointer;}
 
 /* PLAYER */
 .player{
@@ -58,7 +58,6 @@ nav{background:#020817;}
     text-align:center;
     box-shadow:0 40px 80px rgba(0,0,0,.85);
     margin:30px auto;
-    position:relative;
 }
 
 /* LOGO */
@@ -173,7 +172,6 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
 /* RESPONSIVE */
 @media(max-width:768px){
     .menu{
-        display:flex;
         flex-direction:column;
         max-height:0;
         opacity:0;
@@ -205,10 +203,10 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
             <i class="fas fa-bars"></i>
         </div>
         <div class="menu" id="menu">
-            <a href="#player">🎧 En Vivo</a>
-            <a href="#chat">💬 Chat</a>
-            <a href="#contacto">📩 Contacto</a>
-            <a href="#redes">📲 Redes</a>
+            <a href="#player">En Vivo</a>
+            <a href="#chat">Chat</a>
+            <a href="#contacto">Contacto</a>
+            <a href="#redes">Redes</a>
         </div>
     </div>
 </nav>
@@ -221,7 +219,7 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     <div class="song" id="song">Cargando…</div>
     <div class="artist" id="artist"></div>
 
-    <div class="visualizer" id="viz">
+    <div class="visualizer">
         <div class="wave"></div><div class="wave"></div><div class="wave"></div>
         <div class="wave"></div><div class="wave"></div><div class="wave"></div>
         <div class="wave"></div><div class="wave"></div>
@@ -240,11 +238,11 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
 </div>
 
 <section id="chat">
-    <h2>💬 Chat en Vivo</h2>
+    <h2>Chat en Vivo</h2>
 </section>
 
 <section class="contacto" id="contacto">
-    <h2>📩 Contacto</h2>
+    <h2>Contacto</h2>
     <form id="contactForm" action="https://formspree.io/f/mjgeraek" method="POST">
         <input type="text" name="Nombre" placeholder="Nombre" required>
         <input type="email" name="email" placeholder="Email" required>
@@ -255,7 +253,7 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
 </section>
 
 <section class="redes" id="redes">
-    <h2>📲 Seguinos</h2>
+    <h2>Seguinos</h2>
     <a href="#"><i class="fab fa-facebook"></i></a>
     <a href="#"><i class="fab fa-instagram"></i></a>
     <a href="#"><i class="fab fa-whatsapp"></i></a>
