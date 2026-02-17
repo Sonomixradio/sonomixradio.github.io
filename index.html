@@ -1,210 +1,371 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Radio Limay</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonomix Radio</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #001f33;
-      color: white;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    header {
-      text-align: center;
-      padding: 20px;
-    }
+<style>
+:root{
+    --main:#4f7cff;
+    --bg1:#0b1220;
+    --bg2:#151d33;
+}
 
-    header img {
-      max-width: 300px;
-      width: 100%;
-      height: auto;
-    }
+/* GLOBAL */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;}
 
-    nav {
-      background-color: #00334d;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+/* HEADER */
+header{
+    background:rgba(0,0,0,.6);
+    padding:15px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    transition: background 0.3s;
+}
+header img{width:55px;border-radius:50%;}
+header h1{font-size:1.3rem;margin-top:5px;}
 
-    nav a {
-      padding: 15px;
-      color: #00ff88;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 18px;
-      letter-spacing: 0.5px;
-    }
+/* MENU */
+nav{background:#020817;position:sticky;top:72px;z-index:999;}
+.nav-container{
+    max-width:1100px;
+    margin:auto;
+    padding:10px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.menu{
+    display:flex;
+    gap:20px;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    overflow:hidden;
+}
+.menu a{color:#fff;text-decoration:none;font-size:.95rem;opacity:1;transition:opacity 0.3s;}
+.menu a:hover{color:var(--main);}
+.hamburger{display:none;font-size:26px;cursor:pointer;transition:transform 0.3s;}
 
-    nav a:hover {
-      background-color: #004766;
-    }
+/* NUEVO PLAYER */
+.player{
+    width:92%;
+    max-width:420px;
+    background:linear-gradient(180deg,#121c33,#020814);
+    border-radius:30px;
+    padding:26px 22px;
+    text-align:center;
+    box-shadow:0 40px 80px rgba(0,0,0,.85);
+    margin:30px auto;
+    position:relative;
+}
 
-    section {
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      line-height: 1.6;
-      font-size: 18px;
-    }
+/* LOGO */
+.logo{
+    width:180px;
+    height:180px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:#fff;
+    overflow:hidden;
+    box-shadow:0 0 50px rgba(29,185,84,.45);
+}
+.logo img{width:100%;height:100%;object-fit:contain;}
 
-    h2 {
-      color: #00ff88;
-      text-align: center;
-      font-size: 28px;
-      letter-spacing: 1px;
-      font-weight: bold;
-    }
+/* TITULO */
+.station{font-size:22px;font-weight:600;margin-bottom:8px;}
+.song{font-size:18px;font-weight:500;margin-bottom:4px;}
+.artist{font-size:14px;opacity:.8;margin-bottom:18px;}
 
-    .social-icons {
-      text-align: center;
-      margin-top: 20px;
-    }
+/* VISUALIZER TIPO SPOTIFY DINÁMICO */
+.visualizer{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:6px;
+    height:70px;
+    margin-bottom:20px;
+}
+.wave{
+    width:8px;
+    height:20%;
+    border-radius:20px;
+    opacity:.85;
+    transition: height 0.05s linear, background 0.1s linear;
+}
 
-    .social-icons a {
-      margin: 0 10px;
-      font-size: 30px;
-      color: white;
-      text-decoration: none;
-    }
+/* CONTROLES */
+.play{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:none;
+    background:#1db954;
+    color:#000;
+    font-size:36px;
+    cursor:pointer;
+    box-shadow:0 0 40px rgba(29,185,84,.65);
+    margin-bottom:16px;
+}
 
-    .social-icons a:hover {
-      color: #00ff88;
-    }
+/* VOLUMEN */
+.volume{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+}
+.volume input{width:200px;}
 
-    footer {
-      background-color: #002233;
-      color: #ccc;
-      text-align: center;
-      padding: 15px;
-      font-size: 14px;
-    }
+/* LIVE */
+.live{
+    font-size:13px;
+    color:#ff2f7a;
+    font-weight:600;
+}
+.live span{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    background:#ff2f7a;
+    border-radius:50%;
+    animation:pulse 1.3s infinite;
+}
+@keyframes pulse{
+    0%{opacity:1}50%{opacity:.3}100%{opacity:1}
+}
 
-    iframe {
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-    }
+/* SECCIONES */
+section{
+    max-width:900px;
+    margin:60px auto;
+    padding:0 20px;
+}
+section h2{text-align:center;color:var(--main);margin-bottom:20px;}
 
-    @media (max-width: 768px) {
-      iframe.reproductor {
-        height: 520px !important;
-      }
-      iframe.chat {
-        height: 500px !important;
-      }
+/* CONTACTO */
+.contacto input,
+.contacto textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border:none;
+    border-radius:6px;
+}
+.contacto button{
+    width:100%;
+    padding:12px;
+    background:var(--main);
+    border:none;
+    color:#fff;
+    border-radius:6px;
+}
+
+/* REDES */
+.redes{text-align:center;}
+.redes a{font-size:28px;margin:0 14px;color:var(--main);}
+
+/* FOOTER */
+footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#bcdcff;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .menu{
+        display:flex;
+        flex-direction:column;
+        max-height:0;
+        opacity:0;
     }
-  </style>
+    .menu.active{
+        max-height:500px;
+        opacity:1;
+    }
+    .hamburger{display:block;}
+}
+@media (max-width:480px){
+    .logo{width:150px;height:150px}
+    .play{width:80px;height:80px;font-size:32px}
+    .volume input{width:160px}
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <img src="https://radiolimay.webcindario.com/Img/radiolimaylogo.jpg" alt="Logo Radio Limay" />
+    <img src="logo.png">
+    <h1>Sonomix Radio</h1>
 </header>
 
 <nav>
-  <a href="#inicio">Inicio</a>
-  <a href="#sobre">Sobre nosotros</a>
-  <a href="#programacion">Programaci&oacute;n</a>
-  <a href="#chat">Chat</a>
-  <a href="#contacto">Contacto</a>
+    <div class="nav-container">
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="menu" id="menu">
+            <a href="#player">🎧 En Vivo</a>
+            <a href="#chat">💬 Chat</a>
+            <a href="#contacto">📩 Contacto</a>
+            <a href="#redes">📲 Redes</a>
+        </div>
+    </div>
 </nav>
 
-<section id="inicio">
-  <div style="max-width: 400px; margin: 0 auto;">
-    <iframe 
-      class="reproductor"
-      src="https://radiolimay.webcindario.com/reproductor/index.html" 
-      style="height: 550px;" 
-      allow="autoplay">
-    </iframe>
-  </div>
-  <!-- Bot�n de descarga de la app -->
-  <div style="text-align:center; margin-top:20px;">
-    <a href="https://apk.e-droid.net/apk/app2639526-az321x.apk?v=4" download>
-        <img src="https://radiolimay.webcindario.com/Img/BOTON-DE-DESCARGA.png" alt="Descargar App Radio Limay" 
-             style="width:280px; max-width:90%; cursor:pointer;">
-    </a>
-  </div>
-</section>
-
-<section id="sobre">
-  <h2>Sobre nosotros</h2>
-  <p>
-    Radio Limay es una emisora dedicada al mejor rock nacional e internacional.
-    Nuestro objetivo es acompa&ntilde;arte con la mejor m&uacute;sica, buena onda y programaci&oacute;n
-    variada todos los d&iacute;as. Somos pasi&oacute;n por el rock.
-  </p>
-</section>
-
-<section id="programacion">
-  <h2>Programaci&oacute;n</h2>
-  <p>Lunes a viernes: Rock cl&aacute;sico &mdash; 08:00 a 12:00</p>
-  <p>Tardes alternativas &mdash; 14:00 a 18:00</p>
-  <p>Noches metaleras &mdash; 21:00 a 00:00</p>
-</section>
+<!-- PLAYER -->
+<div class="player" id="player">
+    <div class="logo">
+        <img src="http://sonomixradio.xo.je/img/logo.png" alt="Sonomix Radio">
+    </div>
+    <div class="station">Sonomix Radio</div>
+    <div class="song" id="song">Cargando…</div>
+    <div class="artist" id="artist"></div>
+    <div class="visualizer" id="viz">
+        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+        <div class="wave"></div><div class="wave"></div>
+    </div>
+    <audio id="audio" src="https://s2.servicioderadio.com/8664/stream" crossorigin="anonymous"></audio>
+    <button class="play" id="playBtn"><i class="fa-solid fa-play"></i></button>
+    <div class="volume">
+        <i class="fa-solid fa-volume-low"></i>
+        <input type="range" min="0" max="1" step="0.01" value="0.9" id="volume">
+        <i class="fa-solid fa-volume-high"></i>
+    </div>
+    <div class="live"><span></span> EN VIVO</div>
+</div>
 
 <section id="chat">
-  <h2>Chat</h2>
-
-  <div style="width: 100%; max-width: 600px; margin: auto;">
-    <iframe 
-      class="chat"
-      src="https://radiolimaychat.chatango.com/" 
-      style="height: 500px;">
-    </iframe>
-  </div>
+    <h2>💬 Chat en Vivo</h2>
 </section>
 
-<section id="contacto">
-  <h2>Contacto</h2>
+<!-- SECCIÓN DE CONTACTO ARREGLADA PARA FORMSPREE -->
+<!-- SECCIÓN DE CONTACTO CON MENSAJE PERSONALIZADO -->
+<section class="contacto" id="contacto">
+    <h2>📩 Contacto</h2>
+    <form id="contactForm" action="https://formspree.io/f/mjgeraek" method="POST">
+        <input type="text" name="Nombre" placeholder="Nombre" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" rows="4" placeholder="Mensaje" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <p id="formMessage" style="text-align:center; margin-top:10px; color:#4f7cff;"></p>
+</section>
 
-  <p style="text-align: center;">
-    Comunicate con Radio Limay<br>
-    Estamos siempre atentos a tus mensajes, sugerencias, saludos y pedidos musicales.<br><br>
-    Pod&eacute;s escribirnos por correo a <b>radiolimay@outlook.com</b> o completar el formulario que aparece abajo.<br>
-    Leemos todos los mensajes y respondemos a la brevedad.<br><br>
-    Tu participaci&oacute;n es muy importante para nosotros.<br>
-    &iexcl;Gracias por ser parte de Radio Limay!
-  </p>
+<script>
+const form = document.getElementById('contactForm');
+const formMessage = document.getElementById('formMessage');
 
-  <iframe
-    id="JotFormIFrame-253238040862050"
-    title="Radio Limay"
-    allowtransparency="true"
-    allow="geolocation; microphone; camera; fullscreen; payment"
-    src="https://form.jotform.com/253238040862050"
-    frameborder="0"
-    style="min-width:100%;max-width:100%;height:539px;border:none;"
-    scrolling="no"
-  ></iframe>
+form.addEventListener('submit', async function(e) {
+  e.preventDefault(); // evita recargar la página
+  const formData = new FormData(form);
 
-  <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script>
-  <script>
-      window.jotformEmbedHandler(
-        "iframe[id='JotFormIFrame-253238040862050']", 
-        "https://form.jotform.com/"
-      );
-  </script>
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
 
-  <div class="social-icons">
-    <a href="https://www.facebook.com/RadioLimay" target="_blank"><i class="fab fa-facebook"></i></a>
-    <a href="https://www.instagram.com/radiolimay" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://x.com/radiolimay" target="_blank"><i class="fab fa-x-twitter"></i></a>
-  </div>
+    if (response.ok) {
+      formMessage.textContent = "✅ Gracias! Tu mensaje fue enviado correctamente.";
+      form.reset();
+    } else {
+      const data = await response.json();
+      formMessage.textContent = data.errors ? "❌ " + data.errors.map(err => err.message).join(", ") : "❌ Error al enviar";
+    }
+  } catch (err) {
+    formMessage.textContent = "❌ Error de conexión. Intenta nuevamente.";
+  }
+});
+</script>
+
+
+<section class="redes" id="redes">
+    <h2>📲 Seguinos</h2>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-whatsapp"></i></a>
 </section>
 
 <footer>
-  &copy; 2025 Radio Limay.<br>
-  Todos los derechos reservados.
+    © 2026 Sonomix Radio – Todos los derechos reservados
 </footer>
+
+<script>
+/* MENÚ HAMBURGUESA SUAVE */
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("active");
+}
+
+/* AUDIO PLAYER CON VISUALIZER PROFESIONAL */
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+const volume = document.getElementById("volume");
+const song = document.getElementById("song");
+const artist = document.getElementById("artist");
+const waves = document.querySelectorAll(".wave");
+
+playBtn.onclick = () => {
+    if(audio.paused){
+        audio.play();
+        playBtn.innerHTML='<i class="fa-solid fa-pause"></i>';
+        if(!audioCtx) initAudioCtx();
+    }else{
+        audio.pause();
+        playBtn.innerHTML='<i class="fa-solid fa-play"></i>';
+    }
+};
+audio.volume = volume.value;
+volume.oninput = () => audio.volume = volume.value;
+
+/* METADATOS */
+function loadMetadata(){
+    fetch("https://s2.servicioderadio.com/cp/get_info.php?p=8664")
+    .then(r=>r.json())
+    .then(data=>{
+        song.textContent = data.title || "En vivo";
+        artist.textContent = data.artist || "";
+    })
+    .catch(()=>{
+        song.textContent="En vivo";
+        artist.textContent="";
+    });
+}
+loadMetadata();
+setInterval(loadMetadata,15000);
+
+/* VISUALIZER PROFESIONAL DINÁMICO */
+let audioCtx, analyser, source, dataArray;
+function initAudioCtx(){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    source = audioCtx.createMediaElementSource(audio);
+    analyser = audioCtx.createAnalyser();
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    analyser.fftSize = 64;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    requestAnimationFrame(visualize);
+}
+
+function visualize(){
+    analyser.getByteFrequencyData(dataArray);
+    waves.forEach((w,i)=>{
+        const value = dataArray[i] || 0;
+        w.style.height = `${Math.max(20, value/2)}%`;
+
+        // Cambiar color según intensidad
+        const hue = 120 - (value/255)*120; // verde a rojo
+        w.style.background = `hsl(${hue}, 100%, 50%)`;
+    });
+    requestAnimationFrame(visualize);
+}
+</script>
 
 </body>
 </html>
