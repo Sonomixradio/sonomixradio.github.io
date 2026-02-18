@@ -14,37 +14,19 @@
     --bg1:#0b1220;
     --bg2:#151d33;
 }
-
-/* GLOBAL */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;}
 
 /* HEADER */
-header{
-    background:rgba(0,0,0,.6);
-    padding:15px;
-    text-align:center;
-}
-header img{width:55px;border-radius:50%;}
+header{background:rgba(0,0,0,.6);padding:15px;text-align:center;}
+header img{width:60px;border-radius:50%;}
 header h1{font-size:1.3rem;margin-top:5px;}
 
 /* MENU */
 nav{background:#020817;}
-.nav-container{
-    max-width:1100px;
-    margin:auto;
-    padding:10px 15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-.menu{
-    display:flex;
-    gap:20px;
-    transition: max-height 0.4s ease, opacity 0.4s ease;
-    overflow:hidden;
-}
-.menu a{color:#fff;text-decoration:none;font-size:.95rem;opacity:1;transition:opacity 0.3s;}
+.nav-container{max-width:1100px;margin:auto;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;}
+.menu{display:flex;gap:20px;}
+.menu a{color:#fff;text-decoration:none;font-size:.95rem;}
 .menu a:hover{color:var(--main);}
 .hamburger{display:none;font-size:26px;cursor:pointer;}
 
@@ -60,17 +42,23 @@ nav{background:#020817;}
     margin:30px auto;
 }
 
-/* LOGO */
+/* LOGO CIRCULAR */
 .logo{
-    width:180px;
-    height:180px;
-    margin:0 auto 16px;
-    border-radius:50%;
+    width:220px;
+    height:220px;
+    margin:0 auto 18px;
     background:#fff;
+    border-radius:50%;
     overflow:hidden;
-    box-shadow:0 0 50px rgba(29,185,84,.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
-.logo img{width:100%;height:100%;object-fit:contain;}
+.logo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
 
 /* TITULOS */
 .station{font-size:22px;font-weight:600;margin-bottom:8px;}
@@ -137,12 +125,25 @@ nav{background:#020817;}
 }
 
 /* SECCIONES */
-section{
-    max-width:900px;
-    margin:60px auto;
-    padding:0 20px;
-}
+section{max-width:900px;margin:60px auto;padding:0 20px;}
 section h2{text-align:center;color:var(--main);margin-bottom:20px;}
+
+/* REDES */
+.redes{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+.redes a{
+    font-size:28px;
+    color:#fff;
+    transition:.3s;
+}
+.redes a:hover{
+    color:var(--main);
+    transform:scale(1.15);
+}
 
 /* CONTACTO */
 .contacto input,
@@ -162,30 +163,22 @@ section h2{text-align:center;color:var(--main);margin-bottom:20px;}
     border-radius:6px;
 }
 
-/* REDES */
-.redes{text-align:center;}
-.redes a{font-size:28px;margin:0 14px;color:var(--main);}
+#formMessage{
+    text-align:center;
+    margin-top:10px;
+    font-weight:600;
+    opacity:0;
+    transition:opacity .4s ease;
+}
 
 /* FOOTER */
 footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#bcdcff;}
 
 /* RESPONSIVE */
 @media(max-width:768px){
-    .menu{
-        flex-direction:column;
-        max-height:0;
-        opacity:0;
-    }
-    .menu.active{
-        max-height:500px;
-        opacity:1;
-    }
+    .menu{flex-direction:column;display:none;}
+    .menu.active{display:flex;}
     .hamburger{display:block;}
-}
-@media (max-width:480px){
-    .logo{width:150px;height:150px}
-    .play{width:80px;height:80px;font-size:32px}
-    .volume input{width:160px}
 }
 </style>
 </head>
@@ -211,6 +204,7 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     </div>
 </nav>
 
+<!-- PLAYER -->
 <div class="player" id="player">
     <div class="logo">
         <img src="http://sonomixradio.xo.je/img/logo.png" alt="Sonomix Radio">
@@ -226,12 +220,13 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     </div>
 
     <audio id="audio" src="https://s2.servicioderadio.com/8664/stream" crossorigin="anonymous"></audio>
-    <button class="play" id="playBtn"><i class="fa-solid fa-play"></i></button>
+
+    <button class="play" id="playBtn">
+        <i class="fa-solid fa-play"></i>
+    </button>
 
     <div class="volume">
-        <i class="fa-solid fa-volume-low"></i>
         <input type="range" min="0" max="1" step="0.01" value="0.9" id="volume">
-        <i class="fa-solid fa-volume-high"></i>
     </div>
 
     <div class="live"><span></span> EN VIVO</div>
@@ -249,14 +244,17 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
         <textarea name="message" rows="4" placeholder="Mensaje" required></textarea>
         <button type="submit">Enviar</button>
     </form>
-    <p id="formMessage" style="text-align:center; margin-top:10px; color:#4f7cff;"></p>
+    <div id="formMessage"></div>
 </section>
 
-<section class="redes" id="redes">
+<section id="redes">
     <h2>Seguinos</h2>
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-whatsapp"></i></a>
+    <div class="redes">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+    </div>
 </section>
 
 <footer>
@@ -268,6 +266,7 @@ function toggleMenu(){
     document.getElementById("menu").classList.toggle("active");
 }
 
+/* === PLAYER === */
 const audio = document.getElementById("audio");
 const playBtn = document.getElementById("playBtn");
 const volume = document.getElementById("volume");
@@ -275,36 +274,48 @@ const song = document.getElementById("song");
 const artist = document.getElementById("artist");
 const waves = document.querySelectorAll(".wave");
 
-playBtn.onclick = () => {
+audio.volume = volume.value;
+
+/* PLAY / PAUSE */
+playBtn.addEventListener("click", () => {
     if(audio.paused){
-        audio.play();
-        playBtn.innerHTML='<i class="fa-solid fa-pause"></i>';
-        if(!audioCtx) initAudioCtx();
+        audio.play().then(()=>{
+            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            if(!audioCtx) initAudioCtx();
+        }).catch(err=>{
+            console.log("Error al reproducir:", err);
+        });
     }else{
         audio.pause();
-        playBtn.innerHTML='<i class="fa-solid fa-play"></i>';
+        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
     }
-};
+});
 
-audio.volume = volume.value;
-volume.oninput = () => audio.volume = volume.value;
+/* VOLUMEN */
+volume.addEventListener("input", () => {
+    audio.volume = volume.value;
+});
 
+/* === METADATOS === */
 function loadMetadata(){
     fetch("https://s2.servicioderadio.com/cp/get_info.php?p=8664")
-    .then(r=>r.json())
-    .then(data=>{
-        song.textContent = data.title || "En vivo";
-        artist.textContent = data.artist || "";
-    })
-    .catch(()=>{
-        song.textContent="En vivo";
-        artist.textContent="";
-    });
+        .then(res => res.json())
+        .then(data => {
+            song.textContent = data.title ? data.title : "En vivo";
+            artist.textContent = data.artist ? data.artist : "";
+        })
+        .catch(() => {
+            song.textContent = "En vivo";
+            artist.textContent = "";
+        });
 }
-loadMetadata();
-setInterval(loadMetadata,15000);
 
+loadMetadata();
+setInterval(loadMetadata, 15000);
+
+/* === VISUALIZER === */
 let audioCtx, analyser, source, dataArray;
+
 function initAudioCtx(){
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     source = audioCtx.createMediaElementSource(audio);
@@ -313,20 +324,20 @@ function initAudioCtx(){
     analyser.connect(audioCtx.destination);
     analyser.fftSize = 64;
     dataArray = new Uint8Array(analyser.frequencyBinCount);
-    requestAnimationFrame(visualize);
+    animateWaves();
 }
 
-function visualize(){
+function animateWaves(){
     analyser.getByteFrequencyData(dataArray);
-    waves.forEach((w,i)=>{
+    waves.forEach((wave, i) => {
         const value = dataArray[i] || 0;
-        w.style.height = `${Math.max(20, value/2)}%`;
-        const hue = 120 - (value/255)*120;
-        w.style.background = `hsl(${hue}, 100%, 50%)`;
+        wave.style.height = `${Math.max(20, value / 2)}%`;
+        wave.style.background = `hsl(${120 - value / 2}, 100%, 50%)`;
     });
-    requestAnimationFrame(visualize);
+    requestAnimationFrame(animateWaves);
 }
 </script>
+
 
 </body>
 </html>
