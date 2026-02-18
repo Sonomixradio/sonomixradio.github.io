@@ -17,12 +17,10 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;}
 
-/* HEADER */
 header{background:rgba(0,0,0,.6);padding:15px;text-align:center;}
-header img{width:60px;border-radius:50%;}
+header img{width:55px;border-radius:50%;}
 header h1{font-size:1.3rem;margin-top:5px;}
 
-/* MENU */
 nav{background:#020817;}
 .nav-container{max-width:1100px;margin:auto;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;}
 .menu{display:flex;gap:20px;}
@@ -30,7 +28,6 @@ nav{background:#020817;}
 .menu a:hover{color:var(--main);}
 .hamburger{display:none;font-size:26px;cursor:pointer;}
 
-/* PLAYER */
 .player{
     width:92%;
     max-width:420px;
@@ -42,30 +39,22 @@ nav{background:#020817;}
     margin:30px auto;
 }
 
-/* LOGO CIRCULAR */
+/* LOGO REDONDO */
 .logo{
-    width:220px;
-    height:220px;
-    margin:0 auto 18px;
-    background:#fff;
+    width:180px;
+    height:180px;
+    margin:0 auto 16px;
     border-radius:50%;
+    background:#fff;
     overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    box-shadow:0 0 50px rgba(29,185,84,.45);
 }
-.logo img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-}
+.logo img{width:100%;height:100%;object-fit:contain;}
 
-/* TITULOS */
 .station{font-size:22px;font-weight:600;margin-bottom:8px;}
 .song{font-size:18px;font-weight:500;margin-bottom:4px;}
 .artist{font-size:14px;opacity:.8;margin-bottom:18px;}
 
-/* VISUALIZER */
 .visualizer{
     display:flex;
     justify-content:center;
@@ -79,88 +68,44 @@ nav{background:#020817;}
     height:20%;
     border-radius:20px;
     opacity:.85;
-    transition: height 0.05s linear, background 0.1s linear;
 }
 
-/* CONTROLES */
 .play{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    border:none;
-    background:#1db954;
-    color:#000;
-    font-size:36px;
-    cursor:pointer;
+    width:90px;height:90px;border-radius:50%;
+    border:none;background:#1db954;color:#000;
+    font-size:36px;cursor:pointer;
     box-shadow:0 0 40px rgba(29,185,84,.65);
     margin-bottom:16px;
 }
 
-/* VOLUMEN */
 .volume{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-    margin-bottom:16px;
+    display:flex;justify-content:center;align-items:center;
+    gap:10px;margin-bottom:16px;
 }
 .volume input{width:200px;}
 
-/* LIVE */
 .live{
-    font-size:13px;
-    color:#ff2f7a;
-    font-weight:600;
+    font-size:13px;color:#ff2f7a;font-weight:600;
 }
 .live span{
-    display:inline-block;
-    width:10px;
-    height:10px;
-    background:#ff2f7a;
-    border-radius:50%;
+    display:inline-block;width:10px;height:10px;
+    background:#ff2f7a;border-radius:50%;
     animation:pulse 1.3s infinite;
 }
-@keyframes pulse{
-    0%{opacity:1}50%{opacity:.3}100%{opacity:1}
-}
+@keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
 
-/* SECCIONES */
 section{max-width:900px;margin:60px auto;padding:0 20px;}
 section h2{text-align:center;color:var(--main);margin-bottom:20px;}
 
-/* REDES */
-.redes{
-    display:flex;
-    justify-content:center;
-    gap:25px;
-    flex-wrap:wrap;
-}
-.redes a{
-    font-size:28px;
-    color:#fff;
-    transition:.3s;
-}
-.redes a:hover{
-    color:var(--main);
-    transform:scale(1.15);
-}
-
-/* CONTACTO */
 .contacto input,
 .contacto textarea{
-    width:100%;
-    padding:12px;
-    margin-bottom:10px;
-    border:none;
-    border-radius:6px;
+    width:100%;padding:12px;margin-bottom:10px;
+    border:none;border-radius:6px;
 }
 .contacto button{
-    width:100%;
-    padding:12px;
-    background:var(--main);
-    border:none;
-    color:#fff;
-    border-radius:6px;
+    width:100%;padding:12px;
+    background:var(--main);border:none;
+    color:#fff;border-radius:6px;
 }
 
 #formMessage{
@@ -171,10 +116,11 @@ section h2{text-align:center;color:var(--main);margin-bottom:20px;}
     transition:opacity .4s ease;
 }
 
-/* FOOTER */
+.redes{text-align:center;}
+.redes a{font-size:28px;margin:0 14px;color:var(--main);}
+
 footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#bcdcff;}
 
-/* RESPONSIVE */
 @media(max-width:768px){
     .menu{flex-direction:column;display:none;}
     .menu.active{display:flex;}
@@ -220,13 +166,12 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     </div>
 
     <audio id="audio" src="https://s2.servicioderadio.com/8664/stream" crossorigin="anonymous"></audio>
-
-    <button class="play" id="playBtn">
-        <i class="fa-solid fa-play"></i>
-    </button>
+    <button class="play" id="playBtn"><i class="fa-solid fa-play"></i></button>
 
     <div class="volume">
+        <i class="fa-solid fa-volume-low"></i>
         <input type="range" min="0" max="1" step="0.01" value="0.9" id="volume">
+        <i class="fa-solid fa-volume-high"></i>
     </div>
 
     <div class="live"><span></span> EN VIVO</div>
@@ -247,26 +192,63 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     <div id="formMessage"></div>
 </section>
 
-<section id="redes">
+<section class="redes" id="redes">
     <h2>Seguinos</h2>
-    <div class="redes">
-        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
-    </div>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-whatsapp"></i></a>
 </section>
 
 <footer>
     © 2026 Sonomix Radio – Todos los derechos reservados
 </footer>
 
+<!-- SCRIPT FORMULARIO -->
+<script>
+const form = document.getElementById("contactForm");
+const messageBox = document.getElementById("formMessage");
+let hideTimeout;
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+    clearTimeout(hideTimeout);
+
+    messageBox.style.opacity = 1;
+    messageBox.style.color = "#4f7cff";
+    messageBox.textContent = "Enviando mensaje...";
+
+    fetch(form.action,{
+        method:form.method,
+        body:new FormData(form),
+        headers:{ "Accept":"application/json" }
+    })
+    .then(res=>{
+        if(res.ok){
+            messageBox.style.color="#1db954";
+            messageBox.textContent="✅ Mensaje enviado correctamente";
+            form.reset();
+            hideTimeout=setTimeout(()=>{
+                messageBox.style.opacity=0;
+                messageBox.textContent="";
+            },4000);
+        }else{
+            messageBox.style.color="#ff4f4f";
+            messageBox.textContent="❌ Error al enviar";
+        }
+    })
+    .catch(()=>{
+        messageBox.style.color="#ff4f4f";
+        messageBox.textContent="❌ Error de conexión";
+    });
+});
+</script>
+
+<!-- SCRIPT REPRODUCTOR -->
 <script>
 function toggleMenu(){
     document.getElementById("menu").classList.toggle("active");
 }
 
-/* === PLAYER === */
 const audio = document.getElementById("audio");
 const playBtn = document.getElementById("playBtn");
 const volume = document.getElementById("volume");
@@ -276,46 +258,37 @@ const waves = document.querySelectorAll(".wave");
 
 audio.volume = volume.value;
 
-/* PLAY / PAUSE */
-playBtn.addEventListener("click", () => {
+playBtn.onclick = () => {
     if(audio.paused){
-        audio.play().then(()=>{
-            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-            if(!audioCtx) initAudioCtx();
-        }).catch(err=>{
-            console.log("Error al reproducir:", err);
-        });
+        audio.play();
+        playBtn.innerHTML='<i class="fa-solid fa-pause"></i>';
+        if(!audioCtx) initAudioCtx();
     }else{
         audio.pause();
-        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        playBtn.innerHTML='<i class="fa-solid fa-play"></i>';
     }
-});
+};
 
-/* VOLUMEN */
-volume.addEventListener("input", () => {
-    audio.volume = volume.value;
-});
+volume.oninput = () => audio.volume = volume.value;
 
-/* === METADATOS === */
+/* METADATOS */
 function loadMetadata(){
     fetch("https://s2.servicioderadio.com/cp/get_info.php?p=8664")
-        .then(res => res.json())
-        .then(data => {
-            song.textContent = data.title ? data.title : "En vivo";
-            artist.textContent = data.artist ? data.artist : "";
-        })
-        .catch(() => {
-            song.textContent = "En vivo";
-            artist.textContent = "";
-        });
+    .then(r=>r.json())
+    .then(data=>{
+        song.textContent = data.title || "En vivo";
+        artist.textContent = data.artist || "";
+    })
+    .catch(()=>{
+        song.textContent="En vivo";
+        artist.textContent="";
+    });
 }
-
 loadMetadata();
-setInterval(loadMetadata, 15000);
+setInterval(loadMetadata,15000);
 
-/* === VISUALIZER === */
+/* VISUALIZER */
 let audioCtx, analyser, source, dataArray;
-
 function initAudioCtx(){
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     source = audioCtx.createMediaElementSource(audio);
@@ -324,20 +297,18 @@ function initAudioCtx(){
     analyser.connect(audioCtx.destination);
     analyser.fftSize = 64;
     dataArray = new Uint8Array(analyser.frequencyBinCount);
-    animateWaves();
+    animate();
 }
-
-function animateWaves(){
+function animate(){
     analyser.getByteFrequencyData(dataArray);
-    waves.forEach((wave, i) => {
-        const value = dataArray[i] || 0;
-        wave.style.height = `${Math.max(20, value / 2)}%`;
-        wave.style.background = `hsl(${120 - value / 2}, 100%, 50%)`;
+    waves.forEach((w,i)=>{
+        const v = dataArray[i] || 0;
+        w.style.height = `${Math.max(20,v/2)}%`;
+        w.style.background = `hsl(${120-(v/255)*120},100%,50%)`;
     });
-    requestAnimationFrame(animateWaves);
+    requestAnimationFrame(animate);
 }
 </script>
-
 
 </body>
 </html>
