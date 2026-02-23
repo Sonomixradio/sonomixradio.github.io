@@ -44,6 +44,21 @@ header{
     text-align:center;
 }
 
+.top-banner{
+    background:transparent;
+    padding:10px 0;
+    text-align:center;
+}
+
+.top-banner img{
+    width:100%;
+    max-width:700px;
+    height:auto;
+    display:block;
+    margin:0 auto;
+    border-radius:0 !important; /* fuerza que NO sea redonda */
+}
+    
 .header-banner{
     width:100%;
     max-width:600px;
@@ -155,8 +170,8 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
 
 <body>
 
-<header>
-    <img src="sonomix-banner.jpg" class="header-banner" alt="Sonomix Radio">
+<header class="top-banner">
+    <img src="sonomix-banner.jpg" alt="Sonomix Radio">
 </header>
 
 <nav>
