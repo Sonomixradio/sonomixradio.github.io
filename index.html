@@ -319,6 +319,34 @@ footer{
     }
 }
 
+/* SECCIÓN DONACIÓN */
+.donacion{
+    text-align:center;
+    margin: 0 auto 40px;
+    max-width:420px;
+}
+
+.texto-donacion{
+    font-size:15px;
+    margin-bottom:12px;
+    opacity:0.9;
+}
+
+.donacion img{
+    width:100%;
+    max-width:260px;
+    height:auto;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.donacion img:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+
+
 </style>
 </head>
 
@@ -377,6 +405,16 @@ footer{
         <img src="descarga.png" alt="Descargar App">
     </a>
 </div>
+
+<!-- DONACIÓN MERCADO PAGO -->
+<div class="donacion">
+    <p class="texto-donacion">Si te gusta la radio, podés dejar una donación</p>
+    
+    <a href="https://link.mercadopago.com.ar/sonomixradio" target="_blank">
+        <img src="mercadopago.png" alt="Donar con Mercado Pago">
+    </a>
+</div>
+
 
 <section id="chat">
     <h2>Mirá la Radio</h2>
