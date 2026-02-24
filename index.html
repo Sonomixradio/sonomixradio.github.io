@@ -498,7 +498,15 @@ form.addEventListener("submit", async function(e) {
 
     if (response.ok) {
       form.reset();
+      
+      // Mostrar mensaje
       mensaje.style.display = "block";
+
+      // Ocultarlo después de 4 segundos
+      setTimeout(() => {
+        mensaje.style.display = "none";
+      }, 4000);
+
     } else {
       alert("Error al enviar el mensaje");
     }
