@@ -476,22 +476,7 @@ loadMetadata();
 setInterval(loadMetadata,15000);
 </script>
 
-<script>
-document.getElementById("form-contacto").addEventListener("submit", function(e) {
-  e.preventDefault(); // Evita que la página se recargue
 
-  // Opcional: limpiar el formulario
-  this.reset();
-
-  // Mostrar mensaje enviado
-  document.getElementById("mensaje-enviado").style.display = "block";
-
-  // Ocultar el mensaje después de 4 segundos (opcional)
-  setTimeout(() => {
-    document.getElementById("mensaje-enviado").style.display = "none";
-  }, 4000);
-});
-</script>
 
 <script>
 const form = document.getElementById("form-contacto");
