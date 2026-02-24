@@ -345,7 +345,36 @@ footer{
     box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
+/* FRASE ANIMADA VIDEO */
+.frase-video{
+    width:100%;
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+    background:#ff0000;
+    color:#ffffff;
+    padding:10px 0;
+    margin-bottom:20px;
+    border-radius:8px;
+    font-weight:600;
+}
 
+.frase-track{
+    display:inline-block;
+    white-space:nowrap;
+    padding-left:100%;
+    padding-right:50px;
+    animation:scrollFrase 12s linear infinite;
+}
+
+@keyframes scrollFrase{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-100%);
+    }
+}
 
 </style>
 </head>
@@ -418,6 +447,13 @@ footer{
 
 <section id="chat">
     <h2>Mirá la Radio</h2>
+
+    <!-- FRASE ANIMADA -->
+    <div class="frase-video" id="fraseContainer">
+        <div class="frase-track">
+            Cuando estemos transmitiendo en video nos veras aquí
+        </div>
+    </div>
 
     <div class="video-radio">
         <iframe 
