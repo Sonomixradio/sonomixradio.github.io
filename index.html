@@ -317,15 +317,20 @@ footer{
     </div>
 </section>
 
-<section class="contacto" id="contacto">
-    <h2>Contacto</h2>
-    <form id="contactForm" action="https://formspree.io/f/mjgeraek" method="POST">
-        <input type="text" name="Nombre" placeholder="Nombre" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <textarea name="message" rows="4" placeholder="Mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-    </form>
-    <div id="formMessage"></div>
+<section id="contacto">
+  <h2>Contacto</h2>
+
+  <form id="form-contacto">
+    <input type="text" name="nombre" placeholder="Tu nombre" required>
+    <input type="email" name="email" placeholder="Tu email" required>
+    <textarea name="mensaje" placeholder="Tu mensaje" required></textarea>
+    
+    <button type="submit">Enviar mensaje</button>
+  </form>
+
+  <p id="mensaje-enviado" style="display:none; color:green; font-weight:bold; margin-top:10px;">
+    Mensaje enviado
+  </p>
 </section>
 
 <section class="redes" id="redes">
@@ -399,6 +404,23 @@ function loadMetadata(){
 
 loadMetadata();
 setInterval(loadMetadata,15000);
+</script>
+
+<script>
+document.getElementById("form-contacto").addEventListener("submit", function(e) {
+  e.preventDefault(); // Evita que la página se recargue
+
+  // Opcional: limpiar el formulario
+  this.reset();
+
+  // Mostrar mensaje enviado
+  document.getElementById("mensaje-enviado").style.display = "block";
+
+  // Ocultar el mensaje después de 4 segundos (opcional)
+  setTimeout(() => {
+    document.getElementById("mensaje-enviado").style.display = "none";
+  }, 4000);
+});
 </script>
 
 </body>
