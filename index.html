@@ -24,6 +24,76 @@ nav{background:#020817;}
 .menu a:hover{color:var(--main);}
 .hamburger{display:none;font-size:26px;cursor:pointer;}
 
+/* ===== SECCIÓN CONTACTO ===== */
+#contacto {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#contacto h2 {
+  margin-bottom: 20px;
+}
+
+/* Formulario */
+#form-contacto {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs y textarea */
+#form-contacto input,
+#form-contacto textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Altura del textarea */
+#form-contacto textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Botón */
+#form-contacto button {
+  background-color: #1e73ff;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#form-contacto button:hover {
+  background-color: #1557c0;
+}
+
+/* ===== RESPONSIVE PARA CELULARES ===== */
+@media (max-width: 768px) {
+  #contacto {
+    padding: 30px 15px;
+  }
+
+  #form-contacto input,
+  #form-contacto textarea {
+    font-size: 16px; /* evita zoom raro en iPhone/Android */
+  }
+
+  #form-contacto button {
+    width: 100%;
+    font-size: 17px;
+  }
+}
+
+
 .player{
     width:92%;
     max-width:420px;
