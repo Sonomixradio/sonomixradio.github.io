@@ -107,6 +107,26 @@ nav{background:#020817;}
     background:#ff2f7a;border-radius:50%;
     animation:pulse 1.3s infinite;
 }
+
+.download-app{
+    text-align:center;
+    margin-top:20px;
+}
+
+.download-app img{
+    width:100%;
+    max-width:420px;
+    height:auto;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.download-app img:hover{
+    transform:scale(1.03);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+    
 @keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
 
 section{max-width:900px;margin:60px auto;padding:0 20px;}
@@ -141,6 +161,24 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     .menu.active{display:flex;}
     .hamburger{display:block;}
 }
+.download-app{
+    text-align:center;
+    margin-top:20px;
+}
+
+.download-app img{
+    width:100%;
+    max-width:420px;
+    height:auto;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.download-app img:hover{
+    transform:scale(1.03);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+    
 </style>
 </head>
 
@@ -191,6 +229,14 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     <div class="live"><span></span> EN VIVO</div>
 </div>
 
+<!-- BOTÓN DESCARGA APP -->
+<div class="download-app">
+    <a href="https://apk.e-droid.net/apk/app3935238-ngmrwx.apk?v=1" download target="_blank">
+        <img src="descarga.png" alt="Descargar App">
+    </a>
+</div>
+
+    
 <section id="chat">
     <h2>Chat en Vivo</h2>
 </section>
