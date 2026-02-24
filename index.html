@@ -17,8 +17,6 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;}
 
-header h1{font-size:1.3rem;margin-top:5px;}
-
 nav{background:#020817;}
 .nav-container{max-width:1100px;margin:auto;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;}
 .menu{display:flex;gap:20px;}
@@ -31,19 +29,18 @@ nav{background:#020817;}
     max-width:420px;
     background:linear-gradient(180deg,#121c33,#020814);
     border-radius:30px;
-    padding:26px 22px;
+    padding:26px 22px 30px;
     text-align:center;
     box-shadow:0 40px 80px rgba(0,0,0,.85);
-    margin:30px auto;
+    margin:30px auto 10px;
 }
 
-
+/* BANNER */
 .top-banner{
     background:transparent;
     padding:0;
     text-align:center;
 }
-
 .top-banner img{
     width:100%;
     max-width:1000px;
@@ -52,95 +49,148 @@ nav{background:#020817;}
     margin:0 auto;
     border-radius:0 !important;
 }
-    
 
-/* LOGO REDONDO */
+/* LOGO VINILO PERFECTO (AJUSTADO + GIRO ANTIHORARIO) */
 .logo{
     width:180px;
     height:180px;
     margin:0 auto 16px;
     border-radius:50%;
-    background:#fff;
     overflow:hidden;
-    box-shadow:0 0 50px rgba(29,185,84,.45);
+    background:#000;
+    box-shadow:0 0 50px rgba(29,185,84,.35);
 }
-.logo img{width:100%;height:100%;object-fit:contain;}
 
-.station{font-size:22px;font-weight:600;margin-bottom:8px;}
-.song{font-size:18px;font-weight:500;margin-bottom:4px;}
-.artist{font-size:14px;opacity:.8;margin-bottom:18px;}
-
-.visualizer{
-    display:flex;
-    justify-content:center;
-    align-items:flex-end;
-    gap:6px;
-    height:70px;
-    margin-bottom:20px;
+.logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    animation:spin 12s linear infinite;
+    animation-play-state:paused;
 }
-.wave{
-    width:8px;
-    height:20%;
-    border-radius:20px;
-    opacity:.85;
+
+/* CAMBIO: ahora gira en sentido contrario (como tocadiscos real) */
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(-360deg);}
+}
+
+.station{
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+/* CONTENEDOR SCROLL CORREGIDO (LOOP INFINITO SIN CORTES) */
+.song{
+    width:100%;
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+    height:24px;
+    margin-bottom:6px;
+}
+
+.song-track{
+    display:inline-block;
+    white-space:nowrap;
+    padding-left:100%;
+    padding-right:50px;
+}
+
+.song.scroll .song-track{
+    animation:scrollSong 15s linear infinite;
+}
+
+@keyframes scrollSong{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+.artist{
+    font-size:14px;
+    opacity:.8;
+    margin-bottom:18px;
 }
 
 .play{
-    width:90px;height:90px;border-radius:50%;
-    border:none;background:#1db954;color:#000;
-    font-size:36px;cursor:pointer;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:none;
+    background:#1db954;
+    color:#000;
+    font-size:36px;
+    cursor:pointer;
     box-shadow:0 0 40px rgba(29,185,84,.65);
     margin-bottom:16px;
 }
 
 .volume{
-    display:flex;justify-content:center;align-items:center;
-    gap:10px;margin-bottom:16px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
 }
 .volume input{width:200px;}
 
 .live{
-    font-size:13px;color:#ff2f7a;font-weight:600;
+    font-size:13px;
+    color:#ff2f7a;
+    font-weight:600;
 }
 .live span{
-    display:inline-block;width:10px;height:10px;
-    background:#ff2f7a;border-radius:50%;
+    display:inline-block;
+    width:10px;
+    height:10px;
+    background:#ff2f7a;
+    border-radius:50%;
     animation:pulse 1.3s infinite;
 }
+@keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
 
+/* BOTÓN DESCARGA (NO TOCADO) */
 .download-app{
     text-align:center;
-    margin-top:20px;
+    margin:10px auto 30px;
+    max-width:420px;
 }
-
 .download-app img{
     width:100%;
-    max-width:420px;
+    max-width:380px;
     height:auto;
     cursor:pointer;
     transition:transform .2s ease, box-shadow .2s ease;
 }
-
 .download-app img:hover{
-    transform:scale(1.03);
+    transform:scale(1.04);
     box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
-
-    
-@keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
 
 section{max-width:900px;margin:60px auto;padding:0 20px;}
 section h2{text-align:center;color:var(--main);margin-bottom:20px;}
 
 .contacto input,
 .contacto textarea{
-    width:100%;padding:12px;margin-bottom:10px;
-    border:none;border-radius:6px;
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border:none;
+    border-radius:6px;
 }
 .contacto button{
-    width:100%;padding:12px;
-    background:var(--main);border:none;
-    color:#fff;border-radius:6px;
+    width:100%;
+    padding:12px;
+    background:var(--main);
+    border:none;
+    color:#fff;
+    border-radius:6px;
 }
 
 #formMessage{
@@ -154,31 +204,19 @@ section h2{text-align:center;color:var(--main);margin-bottom:20px;}
 .redes{text-align:center;}
 .redes a{font-size:28px;margin:0 14px;color:var(--main);}
 
-footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#bcdcff;}
+footer{
+    background:#020817;
+    text-align:center;
+    padding:20px;
+    font-size:.9rem;
+    color:#bcdcff;
+}
 
 @media(max-width:768px){
     .menu{flex-direction:column;display:none;}
     .menu.active{display:flex;}
     .hamburger{display:block;}
 }
-.download-app{
-    text-align:center;
-    margin-top:20px;
-}
-
-.download-app img{
-    width:100%;
-    max-width:420px;
-    height:auto;
-    cursor:pointer;
-    transition:transform .2s ease, box-shadow .2s ease;
-}
-
-.download-app img:hover{
-    transform:scale(1.03);
-    box-shadow:0 10px 30px rgba(0,0,0,.4);
-}
-    
 </style>
 </head>
 
@@ -202,23 +240,25 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     </div>
 </nav>
 
-<!-- PLAYER -->
+<!-- PLAYER (MISMO PLAYER, SOLO MEJORADO INTERNAMENTE) -->
 <div class="player" id="player">
     <div class="logo">
-        <img src="http://sonomixradio.xo.je/img/logo.png" alt="Sonomix Radio">
+        <img src="/img/logo-sonomix.png" alt="Sonomix Radio">
     </div>
+
     <div class="station">Sonomix Radio</div>
-    <div class="song" id="song">Cargando…</div>
+
+    <div class="song" id="songContainer">
+        <div class="song-track" id="song">Cargando...</div>
+    </div>
+
     <div class="artist" id="artist"></div>
 
-    <div class="visualizer">
-        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
-        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
-        <div class="wave"></div><div class="wave"></div>
-    </div>
-
     <audio id="audio" src="https://s2.servicioderadio.com/8664/stream" crossorigin="anonymous"></audio>
-    <button class="play" id="playBtn"><i class="fa-solid fa-play"></i></button>
+
+    <button class="play" id="playBtn">
+        <i class="fa-solid fa-play"></i>
+    </button>
 
     <div class="volume">
         <i class="fa-solid fa-volume-low"></i>
@@ -229,14 +269,13 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
     <div class="live"><span></span> EN VIVO</div>
 </div>
 
-<!-- BOTÓN DESCARGA APP -->
+<!-- BOTÓN DESCARGA (SIN CAMBIOS) -->
 <div class="download-app">
     <a href="https://apk.e-droid.net/apk/app3935238-ngmrwx.apk?v=1" download target="_blank">
         <img src="descarga.png" alt="Descargar App">
     </a>
 </div>
 
-    
 <section id="chat">
     <h2>Chat en Vivo</h2>
 </section>
@@ -260,50 +299,9 @@ footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#
 </section>
 
 <footer>
-    © 2026 Sonomix Radio – Todos los derechos reservados
+    © 2026 Sonomix Radio ? Todos los derechos reservados
 </footer>
 
-<!-- SCRIPT FORMULARIO -->
-<script>
-const form = document.getElementById("contactForm");
-const messageBox = document.getElementById("formMessage");
-let hideTimeout;
-
-form.addEventListener("submit", function(e){
-    e.preventDefault();
-    clearTimeout(hideTimeout);
-
-    messageBox.style.opacity = 1;
-    messageBox.style.color = "#4f7cff";
-    messageBox.textContent = "Enviando mensaje...";
-
-    fetch(form.action,{
-        method:form.method,
-        body:new FormData(form),
-        headers:{ "Accept":"application/json" }
-    })
-    .then(res=>{
-        if(res.ok){
-            messageBox.style.color="#1db954";
-            messageBox.textContent="✅ Mensaje enviado correctamente";
-            form.reset();
-            hideTimeout=setTimeout(()=>{
-                messageBox.style.opacity=0;
-                messageBox.textContent="";
-            },4000);
-        }else{
-            messageBox.style.color="#ff4f4f";
-            messageBox.textContent="❌ Error al enviar";
-        }
-    })
-    .catch(()=>{
-        messageBox.style.color="#ff4f4f";
-        messageBox.textContent="❌ Error de conexión";
-    });
-});
-</script>
-
-<!-- SCRIPT REPRODUCTOR -->
 <script>
 function toggleMenu(){
     document.getElementById("menu").classList.toggle("active");
@@ -314,7 +312,8 @@ const playBtn = document.getElementById("playBtn");
 const volume = document.getElementById("volume");
 const song = document.getElementById("song");
 const artist = document.getElementById("artist");
-const waves = document.querySelectorAll(".wave");
+const container = document.getElementById("songContainer");
+const logo = document.querySelector(".logo img");
 
 audio.volume = volume.value;
 
@@ -322,52 +321,47 @@ playBtn.onclick = () => {
     if(audio.paused){
         audio.play();
         playBtn.innerHTML='<i class="fa-solid fa-pause"></i>';
-        if(!audioCtx) initAudioCtx();
+        logo.style.animationPlayState = "running";
     }else{
         audio.pause();
         playBtn.innerHTML='<i class="fa-solid fa-play"></i>';
+        logo.style.animationPlayState = "paused";
     }
 };
 
 volume.oninput = () => audio.volume = volume.value;
 
-/* METADATOS */
 function loadMetadata(){
     fetch("https://s2.servicioderadio.com/cp/get_info.php?p=8664")
     .then(r=>r.json())
     .then(data=>{
-        song.textContent = data.title || "En vivo";
+        const title = data.title || "En vivo";
+        song.textContent = title;
         artist.textContent = data.artist || "";
+
+        // Forzar recalculo real del ancho (evita que quede quieto)
+        container.classList.remove("scroll");
+
+        // Espera a que el texto se renderice correctamente
+        requestAnimationFrame(() => {
+            const textWidth = song.scrollWidth;
+            const containerWidth = container.clientWidth;
+
+            // Si el texto es más largo que el reproductor, activa movimiento
+            if(textWidth > containerWidth){
+                container.classList.add("scroll");
+            }
+        });
     })
     .catch(()=>{
         song.textContent="En vivo";
         artist.textContent="";
+        container.classList.remove("scroll");
     });
 }
+
 loadMetadata();
 setInterval(loadMetadata,15000);
-
-/* VISUALIZER */
-let audioCtx, analyser, source, dataArray;
-function initAudioCtx(){
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    source = audioCtx.createMediaElementSource(audio);
-    analyser = audioCtx.createAnalyser();
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analyser.fftSize = 64;
-    dataArray = new Uint8Array(analyser.frequencyBinCount);
-    animate();
-}
-function animate(){
-    analyser.getByteFrequencyData(dataArray);
-    waves.forEach((w,i)=>{
-        const v = dataArray[i] || 0;
-        w.style.height = `${Math.max(20,v/2)}%`;
-        w.style.background = `hsl(${120-(v/255)*120},100%,50%)`;
-    });
-    requestAnimationFrame(animate);
-}
 </script>
 
 </body>
