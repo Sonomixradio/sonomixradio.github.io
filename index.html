@@ -277,8 +277,43 @@ section h2{text-align:center;color:var(--main);margin-bottom:20px;}
     transition:opacity .4s ease;
 }
 
-.redes{text-align:center;}
-.redes a{font-size:28px;margin:0 14px;color:var(--main);}
+.redes{
+    text-align:center;
+}
+
+.social-btn{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:55px;
+    height:55px;
+    margin:0 12px;
+    border-radius:50%;
+    font-size:24px;
+    color:#fff;
+    text-decoration:none;
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
+    transition:all .3s ease;
+}
+
+/* Colores oficiales */
+.facebook{
+    background:#1877F2;
+}
+
+.instagram{
+    background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF,#515BD4);
+}
+
+.x{
+    background:#000000;
+}
+
+/* Hover efecto */
+.social-btn:hover{
+    transform:translateY(-6px) scale(1.08);
+    box-shadow:0 15px 35px rgba(0,0,0,.6);
+}
 
 footer{
     background:#020817;
@@ -483,12 +518,23 @@ footer{
     Mensaje enviado
   </p>
 </section>
-
 <section class="redes" id="redes">
     <h2>Seguinos</h2>
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="https://www.instagram.com/sonomixradio?igsh=MTRjdmpscDl1M3N1cA=="><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- Facebook -->
+    <a href="#" target="_blank" class="social-btn facebook" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/sonomixradio?igsh=MTRjdmpscDl1M3N1cA==" target="_blank" class="social-btn instagram" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <!-- X -->
+    <a href="#" target="_blank" class="social-btn x" aria-label="X">
+        <i class="fab fa-x-twitter"></i>
+    </a>
 </section>
 
 <footer>
