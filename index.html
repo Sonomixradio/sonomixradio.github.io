@@ -228,7 +228,31 @@ nav{background:#020817;}
     background:#ff2f7a;
     border-radius:50%;
     animation:pulse 1.3s infinite;
+} 
+
+
+/* ICONOS REPRODUCTORES EXTERNOS */
+.external-players{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin:15px auto 25px;
+    max-width:420px;
 }
+
+.external-players img{
+    height:40px;
+    width:auto;
+    transition:transform .2s ease;
+}
+
+.external-players img:hover{
+    transform:scale(1.1);
+}
+
+    
 @keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
 
 /* BOTÓN DESCARGA (NO TOCADO) */
@@ -465,6 +489,33 @@ footer{
     <div class="live"><span></span> EN VIVO</div>
 </div>
 
+
+    <!-- ICONOS REPRODUCTORES EXTERNOS -->
+<div class="external-players">
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/winamp2.png" alt="Winamp">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=asx">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/mediaplayer.png" alt="Windows Media Player">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/vlc.png" alt="VLC">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/itunes.png" alt="iTunes">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=ram">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/real.png" alt="Real Player">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/8664/stream" target="_blank">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/sslplay.png" alt="Reproducir Directo">
+    </a>
+</div>
 <!-- BOTÓN DESCARGA (SIN CAMBIOS) -->
 <div class="download-app">
     <a href="https://www.appcreator24.com/app3935238-ngmrwx" download target="_blank">
