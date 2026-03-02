@@ -252,6 +252,27 @@ nav{background:#020817;}
     transform:scale(1.1);
 }
 
+/* NUEVO ICONO VERDE RADIO WEB */
+.radio-web{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:45px;
+    height:45px;
+    background:#1db954; /* verde estilo Spotify */
+    border-radius:50%;
+    color:#000;
+    font-size:20px;
+    text-decoration:none;
+    box-shadow:0 0 20px rgba(29,185,84,.6);
+    transition:all .2s ease;
+}
+
+.radio-web:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 30px rgba(29,185,84,.9);
+}
+
     
 @keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
 
@@ -488,34 +509,41 @@ footer{
 
     <div class="live"><span></span> EN VIVO</div>
 </div>
-
-
-    <!-- ICONOS REPRODUCTORES EXTERNOS -->
+<!-- ICONOS REPRODUCTORES EXTERNOS -->
 <div class="external-players">
-    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls">
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls" target="_blank">
         <img src="https://s2.servicioderadio.com/cp/inc/images/players/winamp2.png" alt="Winamp">
     </a>
 
-    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=asx">
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=asx" target="_blank">
         <img src="https://s2.servicioderadio.com/cp/inc/images/players/mediaplayer.png" alt="Windows Media Player">
     </a>
 
-    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls">
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls" target="_blank">
         <img src="https://s2.servicioderadio.com/cp/inc/images/players/vlc.png" alt="VLC">
     </a>
 
-    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls">
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls" target="_blank">
         <img src="https://s2.servicioderadio.com/cp/inc/images/players/itunes.png" alt="iTunes">
     </a>
 
-    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=ram">
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=ram" target="_blank">
         <img src="https://s2.servicioderadio.com/cp/inc/images/players/real.png" alt="Real Player">
     </a>
 
     <a href="https://s2.servicioderadio.com/8664/stream" target="_blank">
         <img src="https://s2.servicioderadio.com/cp/inc/images/players/sslplay.png" alt="Reproducir Directo">
     </a>
+
+    <!-- NUEVO ICONO VERDE -->
+    <a href="https://s2.servicioderadio.com/cp/widgets/player/?p=8664" target="_blank" class="radio-web">
+        <i class="fa-solid fa-radio"></i>
+    </a>
+
 </div>
+
+   
 <!-- BOTÓN DESCARGA (SIN CAMBIOS) -->
 <div class="download-app">
     <a href="https://www.appcreator24.com/app3935238-ngmrwx" download target="_blank">
