@@ -9,17 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-#chatango{
-    width:100%;
-    height:500px;
-}
-
-@media(max-width:768px){
-    #chatango{
-        height:350px;
-    }
-}
-
 :root{
     --main:#4f7cff;
     --bg1:#0b1220;
@@ -491,7 +480,6 @@ footer{
         <div class="menu" id="menu">
             <a href="#player">En Vivo</a>
             <a href="#chat">Mira la Radio</a>
-	    <a href="#chat-en-vivo">Chat</a>
             <a href="#contacto">Contacto</a>
             <a href="#redes">Redes</a>
         </div>
@@ -599,53 +587,6 @@ footer{
     </div>
 </section>
 
-<section id="chat-en-vivo">
-    <h2>Chat en Vivo</h2>
-
-    <div class="chat-box">
-        <div id="chatango"></div>
-    </div>
-</section>
-
-<script>
-(function() {
-    var s = document.createElement("script");
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = "https://st.chatango.com/js/gz/emb.js";
-
-    s.onload = function() {
-        window.CHATANGO = {
-            handle: "sonomixradio",
-            arch: "js",
-            styles: {
-                a: "0084ef",
-                b: 100,
-                c: "FFFFFF",
-                d: "FFFFFF",
-                k: "0084ef",
-                l: "0084ef",
-                m: "0084ef",
-                n: "FFFFFF",
-                p: "10",
-                q: "0084ef",
-                r: 100,
-                usricon: 0,
-                surl: 0,
-                allowpm: 0
-            }
-        };
-
-        var embed = document.createElement("script");
-        embed.innerHTML = JSON.stringify(window.CHATANGO);
-        document.getElementById("chatango").appendChild(embed);
-    };
-
-    document.body.appendChild(s);
-})();
-</script>
-
-	
 <section id="contacto">
   <h2>Contacto</h2>
 
