@@ -19,9 +19,15 @@
 }
 
 /* Altura del chat */
-.chat-box script{
+#chatango-container{
     width:100%;
     height:500px;
+}
+
+@media(max-width:768px){
+    #chatango-container{
+        height:350px;
+    }
 }
 
 /* Responsive */
@@ -613,34 +619,40 @@ footer{
     <h2>Chat en Vivo</h2>
 
     <div class="chat-box">
-        <script 
-        id="cid0020000436964427311" 
-        data-cfasync="false" 
-        async 
-        src="//st.chatango.com/js/gz/emb.js" 
-        style="width: 100%; height: 100%;">
-        {
-            "handle":"sonomixradio",
-            "arch":"js",
-            "styles":{
-                "a":"0084ef",
-                "b":100,
-                "c":"FFFFFF",
-                "d":"FFFFFF",
-                "k":"0084ef",
-                "l":"0084ef",
-                "m":"0084ef",
-                "n":"FFFFFF",
-                "p":"10",
-                "q":"0084ef",
-                "r":100,
-                "usricon":0,
-                "surl":0,
-                "allowpm":0
-            }
-        }
+    <div id="chatango-container" style="width:100%; height:500px;"></div>
+
+    <script>
+        window.addEventListener("load", function () {
+            const script = document.createElement("script");
+            script.id = "cid0020000436964427311";
+            script.async = true;
+            script.src = "https://st.chatango.com/js/gz/emb.js";
+
+            script.innerHTML = JSON.stringify({
+                handle: "sonomixradio",
+                arch: "js",
+                styles: {
+                    a: "0084ef",
+                    b: 100,
+                    c: "FFFFFF",
+                    d: "FFFFFF",
+                    k: "0084ef",
+                    l: "0084ef",
+                    m: "0084ef",
+                    n: "FFFFFF",
+                    p: "10",
+                    q: "0084ef",
+                    r: 100,
+                    usricon: 0,
+                    surl: 0,
+                    allowpm: 0
+                }
+            });
+
+            document.getElementById("chatango-container").appendChild(script);
+        });
     </script>
-    </div>
+</div>
 </section>
 
 <section id="contacto">
