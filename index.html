@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-
 .chat-box{
     max-width:900px;
     margin:0 auto;
@@ -18,24 +17,18 @@
     box-shadow:0 20px 50px rgba(0,0,0,.6);
 }
 
-/* Altura del chat */
-#chatango-container{
+.chat-box iframe{
     width:100%;
     height:500px;
+    border:none;
 }
 
 @media(max-width:768px){
-    #chatango-container{
+    .chat-box iframe{
         height:350px;
     }
 }
 
-/* Responsive */
-@media(max-width:768px){
-    .chat-box script{
-        height:350px;
-    }
-}
 :root{
     --main:#4f7cff;
     --bg1:#0b1220;
@@ -615,45 +608,17 @@ footer{
     </div>
 </section>
 
-<section id="chat-en-vivo">
+	<section id="chat-en-vivo">
     <h2>Chat en Vivo</h2>
 
     <div class="chat-box">
-    <div id="chatango-container" style="width:100%; height:500px;"></div>
-
-    <script>
-        window.addEventListener("load", function () {
-            const script = document.createElement("script");
-            script.id = "cid0020000436964427311";
-            script.async = true;
-            script.src = "https://st.chatango.com/js/gz/emb.js";
-
-            script.innerHTML = JSON.stringify({
-                handle: "sonomixradio",
-                arch: "js",
-                styles: {
-                    a: "0084ef",
-                    b: 100,
-                    c: "FFFFFF",
-                    d: "FFFFFF",
-                    k: "0084ef",
-                    l: "0084ef",
-                    m: "0084ef",
-                    n: "FFFFFF",
-                    p: "10",
-                    q: "0084ef",
-                    r: 100,
-                    usricon: 0,
-                    surl: 0,
-                    allowpm: 0
-                }
-            });
-
-            document.getElementById("chatango-container").appendChild(script);
-        });
-    </script>
-</div>
+        <iframe 
+            src="https://st.chatango.com/?sonomixradio" 
+            style="width:100%; height:500px; border:none;">
+        </iframe>
+    </div>
 </section>
+
 
 <section id="contacto">
   <h2>Contacto</h2>
