@@ -385,11 +385,11 @@ footer{
 }
 
 .video-radio{
-    max-width:900px;
-    margin:0 auto;
-    border-radius:16px;
+    width:100%;
+    max-width:100%;
+    margin:0;
+    border-radius:0;
     overflow:hidden;
-    box-shadow:0 20px 50px rgba(0,0,0,.6);
 }
 
 .video-radio iframe{
@@ -460,6 +460,17 @@ footer{
     }
     to{
         transform:translateX(-100%);
+    }
+}
+
+@media(max-width:768px){
+    #chat-radio .video-radio iframe{
+        height:85vh;
+    }
+
+    #chat-radio{
+        padding:0;
+        margin:0;
     }
 }
 
@@ -592,11 +603,12 @@ footer{
 
     <div class="video-radio">
         <iframe 
-            src="https://sonomixradio.chatango.com/" 
-            title="Chat Sonomix Radio"
-            frameborder="0"
-            allowfullscreen>
-        </iframe>
+    src="https://sonomixradio.chatango.com/" 
+    title="Chat Sonomix Radio"
+    frameborder="0"
+    allowfullscreen
+    style="width:100%; height:80vh;">
+</iframe>
     </div>
 </section>
 
