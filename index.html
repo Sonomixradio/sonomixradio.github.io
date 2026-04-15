@@ -20,8 +20,35 @@ body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;}
 nav{background:#020817;}
 .nav-container{max-width:1100px;margin:auto;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;}
 .menu{display:flex;gap:20px;}
-.menu a{color:#fff;text-decoration:none;font-size:.95rem;}
-.menu a:hover{color:var(--main);}
+.menu a{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:30px;
+    background:linear-gradient(135deg,#0d1b3d,#1e3a8a);
+    color:#ffffff;
+    text-decoration:none;
+    font-size:.95rem;
+    font-weight:600;
+    letter-spacing:.5px;
+    border:1px solid rgba(255,255,255,0.1);
+    transition:all .3s ease;
+    box-shadow:0 6px 18px rgba(0,0,0,.5);
+}
+
+/* Hover elegante */
+.menu a:hover{
+    background:linear-gradient(135deg,#1e3a8a,#2563eb);
+    color:#ffffff;
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(0,0,0,.6);
+}
+
+/* BOTÓN ACTIVO (importante para look profesional) */
+.menu a.active{
+    background:#ff2f2f; /* rojo branding */
+    color:#fff;
+    box-shadow:0 0 15px rgba(255,47,47,.6);
+}
 .hamburger{display:none;font-size:26px;cursor:pointer;}
 
 /* ===== SECCIÓN CONTACTO ===== */
@@ -419,6 +446,12 @@ footer{
     opacity:0.9;
 }
 
+.texto-contacto{
+    font-size:15px;
+    margin-bottom:15px;
+    opacity:0.8;
+}
+
 .donacion img{
     width:100%;
     max-width:260px;
@@ -489,11 +522,11 @@ footer{
             <i class="fas fa-bars"></i>
         </div>
         <div class="menu" id="menu">
-            <a href="#player">En Vivo</a>
-            <a href="#chat">Mira la Radio</a>
-            <a href="#contacto">Contacto</a>
-            <a href="#redes">Redes</a>
-        </div>
+    <a href="#chat">Mira la Radio</a>
+    <a href="#chat-radio">Chat</a> <!-- NUEVO -->
+    <a href="#contacto">Contacto</a>
+    <a href="#redes">Redes</a>
+</div>
     </div>
 </nav>
 
@@ -600,6 +633,9 @@ footer{
 
 <section id="chat-radio">
     <h2>Chat</h2>
+    <p>
+Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio. Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
+</p>
 
     <div class="video-radio">
         <iframe 
@@ -614,6 +650,9 @@ footer{
 
 <section id="contacto">
   <h2>Contacto</h2>
+  <p class="texto-contacto">
+Podés comunicarte con nosotros enviando un correo a <strong>sonomixradio@gmail.com</strong> o completando el formulario de contacto. Estaremos respondiendo a la brevedad.
+</p>
 
   <form id="form-contacto" action="https://formspree.io/f/xzdagkze" method="POST">
     <input type="text" name="nombre" placeholder="Tu nombre" required>
@@ -655,8 +694,31 @@ footer{
 </footer>
 <script>
 function toggleMenu(){
-    document.getElementById("menu").classList.toggle("active");
+    const menu = document.getElementById("menu");
+    const icon = document.querySelector(".hamburger i");
+
+    menu.classList.toggle("active");
+
+    if(menu.classList.contains("active")){
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-xmark");
+    }else{
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+    }
 }
+const menuLinks = document.querySelectorAll("#menu a");
+const icon = document.querySelector(".hamburger i");
+
+menuLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        document.getElementById("menu").classList.remove("active");
+
+        // volver icono a hamburguesa
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+    });
+});
 
 const audio = document.getElementById("audio");
 const playBtn = document.getElementById("playBtn");
