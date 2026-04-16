@@ -51,7 +51,14 @@ nav{background:#020817;}
 }
 .hamburger{display:none;font-size:26px;cursor:pointer;}
 
+
+.descripcion-chat {
+    text-align: center;
+    margin-bottom: 30px; /* espacio entre texto y chat */
+}
+
 /* ===== SECCIÓN CONTACTO ===== */
+
 #contacto {
   max-width: 600px;
   margin: 0 auto;
@@ -101,6 +108,10 @@ nav{background:#020817;}
 
 #form-contacto button:hover {
   background-color: #1557c0;
+}
+
+#chat-radio h2 {
+    text-align: center;
 }
 
 /* ===== RESPONSIVE PARA CELULARES ===== */
@@ -633,18 +644,18 @@ footer{
 
 <section id="chat-radio">
     <h2>Chat</h2>
-    <p>
-Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio. Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
-</p>
+    <p class="descripcion-chat">
+        Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio. Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
+    </p>
 
     <div class="video-radio">
         <iframe 
-    src="https://sonomixradio.chatango.com/" 
-    title="Chat Sonomix Radio"
-    frameborder="0"
-    allowfullscreen
-    style="width:100%; height:80vh;">
-</iframe>
+            src="https://sonomixradio.chatango.com/" 
+            title="Chat Sonomix Radio"
+            frameborder="0"
+            allowfullscreen
+            style="width:100%; height:80vh;">
+        </iframe>
     </div>
 </section>
 
