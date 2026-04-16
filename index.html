@@ -332,7 +332,11 @@ nav{background:#020817;}
     box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
-section{max-width:900px;margin:60px auto;padding:0 20px;}
+section{
+    max-width:900px;
+    margin:60px auto;
+    padding:0 25px; /* más aire en general */
+}
 section h2{text-align:center;color:var(--main);margin-bottom:20px;}
 
 .contacto input,
@@ -457,6 +461,11 @@ footer{
     opacity:0.9;
 }
 
+.texto-contacto,
+.descripcion-chat{
+    padding:0 5px;
+}
+
 .texto-contacto{
     font-size:15px;
     margin-bottom:15px;
@@ -508,14 +517,50 @@ footer{
 }
 
 @media(max-width:768px){
-    #chat-radio .video-radio iframe{
-        height:85vh;
+
+    /* MÁS AIRE GENERAL EN TODO EL SITIO */
+    section{
+        padding:0 18px;
+        margin:40px auto;
     }
 
-    #chat-radio{
-        padding:0;
-        margin:0;
+    h2{
+        font-size:22px;
     }
+
+    p{
+        font-size:15px;
+        line-height:1.6;
+    }
+
+    /* CHAT (ANTES ESTABA PEGADO) */
+    #chat-radio{
+        padding:0 15px;
+    }
+
+    #chat-radio .video-radio iframe{
+        height:70vh;
+    }
+
+    /* MENÚ */
+    .menu{
+        padding:10px;
+    }
+
+    /* PLAYER MÁS COMPACTO */
+    .player{
+        width:95%;
+        padding:20px 15px;
+    }
+
+    /* BOTONES REDES MÁS PROLIJOS */
+    .social-btn{
+        width:50px;
+        height:50px;
+        font-size:20px;
+        margin:8px;
+    }
+
 }
 
 </style>
