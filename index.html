@@ -563,6 +563,33 @@ footer{
 
 }
 
+/* PROGRAMACION */
+.galeria-programacion{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-top:25px;
+}
+
+.programa{
+    background:#111827;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+    transition:.3s;
+}
+
+.programa:hover{
+    transform:translateY(-5px);
+}
+
+.programa img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+}
+
 </style>
 </head>
 
@@ -579,7 +606,8 @@ footer{
         </div>
         <div class="menu" id="menu">
     <a href="#chat">Mira la Radio</a>
-    <a href="#chat-radio">Chat</a> <!-- NUEVO -->
+    <a href="#chat-radio">Chat</a>
+    <a href="#programacion">Programacion</a>
     <a href="#contacto">Contacto</a>
     <a href="#redes">Redes</a>
 </div>
@@ -701,6 +729,41 @@ footer{
             allowfullscreen
             style="width:100%; height:80vh;">
         </iframe>
+    </div>
+</section>
+
+<section id="programacion">
+    <h2>Programación</h2>
+    <p class="descripcion-chat">
+        Conocé nuestra programación y los programas de Sonomix Radio.
+    </p>
+
+    <div class="galeria-programacion">
+
+        <div class="programa">
+            <img src="programa1.jpg" alt="Programa 1">
+        </div>
+
+        <div class="programa">
+            <img src="programa2.jpg" alt="Programa 2">
+        </div>
+
+        <div class="programa">
+            <img src="programa3.jpg" alt="Programa 3">
+        </div>
+
+        <div class="programa">
+            <img src="programa4.jpg" alt="Programa 4">
+        </div>
+
+        <div class="programa">
+            <img src="programa5.jpg" alt="Programa 5">
+        </div>
+
+        <div class="programa">
+            <img src="programa6.jpg" alt="Programa 6">
+        </div>
+
     </div>
 </section>
 
