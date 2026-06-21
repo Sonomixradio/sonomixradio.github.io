@@ -590,6 +590,38 @@ footer{
     object-fit:cover;
 }
 
+/* PODCASTS */
+.podcast-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+    margin-top:30px;
+}
+
+.podcast-card{
+    background:#111827;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.podcast-card h3{
+    text-align:center;
+    margin-bottom:15px;
+    color:#4f7cff;
+}
+
+.podcast-card iframe{
+    border-radius:12px;
+    width:100%;
+}
+
+@media(max-width:768px){
+    .podcast-grid{
+        grid-template-columns:1fr;
+    }
+}
+    
 </style>
 </head>
 
@@ -608,6 +640,7 @@ footer{
     <a href="#chat">Mira la Radio</a>
     <a href="#chat-radio">Chat</a>
     <a href="#programacion">Programacion</a>
+    <a href="#podcast">Podcast</a>       
     <a href="#contacto">Contacto</a>
     <a href="#redes">Redes</a>
 </div>
@@ -748,6 +781,31 @@ footer{
 
     </div>
 </section>
+
+<section id="podcast">
+    <h2>Podcast</h2>
+
+    <p class="descripcion-chat">
+        Escuchá los mejores programas y contenidos de Sonomix Radio cuando quieras.
+    </p>
+
+    <div class="podcast-grid">
+
+        <div class="podcast-card">
+            <h3>A la Parrilla</h3>
+
+            <iframe
+                src="https://www.ivoox.com/player_es_podcast_3188549_zp_1.html"
+                height="400"
+                frameborder="0"
+                scrolling="no"
+                loading="lazy">
+            </iframe>
+        </div>
+
+    </div>
+</section>
+    
 
 <section id="contacto">
   <h2>Contacto</h2>
