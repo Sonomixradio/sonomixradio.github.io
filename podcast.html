@@ -4,254 +4,98 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Podcast - Sonomix Radio</title>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-:root{
-    --main:#4f7cff;
-    --bg1:#0b1220;
-    --bg2:#151d33;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-body{
-    background:linear-gradient(180deg,var(--bg1),var(--bg2));
-    color:#fff;
-}
-
-nav{
-    background:#020817;
-}
-
-.nav-container{
-    max-width:1100px;
-    margin:auto;
-    padding:10px 15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.menu{
-    display:flex;
-    gap:20px;
-}
-
-.menu a{
-    display:inline-block;
-    padding:10px 18px;
-    border-radius:30px;
-    background:linear-gradient(135deg,#0d1b3d,#1e3a8a);
-    color:#fff;
-    text-decoration:none;
-    font-size:.95rem;
-    font-weight:600;
-    letter-spacing:.5px;
-    border:1px solid rgba(255,255,255,.1);
-    transition:all .3s ease;
-    box-shadow:0 6px 18px rgba(0,0,0,.5);
-}
-
-.menu a:hover{
-    background:linear-gradient(135deg,#1e3a8a,#2563eb);
-    transform:translateY(-2px);
-}
-
-.menu a.active{
-    background:#ff2f2f;
-    color:#fff;
-    box-shadow:0 0 15px rgba(255,47,47,.6);
-}
-
-.hamburger{
-    display:none;
-    font-size:26px;
-    cursor:pointer;
-}
-
-.top-banner img{
-    width:100%;
-    display:block;
-}
-
-section{
-    max-width:1000px;
-    margin:60px auto;
-    padding:0 25px;
-}
-
-section h2{
-    text-align:center;
-    color:var(--main);
-    margin-bottom:20px;
-}
-
-.descripcion-chat{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.podcast-card{
-    background:#111827;
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.4);
-}
-
-.podcast-card h3{
-    text-align:center;
-    margin-bottom:25px;
-    color:#4f7cff;
-}
-
-#episodios{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
-
-.episodio{
-    display:flex;
-    gap:15px;
-    align-items:center;
-    background:#1f2937;
-    padding:15px;
-    border-radius:15px;
-    transition:.3s;
-}
-
-.episodio:hover{
-    background:#374151;
-}
-
-.episodio img{
-    width:90px;
-    height:90px;
-    border-radius:12px;
-    object-fit:cover;
-}
-
-.episodio-info{
-    flex:1;
-}
-
-.episodio-info h4{
-    margin-bottom:8px;
-    color:#fff;
-}
-
-.episodio-info small{
-    display:block;
-    margin-bottom:10px;
-    color:#9ca3af;
-}
-
-audio{
-    width:100%;
-}
-
-footer{
-    background:#020817;
-    text-align:center;
-    padding:20px;
-    font-size:.9rem;
-    color:#bcdcff;
-    margin-top:50px;
-}
-
-.footer-text p{
-    margin:4px 0;
-}
-
+:root{--main:#4f7cff;--bg1:#0b1220;--bg2:#151d33;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;}
+nav{background:#020817;}
+.nav-container{max-width:1100px;margin:auto;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;}
+.menu{display:flex;gap:20px;}
+.menu a{display:inline-block;padding:10px 18px;border-radius:30px;background:linear-gradient(135deg,#0d1b3d,#1e3a8a);color:#fff;text-decoration:none;font-size:.95rem;font-weight:600;letter-spacing:.5px;border:1px solid rgba(255,255,255,.1);transition:all .3s ease;box-shadow:0 6px 18px rgba(0,0,0,.5);}
+.menu a:hover{background:linear-gradient(135deg,#1e3a8a,#2563eb);transform:translateY(-2px);}
+.menu a.active{background:#ff2f2f;color:#fff;box-shadow:0 0 15px rgba(255,47,47,.6);}
+.hamburger{display:none;font-size:26px;cursor:pointer;}
+.top-banner img{width:100%;display:block;}
+section{max-width:1000px;margin:60px auto;padding:0 25px;}
+section h2{text-align:center;color:var(--main);margin-bottom:20px;}
+.descripcion-chat{text-align:center;margin-bottom:30px;}
+.podcast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:25px;margin-top:30px;}
+.podcast-card{background:#111827;border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.4);}
+.podcast-card h3{text-align:center;margin-bottom:15px;color:#4f7cff;}
+.podcast-card iframe{width:100%;border-radius:12px;}
+footer{background:#020817;text-align:center;padding:20px;font-size:.9rem;color:#bcdcff;}
+.footer-text p{margin:4px 0;text-align:center;}
 @media(max-width:768px){
-
-    .menu{
-        flex-direction:column;
-        display:none;
-    }
-
-    .menu.active{
-        display:flex;
-        padding:10px;
-    }
-
-    .hamburger{
-        display:block;
-    }
-
-    .episodio{
-        flex-direction:column;
-        text-align:center;
-    }
-
-    .episodio img{
-        width:120px;
-        height:120px;
-    }
+ .menu{flex-direction:column;display:none;}
+ .menu.active{display:flex;padding:10px;}
+ .hamburger{display:block;}
+ .podcast-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
-
 <body>
 
 <header class="top-banner">
-    <img src="sonomix-banner.jpeg" alt="Sonomix Radio">
+<img src="sonomix-banner.jpeg" alt="Sonomix Radio">
 </header>
 
 <nav>
 <div class="nav-container">
+<div class="hamburger" onclick="toggleMenu()">
+<i class="fas fa-bars"></i>
+</div>
 
-    <div class="hamburger" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
-    </div>
-
-    <div class="menu" id="menu">
-        <a href="index.html">Inicio</a>
-        <a href="index.html#chat">Mirá la Radio</a>
-        <a href="index.html#chat-radio">Chat</a>
-        <a href="index.html#programacion">Programación</a>
-        <a href="podcast.html" class="active">Podcast</a>
-        <a href="index.html#contacto">Contacto</a>
-        <a href="index.html#redes">Redes</a>
-    </div>
+<div class="menu" id="menu">
+    <a href="index.html">Inicio</a>
+    <a href="index.html#chat">Mirá la Radio</a>
+    <a href="index.html#chat-radio">Chat</a>
+    <a href="index.html#programacion">Programación</a>
+    <a href="podcast.html" class="active">Podcast</a>
+    <a href="index.html#contacto">Contacto</a>
+    <a href="index.html#redes">Redes</a>
+</div>
 
 </div>
 </nav>
 
 <section id="podcast">
+<h2>Podcast</h2>
 
-    <h2>Podcast</h2>
-
-    <p class="descripcion-chat">
-        Escuchá los programas y contenidos de Sonomix Radio cuando quieras.
-    </p>
+<p class="descripcion-chat">
+Escuchá los programas y contenidos de Sonomix Radio cuando quieras.
+</p>
+<div class="podcast-grid">
 
     <div class="podcast-card">
         <h3>A la Parrilla</h3>
-        <div id="episodios"></div>
+
+       <iframe src="https://www.ivoox.com/player_es_podcast_3188549_zp_1.html" width="100%" height="400" frameborder="0" allowfullscreen="" scrolling="no" loading="lazy"></iframe>
     </div>
 
+    <div class="podcast-card">
+        <h3>Especiales Cancion x Cancion</h3>
+
+        <iframe src="https://www.ivoox.com/player_es_podcast_3167858_zp_1.html?c1=000000"
+        width="100%" height="400" frameborder="0"
+        allowfullscreen="" scrolling="no" loading="lazy"></iframe>
+    </div>
+
+</div>
+
+</div>
 </section>
 
 <footer>
-    <div class="footer-text">
-        <p>© 2026 Sonomix Radio</p>
-        <p>Todos los derechos reservados.</p>
-    </div>
+<div class="footer-text">
+<p>© 2026 Sonomix Radio</p>
+<p>Todos los derechos reservados.</p>
+</div>
 </footer>
 
 <script>
-
 function toggleMenu(){
-
     const menu = document.getElementById("menu");
     const icon = document.querySelector(".hamburger i");
 
@@ -270,34 +114,12 @@ const menuLinks = document.querySelectorAll("#menu a");
 const icon = document.querySelector(".hamburger i");
 
 menuLinks.forEach(link => {
-
     link.addEventListener("click", () => {
-
         document.getElementById("menu").classList.remove("active");
-
         icon.classList.remove("fa-xmark");
         icon.classList.add("fa-bars");
-
     });
-
 });
-
-const RSS = 'rss.php';
-
-const RSS =
-'https://corsproxy.io/?' +
-encodeURIComponent(
-'https://feeds.ivoox.com/feed_fg_f13188549_filtro_1.xml'
-);
-
-fetch(RSS)
-.then(res => res.text())
-.then(str => new DOMParser().parseFromString(str,"text/xml"))
-.then(data => {
-
-    const contenedor = document.getElementById("episodios");
-    const items = data.querySelectorAll("item");
-
 </script>
 
 </body>
