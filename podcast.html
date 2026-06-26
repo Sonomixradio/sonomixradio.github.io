@@ -285,10 +285,18 @@ menuLinks.forEach(link => {
 const RSS = 'rss.php';
 
 const RSS =
-'https://api.allorigins.win/raw?url=' +
+'https://corsproxy.io/?' +
 encodeURIComponent(
 'https://feeds.ivoox.com/feed_fg_f13188549_filtro_1.xml'
 );
+
+fetch(RSS)
+.then(res => res.text())
+.then(str => new DOMParser().parseFromString(str,"text/xml"))
+.then(data => {
+
+    const contenedor = document.getElementById("episodios");
+    const items = data.querySelectorAll("item");
 
 </script>
 
