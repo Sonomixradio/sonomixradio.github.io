@@ -1906,6 +1906,41 @@ async function enviarMensaje() {
 
 }
 
+/* =====================================
+   BOTÓN ENVIAR
+===================================== */
+
+enviarBtn.addEventListener(
+    "click",
+    () => {
+
+        console.log("BOTÓN ENVIAR PRESIONADO");
+
+        enviarMensaje();
+
+    }
+);
+
+
+/* =====================================
+   ENTER PARA ENVIAR
+===================================== */
+
+mensajeInput.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            enviarMensaje();
+
+        }
+
+    }
+);
+    
 </script>
     
 <section id="programacion">
