@@ -1375,12 +1375,24 @@ let usuarioFirebase = null;
 ===================================== */
 
 signInAnonymously(auth)
+    .then(result => {
+
+        console.log(
+            "Autenticación anónima correcta:",
+            result.user.uid
+        );
+
+    })
     .catch(error => {
 
-        console.error(error);
+        console.error(
+            "ERROR DE AUTENTICACIÓN FIREBASE:",
+            error
+        );
 
         errorDiv.textContent =
-            "No se pudo conectar con el chat.";
+            "No se pudo conectar con el chat: " +
+            error.message;
 
     });
 
@@ -1389,15 +1401,31 @@ onAuthStateChanged(
     auth,
     user => {
 
+        console.log("Estado Firebase Auth:", user);
+
         usuarioFirebase = user;
 
         if (user) {
 
+            console.log(
+                "Usuario autenticado:",
+                user.uid
+            );
+
             enviarBtn.disabled = false;
+
+            errorDiv.textContent = "";
 
         } else {
 
+            console.log(
+                "NO hay usuario autenticado"
+            );
+
             enviarBtn.disabled = true;
+
+            errorDiv.textContent =
+                "Conectando con el chat...";
 
         }
 
