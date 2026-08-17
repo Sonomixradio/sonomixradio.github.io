@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Administración - Sonomix Radio</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background: #0d0d0d;
+
+    color: white;
+
+    font-family: Arial, sans-serif;
+
+    padding: 30px 15px;
+
+}
+
+.admin-contenedor {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: auto;
+
+}
+
+h1 {
+
+    text-align: center;
+
+    margin-bottom: 5px;
+
+}
+
+.subtitulo {
+
+    text-align: center;
+
+    color: #888;
+
+    margin-bottom: 30px;
+
+}
+
+
+#login {
+
+    max-width: 400px;
+
+    margin: 60px auto;
+
+    background: #181818;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+}
+
+#login input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    background: #222;
+
+    border: 1px solid #333;
+
+    color: white;
+
+    border-radius: 7px;
+
+}
+
+#login button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    background: #00aef0;
+
+    border: none;
+
+    color: white;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+}
+
+#error {
+
+    color: #ff6666;
+
+    margin-top: 10px;
+
+    font-size: 13px;
+
+}
+
+
+#panel {
+
+    display: none;
+
+}
+
+
+.admin-bar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.btn-logout {
+
+    background: #444;
+
+    border: none;
+
+    color: white;
+
+    padding: 9px 15px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+}
+
+
+.btn-vaciar {
+
+    background: #c62828;
+
+    border: none;
+
+    color: white;
+
+    padding: 11px 18px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+
+}
+
+
+#mensajes {
+
+    background: #111;
+
+    border: 1px solid #292929;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+}
+
+
+.mensaje {
+
+    position: relative;
+
+    background: #191919;
+
+    border-radius: 8px;
+
+    padding: 12px 45px 12px 12px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.usuario {
+
+    color: #4fc3ff;
+
+    font-weight: bold;
+
+}
+
+.hora {
+
+    color: #777;
+
+    font-size: 11px;
+
+    margin-left: 8px;
+
+}
+
+
+.texto {
+
+    margin-top: 5px;
+
+    color: #eee;
+
+}
+
+
+.eliminar {
+
+    position: absolute;
+
+    right: 10px;
+
+    top: 10px;
+
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-contenedor">
+
+
+<h1>Sonomix Radio</h1>
+
+<div class="subtitulo">
+Panel de administración del chat
+</div>
+
+
+<!-- LOGIN -->
+
+<div id="login">
+
+    <input
+        type="email"
+        id="email"
+        placeholder="Correo electrónico"
+    >
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Contraseña"
+    >
+
+    <button id="login-btn">
+        Iniciar sesión
+    </button>
+
+    <div id="error"></div>
+
+</div>
+
+
+<!-- PANEL -->
+
+<div id="panel">
+
+    <div class="admin-bar">
+
+        <strong>
+            Administración del chat
+        </strong>
+
+        <button
+            class="btn-logout"
+            id="logout-btn"
+        >
+            Cerrar sesión
+        </button>
+
+    </div>
+
+
+    <button
+        class="btn-vaciar"
+        id="vaciar-btn"
+    >
+        🧹 Vaciar todo el chat
+    </button>
+
+
+    <div id="mensajes"></div>
+
+</div>
+
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+
+    getAuth,
+
+    signInWithEmailAndPassword,
+
+    signOut,
+
+    onAuthStateChanged
+
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+import {
+
+    getDatabase,
+
+    ref,
+
+    onChildAdded,
+
+    remove
+
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCtfBnFo6dSLxj7MnK3HvdDMcfQhyPRDoI",
+
+    authDomain: "sonomix-radio-chat.firebaseapp.com",
+
+    projectId: "sonomix-radio-chat",
+
+    storageBucket: "sonomix-radio-chat.firebasestorage.app",
+
+    messagingSenderId: "313489578782",
+
+    appId: "1:313489578782:web:8fef3c9315edf5089a870f"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const auth =
+    getAuth(app);
+
+
+const db =
+    getDatabase(app);
+
+
+/* TU UID */
+
+const ADMIN_UID =
+    "Fw3o0qLH7GSzjiDhQJ0IfLL6vXr2";
+
+
+/* ELEMENTOS */
+
+const login =
+    document.getElementById("login");
+
+const panel =
+    document.getElementById("panel");
+
+const email =
+    document.getElementById("email");
+
+const password =
+    document.getElementById("password");
+
+const loginBtn =
+    document.getElementById("login-btn");
+
+const logoutBtn =
+    document.getElementById("logout-btn");
+
+const error =
+    document.getElementById("error");
+
+const mensajes =
+    document.getElementById("mensajes");
+
+const vaciarBtn =
+    document.getElementById("vaciar-btn");
+
+
+/* LOGIN */
+
+loginBtn.addEventListener(
+    "click",
+    async () => {
+
+        error.textContent = "";
+
+        try {
+
+            await signInWithEmailAndPassword(
+                auth,
+                email.value.trim(),
+                password.value
+            );
+
+        } catch (e) {
+
+            console.error(e);
+
+            error.textContent =
+                "Correo o contraseña incorrectos.";
+
+        }
+
+    }
+);
+
+
+/* LOGOUT */
+
+logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+    }
+);
+
+
+/* MOSTRAR MENSAJE */
+
+function mostrarMensaje(
+    datos,
+    id
+) {
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "mensaje";
+
+
+    const usuario =
+        document.createElement("span");
+
+    usuario.className =
+        "usuario";
+
+    usuario.textContent =
+        datos.nombre;
+
+
+    const hora =
+        document.createElement("span");
+
+    hora.className =
+        "hora";
+
+
+    const fecha =
+        new Date(
+            datos.timestamp || Date.now()
+        );
+
+
+    hora.textContent =
+        fecha.toLocaleTimeString(
+            "es-AR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    const texto =
+        document.createElement("div");
+
+    texto.className =
+        "texto";
+
+    texto.textContent =
+        datos.texto;
+
+
+    const eliminar =
+        document.createElement("button");
+
+    eliminar.className =
+        "eliminar";
+
+    eliminar.textContent =
+        "🗑️";
+
+
+    eliminar.addEventListener(
+        "click",
+        async () => {
+
+            if (!auth.currentUser ||
+                auth.currentUser.uid !== ADMIN_UID) {
+
+                return;
+
+            }
+
+
+            if (!confirm(
+                "¿Eliminar este mensaje?"
+            )) {
+
+                return;
+
+            }
+
+
+            try {
+
+                await remove(
+                    ref(
+                        db,
+                        "chat/mensajes/" + id
+                    )
+                );
+
+                item.remove();
+
+            } catch (e) {
+
+                console.error(e);
+
+                alert(
+                    "No se pudo eliminar el mensaje."
+                );
+
+            }
+
+        }
+    );
+
+
+    item.appendChild(usuario);
+
+    item.appendChild(hora);
+
+    item.appendChild(texto);
+
+    item.appendChild(eliminar);
+
+
+    mensajes.appendChild(item);
+
+}
+
+
+/* CARGAR MENSAJES */
+
+const mensajesRef =
+    ref(db, "chat/mensajes");
+
+
+onChildAdded(
+    mensajesRef,
+    snapshot => {
+
+        if (!auth.currentUser ||
+            auth.currentUser.uid !== ADMIN_UID) {
+
+            return;
+
+        }
+
+        mostrarMensaje(
+            snapshot.val(),
+            snapshot.key
+        );
+
+    }
+);
+
+
+/* ESTADO DE AUTENTICACIÓN */
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if (
+            user &&
+            user.uid === ADMIN_UID
+        ) {
+
+            login.style.display =
+                "none";
+
+            panel.style.display =
+                "block";
+
+
+        } else {
+
+            login.style.display =
+                "block";
+
+            panel.style.display =
+                "none";
+
+            mensajes.innerHTML = "";
+
+        }
+
+    }
+);
+
+
+/* VACIAR CHAT */
+
+vaciarBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (!auth.currentUser ||
+            auth.currentUser.uid !== ADMIN_UID) {
+
+            return;
+
+        }
+
+
+        if (!confirm(
+            "¿Seguro que querés eliminar TODOS los mensajes?"
+        )) {
+
+            return;
+
+        }
+
+
+        try {
+
+            await remove(
+                ref(db, "chat/mensajes")
+            );
+
+            mensajes.innerHTML = "";
+
+        } catch (e) {
+
+            console.error(e);
+
+            alert(
+                "No se pudo vaciar el chat."
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
