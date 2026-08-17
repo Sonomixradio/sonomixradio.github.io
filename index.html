@@ -1298,11 +1298,11 @@ import {
     ref,
     push,
     onChildAdded,
+    onChildRemoved,
     query,
     orderByChild,
     limitToLast
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
 /* =====================================
@@ -1377,13 +1377,17 @@ if (nombreGuardado) {
    MOSTRAR MENSAJE
 ===================================== */
 
-function mostrarMensaje(datos) {
+function mostrarMensaje(datos, mensajeId) {
 
     const item =
         document.createElement("div");
 
     item.className =
         "chat-mensaje-item";
+
+    item.dataset.id =
+        mensajeId;
+
 
 
     const usuario =
@@ -1462,11 +1466,32 @@ onChildAdded(
         const datos =
             snapshot.val();
 
-        mostrarMensaje(datos);
+        mostrarMensaje(
+            datos,
+            snapshot.key
+        );
 
     }
 );
 
+onChildRemoved(
+    mensajesQuery,
+    snapshot => {
+
+        const mensajeEliminado =
+            document.querySelector(
+                `.chat-mensaje-item[data-id="${snapshot.key}"]`
+            );
+
+        if (mensajeEliminado) {
+
+            mensajeEliminado.remove();
+
+        }
+
+    }
+);
+    
 
 /* =====================================
    ENVIAR MENSAJE
