@@ -1305,6 +1305,7 @@ import {
     ref,
     push,
     set,
+    runTransaction,
     onChildAdded,
     onChildRemoved,
     query,
@@ -1533,8 +1534,15 @@ onChildAdded(
     mensajesQuery,
     snapshot => {
 
+        const datos =
+            snapshot.val();
+
+        if (!datos) {
+            return;
+        }
+
         mostrarMensaje(
-            snapshot.val(),
+            datos,
             snapshot.key
         );
 
@@ -1547,7 +1555,7 @@ onChildAdded(
 ===================================== */
 
 onChildRemoved(
-    mensajesQuery,
+    mensajesRef,
     snapshot => {
 
         const elemento =
