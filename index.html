@@ -1294,19 +1294,28 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
+    getAuth,
+    signInAnonymously,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
     getDatabase,
     ref,
     push,
+    set,
     onChildAdded,
     onChildRemoved,
     query,
     orderByChild,
     limitToLast
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
 /* =====================================
-   FIREBASE SONOMIX RADIO
+   FIREBASE
 ===================================== */
 
 const firebaseConfig = {
@@ -1328,15 +1337,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+const auth = getAuth(app);
+
 const db = getDatabase(app);
-
-
-/* =====================================
-   REFERENCIA
-===================================== */
-
-const mensajesRef =
-    ref(db, "chat/mensajes");
 
 
 /* =====================================
@@ -1360,15 +1363,75 @@ const errorDiv =
 
 
 /* =====================================
+   USUARIO FIREBASE
+===================================== */
+
+let usuarioFirebase = null;
+
+
+/* =====================================
+   CONECTAR ANÓNIMAMENTE
+===================================== */
+
+signInAnonymously(auth)
+    .catch(error => {
+
+        console.error(error);
+
+        errorDiv.textContent =
+            "No se pudo conectar con el chat.";
+
+    });
+
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        usuarioFirebase = user;
+
+        if (user) {
+
+            enviarBtn.disabled = false;
+
+        } else {
+
+            enviarBtn.disabled = true;
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   NORMALIZAR NICK
+===================================== */
+
+function normalizarNick(nombre) {
+
+    return nombre
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+
+}
+
+
+/* =====================================
    NOMBRE GUARDADO
 ===================================== */
 
 const nombreGuardado =
     localStorage.getItem("sonomixChatNombre");
 
+
 if (nombreGuardado) {
 
-    nombreInput.value = nombreGuardado;
+    nombreInput.value =
+        nombreGuardado;
 
 }
 
@@ -1377,7 +1440,10 @@ if (nombreGuardado) {
    MOSTRAR MENSAJE
 ===================================== */
 
-function mostrarMensaje(datos, mensajeId) {
+function mostrarMensaje(
+    datos,
+    mensajeId
+) {
 
     const item =
         document.createElement("div");
@@ -1387,7 +1453,6 @@ function mostrarMensaje(datos, mensajeId) {
 
     item.dataset.id =
         mensajeId;
-
 
 
     const usuario =
@@ -1408,7 +1473,9 @@ function mostrarMensaje(datos, mensajeId) {
 
 
     const fecha =
-        new Date(datos.timestamp || Date.now());
+        new Date(
+            datos.timestamp || Date.now()
+        );
 
 
     hora.textContent =
@@ -1437,7 +1504,6 @@ function mostrarMensaje(datos, mensajeId) {
 
     item.appendChild(texto);
 
-
     mensajesDiv.appendChild(item);
 
 
@@ -1448,8 +1514,12 @@ function mostrarMensaje(datos, mensajeId) {
 
 
 /* =====================================
-   RECIBIR MENSAJES
+   CARGAR MENSAJES
 ===================================== */
+
+const mensajesRef =
+    ref(db, "chat/mensajes");
+
 
 const mensajesQuery =
     query(
@@ -1463,35 +1533,61 @@ onChildAdded(
     mensajesQuery,
     snapshot => {
 
-        const datos =
-            snapshot.val();
-
         mostrarMensaje(
-            datos,
+            snapshot.val(),
             snapshot.key
         );
 
     }
 );
 
+
+/* =====================================
+   ELIMINAR EN TIEMPO REAL
+===================================== */
+
 onChildRemoved(
     mensajesQuery,
     snapshot => {
 
-        const mensajeEliminado =
+        const elemento =
             document.querySelector(
                 `.chat-mensaje-item[data-id="${snapshot.key}"]`
             );
 
-        if (mensajeEliminado) {
 
-            mensajeEliminado.remove();
+        if (elemento) {
+
+            elemento.remove();
 
         }
 
     }
 );
-    
+
+
+/* =====================================
+   RESERVAR NICK
+===================================== */
+
+async function reservarNick(
+    nickKey
+) {
+
+    const nickRef =
+        ref(
+            db,
+            "chat/usuarios/" + nickKey
+        );
+
+
+    await set(
+        nickRef,
+        usuarioFirebase.uid
+    );
+
+}
+
 
 /* =====================================
    ENVIAR MENSAJE
@@ -1509,21 +1605,22 @@ async function enviarMensaje() {
     errorDiv.textContent = "";
 
 
-    if (!nombre) {
+    if (!usuarioFirebase) {
 
         errorDiv.textContent =
-            "Escribí tu nombre o apodo.";
-
-        nombreInput.focus();
+            "Conectando con el chat...";
 
         return;
 
     }
 
 
-    if (!texto) {
+    if (!nombre) {
 
-        mensajeInput.focus();
+        errorDiv.textContent =
+            "Escribí tu nombre o apodo.";
+
+        nombreInput.focus();
 
         return;
 
@@ -1540,6 +1637,25 @@ async function enviarMensaje() {
     }
 
 
+    if (nombre.length > 20) {
+
+        errorDiv.textContent =
+            "El nombre no puede superar 20 caracteres.";
+
+        return;
+
+    }
+
+
+    if (!texto) {
+
+        mensajeInput.focus();
+
+        return;
+
+    }
+
+
     if (texto.length > 250) {
 
         errorDiv.textContent =
@@ -1550,7 +1666,36 @@ async function enviarMensaje() {
     }
 
 
+    const nickKey =
+        normalizarNick(nombre);
+
+
+    if (!nickKey) {
+
+        errorDiv.textContent =
+            "Ese nombre no es válido.";
+
+        return;
+
+    }
+
+
+    /* Sonomix Radio está reservado */
+
+    if (nickKey === "sonomixradio") {
+
+        errorDiv.textContent =
+            "Ese nombre está reservado para Sonomix Radio.";
+
+        return;
+
+    }
+
+
     try {
+
+        await reservarNick(nickKey);
+
 
         localStorage.setItem(
             "sonomixChatNombre",
@@ -1561,9 +1706,17 @@ async function enviarMensaje() {
         await push(
             mensajesRef,
             {
+
                 nombre: nombre,
+
                 texto: texto,
-                timestamp: Date.now()
+
+                timestamp: Date.now(),
+
+                uid: usuarioFirebase.uid,
+
+                nickKey: nickKey
+
             }
         );
 
@@ -1578,7 +1731,7 @@ async function enviarMensaje() {
         console.error(error);
 
         errorDiv.textContent =
-            "No se pudo enviar el mensaje.";
+            "Ese nick ya está siendo utilizado.";
 
     }
 
