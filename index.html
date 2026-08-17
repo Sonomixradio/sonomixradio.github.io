@@ -1606,6 +1606,10 @@ onChildRemoved(
    RESERVAR NICK
 ===================================== */
 
+/* =====================================
+   RESERVAR NICK
+===================================== */
+
 async function reservarNick(nickKey) {
 
     const nickRef =
@@ -1615,11 +1619,6 @@ async function reservarNick(nickKey) {
         );
 
     try {
-
-        /*
-         * Intentamos leer quién tiene actualmente
-         * reservado el nick.
-         */
 
         const { get } =
             await import(
@@ -1631,9 +1630,9 @@ async function reservarNick(nickKey) {
             await get(nickRef);
 
 
-        /*
-         * El nick ya existe.
-         */
+        /* =====================================
+           EL NICK YA EXISTE
+        ===================================== */
 
         if (snapshot.exists()) {
 
@@ -1641,9 +1640,18 @@ async function reservarNick(nickKey) {
                 snapshot.val();
 
 
+            console.log(
+                "Nick existente:",
+                nickKey,
+                "Propietario:",
+                propietario,
+                "Usuario actual:",
+                usuarioFirebase.uid
+            );
+
+
             /*
-             * Si el nick pertenece al mismo usuario,
-             * puede seguir utilizándolo.
+             * El nick pertenece al mismo usuario.
              */
 
             if (
@@ -1651,24 +1659,37 @@ async function reservarNick(nickKey) {
                 usuarioFirebase.uid
             ) {
 
+                console.log(
+                    "El nick pertenece al usuario actual."
+                );
+
                 return true;
 
             }
 
 
             /*
-             * Pertenece a otra persona.
+             * El nick pertenece a otra persona.
              */
+
+            console.log(
+                "El nick pertenece a otro usuario."
+            );
 
             return false;
 
         }
 
 
-        /*
-         * El nick no existe.
-         * Lo reservamos.
-         */
+        /* =====================================
+           EL NICK ESTÁ LIBRE
+        ===================================== */
+
+        console.log(
+            "Nick libre. Reservando:",
+            nickKey
+        );
+
 
         await set(
             nickRef,
@@ -1676,11 +1697,20 @@ async function reservarNick(nickKey) {
         );
 
 
+        console.log(
+            "Nick reservado correctamente:",
+            nickKey
+        );
+
+
         return true;
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "ERROR RESERVANDO NICK:",
+            error
+        );
 
         return false;
 
