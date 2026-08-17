@@ -1268,6 +1268,17 @@ footer{
 
 <script type="module">
 
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    remove
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
@@ -1306,6 +1317,10 @@ const firebaseConfig = {
 /* INICIAR FIREBASE */
 
 const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const ADMIN_UID = "Fw3o0qLH7GSzjiDhQJ0IfLL6vXr2";
 
 const db = getDatabase(app);
 
@@ -1351,59 +1366,52 @@ if (nombreGuardado) {
    MOSTRAR MENSAJE
 ===================================== */
 
-function mostrarMensaje(datos) {
+function mostrarMensaje(datos, mensajeId) {
 
-    const item =
-        document.createElement("div");
+    const item = document.createElement("div");
 
-    item.className =
-        "chat-mensaje-item";
+    item.className = "chat-mensaje-item";
 
-
-    const usuario =
-        document.createElement("span");
-
-    usuario.className =
-        "chat-mensaje-usuario";
-
-    usuario.textContent =
-        datos.nombre;
+    item.dataset.id = mensajeId;
 
 
-    const hora =
-        document.createElement("span");
+    const usuario = document.createElement("span");
 
-    hora.className =
-        "chat-mensaje-hora";
+    usuario.className = "chat-mensaje-usuario";
 
-
-    const fecha =
-        new Date(datos.timestamp || Date.now());
+    usuario.textContent = datos.nombre;
 
 
-    hora.textContent =
-        fecha.toLocaleTimeString(
-            "es-AR",
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
+    const hora = document.createElement("span");
+
+    hora.className = "chat-mensaje-hora";
 
 
-    const texto =
-        document.createElement("div");
+    const fecha = new Date(datos.timestamp || Date.now());
 
-    texto.className =
-        "chat-mensaje-texto";
 
-    texto.textContent =
-        datos.texto;
+    hora.textContent = fecha.toLocaleTimeString(
+        "es-AR",
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+
+    const texto = document.createElement("div");
+
+    texto.className = "chat-mensaje-texto";
+
+    texto.textContent = datos.texto;
 
 
     item.appendChild(usuario);
 
     item.appendChild(hora);
+
+
+    texto.textContent = datos.texto;
 
     item.appendChild(texto);
 
@@ -1413,6 +1421,71 @@ function mostrarMensaje(datos) {
 
     mensajesDiv.scrollTop =
         mensajesDiv.scrollHeight;
+
+
+    // BOTÓN DE BORRAR SOLO PARA ADMINISTRADOR
+
+    if (auth.currentUser &&
+        auth.currentUser.uid === ADMIN_UID) {
+
+        agregarBotonEliminar(item, mensajeId);
+
+    }
+
+}
+
+function agregarBotonEliminar(item, mensajeId) {
+
+    if (item.querySelector(".chat-borrar")) {
+        return;
+    }
+
+    const boton = document.createElement("button");
+
+    boton.className = "chat-borrar";
+
+    boton.textContent = "🗑️";
+
+    boton.title = "Eliminar mensaje";
+
+
+    boton.addEventListener("click", async () => {
+
+        if (!auth.currentUser ||
+            auth.currentUser.uid !== ADMIN_UID) {
+
+            return;
+        }
+
+
+        if (!confirm("¿Eliminar este mensaje?")) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const mensajeRef =
+                ref(db, "chat/mensajes/" + mensajeId);
+
+            await remove(mensajeRef);
+
+            item.remove();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("No se pudo eliminar el mensaje.");
+
+        }
+
+    });
+
+
+    item.appendChild(boton);
 
 }
 
@@ -1439,18 +1512,12 @@ onChildAdded(
     mensajesQuery,
     snapshot => {
 
-        const datos =
-            snapshot.val();
+        const datos = snapshot.val();
 
-        if (primerCarga) {
-
-            mostrarMensaje(datos);
-
-        } else {
-
-            mostrarMensaje(datos);
-
-        }
+        mostrarMensaje(
+            datos,
+            snapshot.key
+        );
 
     }
 );
@@ -1574,6 +1641,123 @@ mensajeInput.addEventListener(
             event.preventDefault();
 
             enviarMensaje();
+
+        }
+
+    }
+);
+
+const adminBtn =
+    document.getElementById("chat-admin-btn");
+
+const loginBox =
+    document.getElementById("chat-login");
+
+const adminEmail =
+    document.getElementById("admin-email");
+
+const adminPassword =
+    document.getElementById("admin-password");
+
+const adminLogin =
+    document.getElementById("admin-login");
+
+const adminLogout =
+    document.getElementById("admin-logout");
+
+const adminError =
+    document.getElementById("admin-error");
+
+
+adminBtn.addEventListener("click", () => {
+
+    loginBox.style.display =
+        loginBox.style.display === "none"
+            ? "block"
+            : "none";
+
+});
+
+
+adminLogin.addEventListener(
+    "click",
+    async () => {
+
+        adminError.textContent = "";
+
+        try {
+
+            await signInWithEmailAndPassword(
+                auth,
+                adminEmail.value.trim(),
+                adminPassword.value
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            adminError.textContent =
+                "Correo o contraseña incorrectos.";
+
+        }
+
+    }
+);
+
+
+adminLogout.addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+    }
+);
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        const botones =
+            document.querySelectorAll(".chat-borrar");
+
+
+        if (user && user.uid === ADMIN_UID) {
+
+            // Ocultar botón de iniciar sesión
+            adminLogin.style.display = "none";
+
+            // Mostrar botón cerrar sesión
+            adminLogout.style.display = "inline-block";
+
+
+            // Agregar botón 🗑️ a los mensajes
+            document
+                .querySelectorAll(".chat-mensaje-item")
+                .forEach(item => {
+
+                    agregarBotonEliminar(
+                        item,
+                        item.dataset.id
+                    );
+
+                });
+
+
+        } else {
+
+            // Mostrar inicio de sesión
+            adminLogin.style.display = "inline-block";
+
+            // Ocultar cerrar sesión
+            adminLogout.style.display = "none";
+
+
+            // Quitar botones de borrar
+            botones.forEach(boton => {
+                boton.remove();
+            });
 
         }
 
