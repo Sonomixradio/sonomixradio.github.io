@@ -766,6 +766,36 @@ footer{
         <!-- CABECERA -->
         <div class="chat-header">
 
+            <div class="chat-admin">
+    <button id="chat-admin-btn">Administrar</button>
+</div>
+
+<div id="chat-login" class="chat-login" style="display:none;">
+
+    <input
+        type="email"
+        id="admin-email"
+        placeholder="Correo del administrador"
+    >
+
+    <input
+        type="password"
+        id="admin-password"
+        placeholder="Contraseña"
+    >
+
+    <button id="admin-login">
+        Iniciar sesión
+    </button>
+
+    <button id="admin-logout" style="display:none;">
+        Cerrar sesión
+    </button>
+
+    <div id="admin-error"></div>
+
+</div>
+
             <div>
                 <span class="chat-live">● EN VIVO</span>
                 <span class="chat-titulo">Sonomix Radio</span>
@@ -820,6 +850,77 @@ footer{
 
 
 <style>
+
+.chat-admin {
+    text-align: right;
+    margin-top: 10px;
+}
+
+#chat-admin-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #777;
+    padding: 6px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: .75rem;
+}
+
+#chat-admin-btn:hover {
+    color: #4fc3ff;
+    border-color: #4fc3ff;
+}
+
+.chat-login {
+    margin-top: 10px;
+    padding: 15px;
+    background: #181818;
+    border-radius: 10px;
+}
+
+.chat-login input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    padding: 10px;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 7px;
+    color: white;
+}
+
+#admin-login,
+#admin-logout {
+    background: #00aef0;
+    color: white;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+#admin-logout {
+    background: #444;
+}
+
+#admin-error {
+    color: #ff6b6b;
+    font-size: .8rem;
+    margin-top: 8px;
+}
+
+.chat-borrar {
+    float: right;
+    background: transparent;
+    border: none;
+    color: #777;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.chat-borrar:hover {
+    color: #ff5555;
+}
 
 /* ================================
    CHAT SONOMIX RADIO
