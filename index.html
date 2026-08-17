@@ -754,47 +754,17 @@ footer{
 
 <section id="chat-radio">
 
-    <div class="chat-radio-contenedor">
+    <h2>Chat</h2>
 
-        <h2>Chat</h2>
+    <p class="descripcion-chat">
+        Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio.
+        Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
+    </p>
 
-        <p class="descripcion-chat">
-            Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio.
-            Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
-        </p>
+    <div class="chat-contenedor">
 
-        <!-- CABECERA -->
         <div class="chat-header">
 
-            <div class="chat-admin">
-    <button id="chat-admin-btn">Administrar</button>
-</div>
-
-<div id="chat-login" class="chat-login" style="display:none;">
-
-    <input
-        type="email"
-        id="admin-email"
-        placeholder="Correo del administrador"
-    >
-
-    <input
-        type="password"
-        id="admin-password"
-        placeholder="Contraseña"
-    >
-
-    <button id="admin-login">
-        Iniciar sesión
-    </button>
-
-    <button id="admin-logout" style="display:none;">
-        Cerrar sesión
-    </button>
-
-    <div id="admin-error"></div>
-
-</div>
             <div>
                 <span class="chat-live">● EN VIVO</span>
                 <span class="chat-titulo">Sonomix Radio</span>
@@ -802,51 +772,47 @@ footer{
 
         </div>
 
+
         <!-- MENSAJES -->
-        <div id="chat-mensajes" class="chat-mensajes">
-            
-            <div class="chat-cargando">
-                Conectando con Sonomix Radio...
-            </div>
 
-        </div>
+        <div id="chat-mensajes"></div>
 
-        <!-- NOMBRE -->
-        <div class="chat-nombre">
+
+        <!-- ESCRIBIR MENSAJE -->
+
+        <div class="chat-form">
 
             <input
                 type="text"
                 id="chat-nombre"
-                maxlength="20"
                 placeholder="Tu nombre o apodo"
+                maxlength="20"
                 autocomplete="off"
             >
 
+            <div class="chat-escribir">
+
+                <input
+                    type="text"
+                    id="chat-mensaje"
+                    placeholder="Escribí tu mensaje..."
+                    maxlength="250"
+                    autocomplete="off"
+                >
+
+                <button id="chat-enviar">
+                    Enviar
+                </button>
+
+            </div>
+
+            <div id="chat-error"></div>
+
         </div>
-
-        <!-- MENSAJE -->
-        <div class="chat-escribir">
-
-            <input
-                type="text"
-                id="chat-mensaje"
-                maxlength="250"
-                placeholder="Escribí tu mensaje..."
-                autocomplete="off"
-            >
-
-            <button id="chat-enviar">
-                Enviar
-            </button>
-
-        </div>
-
-        <div id="chat-error" class="chat-error"></div>
 
     </div>
 
 </section>
-
 
 <style>
 
@@ -979,7 +945,18 @@ footer{
 
 }
 
+.chat-contenedor {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #222;
+}
+
 /* HEADER */
+
 
 .chat-header {
 
@@ -991,7 +968,7 @@ footer{
 
     gap: 15px;
 
-    padding: 14px 16px;
+    padding: 15px 20px;
 
     background: #181818;
 
@@ -1002,25 +979,22 @@ footer{
 }
 
 .chat-live {
-
-    color: #00e676;
-
-    font-weight: 700;
-
-    font-size: .85rem;
-
+    color: #4caf50;
+    font-size: 13px;
+    font-weight: bold;
     margin-right: 10px;
-
 }
 
 .chat-titulo {
-
     color: white;
-
-    font-weight: 600;
-
+    font-weight: bold;
 }
 
+#chat-mensajes {
+    height: 450px;
+    overflow-y: auto;
+    padding: 15px;
+}
 
 /* MENSAJES */
 
@@ -1039,47 +1013,35 @@ footer{
 /* MENSAJE */
 
 .chat-mensaje-item {
-
-    margin-bottom: 14px;
-
-    padding: 10px 13px;
-
-    background: #181818;
-
-    border-left: 3px solid #4fc3ff;
-
+    position: relative;
+    padding: 10px 40px 10px 10px;
+    margin-bottom: 8px;
+    background: #191919;
     border-radius: 8px;
-
-    word-wrap: break-word;
-
 }
 
 .chat-mensaje-usuario {
-
     color: #4fc3ff;
-
-    font-weight: 700;
-
-    margin-right: 7px;
-
+    font-weight: bold;
+    margin-right: 8px;
 }
 
+
 .chat-mensaje-hora {
-
     color: #777;
-
-    font-size: .72rem;
-
+    font-size: 11px;
 }
 
 .chat-mensaje-texto {
-
     color: #eee;
-
     margin-top: 4px;
+    word-wrap: break-word;
+}
 
-    line-height: 1.4;
-
+.chat-form {
+    padding: 15px;
+    background: #181818;
+    border-top: 1px solid #292929;
 }
 
 /* CARGANDO */
@@ -1214,6 +1176,67 @@ footer{
 
 }
 
+#chat-nombre,
+#chat-mensaje {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px;
+    border-radius: 7px;
+    border: 1px solid #333;
+    background: #222;
+    color: white;
+    outline: none;
+}
+
+#chat-nombre {
+    margin-bottom: 8px;
+}
+
+.chat-escribir {
+    display: flex;
+    gap: 8px;
+}
+
+.chat-escribir input {
+    flex: 1;
+}
+
+#chat-enviar {
+    padding: 0 20px;
+    border: none;
+    border-radius: 7px;
+    background: #00aef0;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#chat-enviar:hover {
+    opacity: .85;
+}
+
+#chat-error {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+
+    #chat-mensajes {
+        height: 400px;
+    }
+
+    .chat-escribir {
+        flex-direction: column;
+    }
+
+    #chat-enviar {
+        padding: 11px;
+    }
+
+}
+
 /* CELULARES */
 
 @media (max-width: 600px) {
@@ -1267,15 +1290,7 @@ footer{
 
 <script type="module">
 
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-import { initializeApp } 
+import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
@@ -1285,13 +1300,13 @@ import {
     onChildAdded,
     query,
     orderByChild,
-    limitToLast,
-    remove
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+    limitToLast
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
 /* =====================================
-   CONFIGURACIÓN FIREBASE SONOMIX RADIO
+   FIREBASE SONOMIX RADIO
 ===================================== */
 
 const firebaseConfig = {
@@ -1311,23 +1326,22 @@ const firebaseConfig = {
 };
 
 
-/* INICIAR FIREBASE */
-
 const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const ADMIN_UID = "Fw3o0qLH7GSzjiDhQJ0IfLL6vXr2";
 
 const db = getDatabase(app);
 
 
-/* REFERENCIA AL CHAT */
+/* =====================================
+   REFERENCIA
+===================================== */
 
-const mensajesRef = ref(db, "chat/mensajes");
+const mensajesRef =
+    ref(db, "chat/mensajes");
 
 
-/* ELEMENTOS */
+/* =====================================
+   ELEMENTOS
+===================================== */
 
 const mensajesDiv =
     document.getElementById("chat-mensajes");
@@ -1346,7 +1360,7 @@ const errorDiv =
 
 
 /* =====================================
-   GUARDAR NOMBRE
+   NOMBRE GUARDADO
 ===================================== */
 
 const nombreGuardado =
@@ -1363,52 +1377,59 @@ if (nombreGuardado) {
    MOSTRAR MENSAJE
 ===================================== */
 
-function mostrarMensaje(datos, mensajeId) {
+function mostrarMensaje(datos) {
 
-    const item = document.createElement("div");
+    const item =
+        document.createElement("div");
 
-    item.className = "chat-mensaje-item";
-
-    item.dataset.id = mensajeId;
-
-
-    const usuario = document.createElement("span");
-
-    usuario.className = "chat-mensaje-usuario";
-
-    usuario.textContent = datos.nombre;
+    item.className =
+        "chat-mensaje-item";
 
 
-    const hora = document.createElement("span");
+    const usuario =
+        document.createElement("span");
 
-    hora.className = "chat-mensaje-hora";
+    usuario.className =
+        "chat-mensaje-usuario";
 
-
-    const fecha = new Date(datos.timestamp || Date.now());
-
-
-    hora.textContent = fecha.toLocaleTimeString(
-        "es-AR",
-        {
-            hour: "2-digit",
-            minute: "2-digit"
-        }
-    );
+    usuario.textContent =
+        datos.nombre;
 
 
-    const texto = document.createElement("div");
+    const hora =
+        document.createElement("span");
 
-    texto.className = "chat-mensaje-texto";
+    hora.className =
+        "chat-mensaje-hora";
 
-    texto.textContent = datos.texto;
+
+    const fecha =
+        new Date(datos.timestamp || Date.now());
+
+
+    hora.textContent =
+        fecha.toLocaleTimeString(
+            "es-AR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    const texto =
+        document.createElement("div");
+
+    texto.className =
+        "chat-mensaje-texto";
+
+    texto.textContent =
+        datos.texto;
 
 
     item.appendChild(usuario);
 
     item.appendChild(hora);
-
-
-    texto.textContent = datos.texto;
 
     item.appendChild(texto);
 
@@ -1419,71 +1440,6 @@ function mostrarMensaje(datos, mensajeId) {
     mensajesDiv.scrollTop =
         mensajesDiv.scrollHeight;
 
-
-    // BOTÓN DE BORRAR SOLO PARA ADMINISTRADOR
-
-    if (auth.currentUser &&
-        auth.currentUser.uid === ADMIN_UID) {
-
-        agregarBotonEliminar(item, mensajeId);
-
-    }
-
-}
-
-function agregarBotonEliminar(item, mensajeId) {
-
-    if (item.querySelector(".chat-borrar")) {
-        return;
-    }
-
-    const boton = document.createElement("button");
-
-    boton.className = "chat-borrar";
-
-    boton.textContent = "🗑️";
-
-    boton.title = "Eliminar mensaje";
-
-
-    boton.addEventListener("click", async () => {
-
-        if (!auth.currentUser ||
-            auth.currentUser.uid !== ADMIN_UID) {
-
-            return;
-        }
-
-
-        if (!confirm("¿Eliminar este mensaje?")) {
-
-            return;
-
-        }
-
-
-        try {
-
-            const mensajeRef =
-                ref(db, "chat/mensajes/" + mensajeId);
-
-            await remove(mensajeRef);
-
-            item.remove();
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("No se pudo eliminar el mensaje.");
-
-        }
-
-    });
-
-
-    item.appendChild(boton);
-
 }
 
 
@@ -1491,30 +1447,22 @@ function agregarBotonEliminar(item, mensajeId) {
    RECIBIR MENSAJES
 ===================================== */
 
-const mensajesQuery = query(
-
-    mensajesRef,
-
-    orderByChild("timestamp"),
-
-    limitToLast(100)
-
-);
-
-
-let primerCarga = true;
+const mensajesQuery =
+    query(
+        mensajesRef,
+        orderByChild("timestamp"),
+        limitToLast(100)
+    );
 
 
 onChildAdded(
     mensajesQuery,
     snapshot => {
 
-        const datos = snapshot.val();
+        const datos =
+            snapshot.val();
 
-        mostrarMensaje(
-            datos,
-            snapshot.key
-        );
+        mostrarMensaje(datos);
 
     }
 );
@@ -1586,19 +1534,12 @@ async function enviarMensaje() {
 
 
         await push(
-
             mensajesRef,
-
             {
-
                 nombre: nombre,
-
                 texto: texto,
-
                 timestamp: Date.now()
-
             }
-
         );
 
 
@@ -1619,7 +1560,9 @@ async function enviarMensaje() {
 }
 
 
-/* BOTÓN */
+/* =====================================
+   BOTÓN ENVIAR
+===================================== */
 
 enviarBtn.addEventListener(
     "click",
@@ -1627,7 +1570,9 @@ enviarBtn.addEventListener(
 );
 
 
-/* ENTER */
+/* =====================================
+   ENTER
+===================================== */
 
 mensajeInput.addEventListener(
     "keydown",
@@ -1638,123 +1583,6 @@ mensajeInput.addEventListener(
             event.preventDefault();
 
             enviarMensaje();
-
-        }
-
-    }
-);
-
-const adminBtn =
-    document.getElementById("chat-admin-btn");
-
-const loginBox =
-    document.getElementById("chat-login");
-
-const adminEmail =
-    document.getElementById("admin-email");
-
-const adminPassword =
-    document.getElementById("admin-password");
-
-const adminLogin =
-    document.getElementById("admin-login");
-
-const adminLogout =
-    document.getElementById("admin-logout");
-
-const adminError =
-    document.getElementById("admin-error");
-
-
-adminBtn.addEventListener("click", () => {
-
-    loginBox.style.display =
-        loginBox.style.display === "none"
-            ? "block"
-            : "none";
-
-});
-
-
-adminLogin.addEventListener(
-    "click",
-    async () => {
-
-        adminError.textContent = "";
-
-        try {
-
-            await signInWithEmailAndPassword(
-                auth,
-                adminEmail.value.trim(),
-                adminPassword.value
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            adminError.textContent =
-                "Correo o contraseña incorrectos.";
-
-        }
-
-    }
-);
-
-
-adminLogout.addEventListener(
-    "click",
-    async () => {
-
-        await signOut(auth);
-
-    }
-);
-
-onAuthStateChanged(
-    auth,
-    user => {
-
-        const botones =
-            document.querySelectorAll(".chat-borrar");
-
-
-        if (user && user.uid === ADMIN_UID) {
-
-            // Ocultar botón de iniciar sesión
-            adminLogin.style.display = "none";
-
-            // Mostrar botón cerrar sesión
-            adminLogout.style.display = "inline-block";
-
-
-            // Agregar botón 🗑️ a los mensajes
-            document
-                .querySelectorAll(".chat-mensaje-item")
-                .forEach(item => {
-
-                    agregarBotonEliminar(
-                        item,
-                        item.dataset.id
-                    );
-
-                });
-
-
-        } else {
-
-            // Mostrar inicio de sesión
-            adminLogin.style.display = "inline-block";
-
-            // Ocultar cerrar sesión
-            adminLogout.style.display = "none";
-
-
-            // Quitar botones de borrar
-            botones.forEach(boton => {
-                boton.remove();
-            });
 
         }
 
