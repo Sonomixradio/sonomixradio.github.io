@@ -13,6 +13,87 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
+.admin-chat-escribir {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: #181818;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+}
+
+#admin-mensaje {
+
+    flex: 1;
+
+    min-width: 200px;
+
+    padding: 12px;
+
+    background: #222;
+
+    border: 1px solid #333;
+
+    border-radius: 7px;
+
+    color: white;
+
+}
+
+#admin-enviar {
+
+    padding: 12px 20px;
+
+    background: #00aef0;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+}
+
+#admin-error {
+
+    width: 100%;
+
+    color: #ff6666;
+
+    font-size: 13px;
+
+}
+
+@media (max-width: 600px) {
+
+    .admin-chat-escribir {
+
+        flex-direction: column;
+
+    }
+
+    #admin-mensaje,
+    #admin-enviar {
+
+        width: 100%;
+
+    }
+
+}
+    
 * {
     box-sizing: border-box;
 }
@@ -332,6 +413,24 @@ Panel de administración del chat
 
     <div id="mensajes"></div>
 
+<div class="admin-chat-escribir">
+
+    <input
+        type="text"
+        id="admin-mensaje"
+        placeholder="Escribir como Sonomix Radio..."
+        maxlength="250"
+        autocomplete="off"
+    >
+
+    <button id="admin-enviar">
+        ENVIAR
+    </button>
+
+    <div id="admin-error"></div>
+
+</div>
+
 </div>
 
 
@@ -363,6 +462,8 @@ import {
     getDatabase,
 
     ref,
+
+    push,
 
     onChildAdded,
 
@@ -437,6 +538,14 @@ const mensajes =
 
 const vaciarBtn =
     document.getElementById("vaciar-btn");
+    const adminMensaje =
+    document.getElementById("admin-mensaje");
+
+const adminEnviar =
+    document.getElementById("admin-enviar");
+
+const adminError =
+    document.getElementById("admin-error");
 
 
 /* LOGIN */
@@ -666,7 +775,105 @@ onAuthStateChanged(
     }
 );
 
+/* =====================================
+   ENVIAR COMO SONOMIX RADIO
+===================================== */
 
+async function enviarComoSonomix() {
+
+    if (
+        !auth.currentUser ||
+        auth.currentUser.uid !== ADMIN_UID
+    ) {
+
+        return;
+
+    }
+
+
+    const texto =
+        adminMensaje.value.trim();
+
+
+    adminError.textContent = "";
+
+
+    if (!texto) {
+
+        return;
+
+    }
+
+
+    if (texto.length > 250) {
+
+        adminError.textContent =
+            "El mensaje no puede superar 250 caracteres.";
+
+        return;
+
+    }
+
+
+    try {
+
+        await push(
+            ref(db, "chat/mensajes"),
+            {
+
+                nombre: "Sonomix Radio",
+
+                texto: texto,
+
+                timestamp: Date.now(),
+
+                uid: ADMIN_UID,
+
+                nickKey: "sonomix-radio"
+
+            }
+        );
+
+
+        adminMensaje.value = "";
+
+        adminMensaje.focus();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        adminError.textContent =
+            "No se pudo enviar el mensaje.";
+
+    }
+
+}
+
+
+adminEnviar.addEventListener(
+    "click",
+    enviarComoSonomix
+);
+
+
+adminMensaje.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            enviarComoSonomix();
+
+        }
+
+    }
+);
+
+    
 /* VACIAR CHAT */
 
 vaciarBtn.addEventListener(
