@@ -1570,9 +1570,7 @@ onChildRemoved(
    RESERVAR NICK
 ===================================== */
 
-async function reservarNick(
-    nickKey
-) {
+async function reservarNick(nickKey) {
 
     const nickRef =
         ref(
@@ -1580,14 +1578,84 @@ async function reservarNick(
             "chat/usuarios/" + nickKey
         );
 
+    try {
 
-    await set(
-        nickRef,
-        usuarioFirebase.uid
-    );
+        /*
+         * Intentamos leer quién tiene actualmente
+         * reservado el nick.
+         */
+
+        const { get } =
+            await import(
+                "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js"
+            );
+
+
+        const snapshot =
+            await get(nickRef);
+
+
+        /*
+         * El nick ya existe.
+         */
+
+        if (snapshot.exists()) {
+
+            const propietario =
+                snapshot.val();
+
+
+            /*
+             * Si el nick pertenece al mismo usuario,
+             * puede seguir utilizándolo.
+             */
+
+            if (
+                propietario ===
+                usuarioFirebase.uid
+            ) {
+
+                return true;
+
+            }
+
+
+            /*
+             * Pertenece a otra persona.
+             */
+
+            return false;
+
+        }
+
+
+        /*
+         * El nick no existe.
+         * Lo reservamos.
+         */
+
+        await set(
+            nickRef,
+            usuarioFirebase.uid
+        );
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(error);
+
+        return false;
+
+    }
 
 }
 
+
+/* =====================================
+   ENVIAR MENSAJE
+===================================== */
 
 /* =====================================
    ENVIAR MENSAJE
@@ -1680,7 +1748,9 @@ async function enviarMensaje() {
     }
 
 
-    /* Sonomix Radio está reservado */
+    /* =====================================
+       SONOMIX RADIO ESTÁ RESERVADO
+    ===================================== */
 
     if (nickKey === "sonomixradio") {
 
@@ -1694,14 +1764,43 @@ async function enviarMensaje() {
 
     try {
 
-        await reservarNick(nickKey);
+        /*
+         * Comprobamos si el nick está libre
+         * o si ya pertenece a este mismo usuario.
+         */
 
+        const nickDisponible =
+            await reservarNick(nickKey);
+
+
+        /*
+         * Si pertenece a otro usuario,
+         * no permitimos utilizarlo.
+         */
+
+        if (!nickDisponible) {
+
+            errorDiv.textContent =
+                "Ese nick ya está siendo utilizado.";
+
+            return;
+
+        }
+
+
+        /*
+         * Guardamos el nick en el navegador.
+         */
 
         localStorage.setItem(
             "sonomixChatNombre",
             nombre
         );
 
+
+        /*
+         * Enviamos el mensaje.
+         */
 
         await push(
             mensajesRef,
@@ -1721,6 +1820,10 @@ async function enviarMensaje() {
         );
 
 
+        /*
+         * Limpiamos el campo.
+         */
+
         mensajeInput.value = "";
 
         mensajeInput.focus();
@@ -1731,40 +1834,11 @@ async function enviarMensaje() {
         console.error(error);
 
         errorDiv.textContent =
-            "Ese nick ya está siendo utilizado.";
+            "No se pudo enviar el mensaje.";
 
     }
 
 }
-
-
-/* =====================================
-   BOTÓN ENVIAR
-===================================== */
-
-enviarBtn.addEventListener(
-    "click",
-    enviarMensaje
-);
-
-
-/* =====================================
-   ENTER
-===================================== */
-
-mensajeInput.addEventListener(
-    "keydown",
-    event => {
-
-        if (event.key === "Enter") {
-
-            event.preventDefault();
-
-            enviarMensaje();
-
-        }
-
-    }
 );
 
 </script>
