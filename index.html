@@ -753,21 +753,744 @@ footer{
 </section>
 
 <section id="chat-radio">
-    <h2>Chat</h2>
-    <p class="descripcion-chat">
-        Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio. Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
-    </p>
 
-    <div class="video-radio">
-        <iframe 
-            src="https://sonomixradio.chatango.com/" 
-            title="Chat Sonomix Radio"
-            frameborder="0"
-            allowfullscreen
-            style="width:100%; height:80vh;">
-        </iframe>
+    <div class="chat-radio-contenedor">
+
+        <h2>Chat</h2>
+
+        <p class="descripcion-chat">
+            Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio.
+            Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
+        </p>
+
+        <!-- CABECERA -->
+        <div class="chat-header">
+
+            <div>
+                <span class="chat-live">● EN VIVO</span>
+                <span class="chat-titulo">Sonomix Radio</span>
+            </div>
+
+            <div class="chat-conectados">
+                <span id="cantidad-conectados">0</span> conectados
+            </div>
+
+        </div>
+
+        <!-- MENSAJES -->
+        <div id="chat-mensajes" class="chat-mensajes">
+            
+            <div class="chat-cargando">
+                Conectando con Sonomix Radio...
+            </div>
+
+        </div>
+
+        <!-- NOMBRE -->
+        <div class="chat-nombre">
+
+            <input
+                type="text"
+                id="chat-nombre"
+                maxlength="20"
+                placeholder="Tu nombre o apodo"
+                autocomplete="off"
+            >
+
+        </div>
+
+        <!-- MENSAJE -->
+        <div class="chat-escribir">
+
+            <input
+                type="text"
+                id="chat-mensaje"
+                maxlength="250"
+                placeholder="Escribí tu mensaje..."
+                autocomplete="off"
+            >
+
+            <button id="chat-enviar">
+                Enviar
+            </button>
+
+        </div>
+
+        <div id="chat-error" class="chat-error"></div>
+
     </div>
+
 </section>
+
+
+<style>
+
+/* ================================
+   CHAT SONOMIX RADIO
+================================ */
+
+#chat-radio {
+
+    width: 100%;
+    padding: 50px 20px;
+
+}
+
+.chat-radio-contenedor {
+
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+
+    background: #111;
+
+    border: 1px solid rgba(79,195,255,.25);
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 0 30px rgba(0,180,255,.12);
+
+}
+
+/* TITULO */
+
+#chat-radio h2 {
+
+    text-align: center;
+
+    color: #4fc3ff;
+
+    font-size: 2rem;
+
+    margin-bottom: 10px;
+
+}
+
+/* DESCRIPCION */
+
+.descripcion-chat {
+
+    text-align: center;
+
+    color: #ccc;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+
+}
+
+/* HEADER */
+
+.chat-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 16px;
+
+    background: #181818;
+
+    border-radius: 12px 12px 0 0;
+
+    border-bottom: 1px solid #292929;
+
+}
+
+.chat-live {
+
+    color: #00e676;
+
+    font-weight: 700;
+
+    font-size: .85rem;
+
+    margin-right: 10px;
+
+}
+
+.chat-titulo {
+
+    color: white;
+
+    font-weight: 600;
+
+}
+
+.chat-conectados {
+
+    color: #aaa;
+
+    font-size: .85rem;
+
+}
+
+/* MENSAJES */
+
+.chat-mensajes {
+
+    height: 400px;
+
+    overflow-y: auto;
+
+    padding: 18px;
+
+    background: #0b0b0b;
+
+}
+
+/* MENSAJE */
+
+.chat-mensaje-item {
+
+    margin-bottom: 14px;
+
+    padding: 10px 13px;
+
+    background: #181818;
+
+    border-left: 3px solid #4fc3ff;
+
+    border-radius: 8px;
+
+    word-wrap: break-word;
+
+}
+
+.chat-mensaje-usuario {
+
+    color: #4fc3ff;
+
+    font-weight: 700;
+
+    margin-right: 7px;
+
+}
+
+.chat-mensaje-hora {
+
+    color: #777;
+
+    font-size: .72rem;
+
+}
+
+.chat-mensaje-texto {
+
+    color: #eee;
+
+    margin-top: 4px;
+
+    line-height: 1.4;
+
+}
+
+/* CARGANDO */
+
+.chat-cargando {
+
+    text-align: center;
+
+    color: #777;
+
+    padding: 30px;
+
+}
+
+/* NOMBRE */
+
+.chat-nombre {
+
+    background: #111;
+
+    padding-top: 12px;
+
+}
+
+.chat-nombre input,
+.chat-escribir input {
+
+    width: 100%;
+
+    border: 1px solid #333;
+
+    background: #1b1b1b;
+
+    color: white;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    box-sizing: border-box;
+
+}
+
+.chat-nombre input:focus,
+.chat-escribir input:focus {
+
+    border-color: #4fc3ff;
+
+}
+
+/* ESCRIBIR */
+
+.chat-escribir {
+
+    display: flex;
+
+    gap: 10px;
+
+    padding-top: 10px;
+
+}
+
+.chat-escribir input {
+
+    flex: 1;
+
+}
+
+#chat-enviar {
+
+    border: none;
+
+    background: #00aef0;
+
+    color: white;
+
+    padding: 0 25px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+#chat-enviar:hover {
+
+    background: #008dcc;
+
+}
+
+/* ERROR */
+
+.chat-error {
+
+    color: #ff6b6b;
+
+    text-align: center;
+
+    font-size: .85rem;
+
+    margin-top: 10px;
+
+}
+
+/* SCROLL */
+
+.chat-mensajes::-webkit-scrollbar {
+
+    width: 7px;
+
+}
+
+.chat-mensajes::-webkit-scrollbar-track {
+
+    background: #0b0b0b;
+
+}
+
+.chat-mensajes::-webkit-scrollbar-thumb {
+
+    background: #333;
+
+    border-radius: 10px;
+
+}
+
+/* CELULARES */
+
+@media (max-width: 600px) {
+
+    #chat-radio {
+
+        padding: 30px 10px;
+
+    }
+
+    .chat-radio-contenedor {
+
+        padding: 15px;
+
+        border-radius: 15px;
+
+    }
+
+    .chat-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+    .chat-mensajes {
+
+        height: 350px;
+
+    }
+
+    .chat-escribir {
+
+        flex-direction: column;
+
+    }
+
+    #chat-enviar {
+
+        height: 45px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    onChildAdded,
+    query,
+    orderByChild,
+    limitToLast
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* =====================================
+   CONFIGURACIÓN FIREBASE SONOMIX RADIO
+===================================== */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCtfBnFo6dSLxj7MnK3HvdDMcfQhyPRDoI",
+
+    authDomain: "sonomix-radio-chat.firebaseapp.com",
+
+    projectId: "sonomix-radio-chat",
+
+    storageBucket: "sonomix-radio-chat.firebasestorage.app",
+
+    messagingSenderId: "313489578782",
+
+    appId: "1:313489578782:web:8fef3c9315edf5089a870f"
+
+};
+
+
+/* INICIAR FIREBASE */
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+
+/* REFERENCIA AL CHAT */
+
+const mensajesRef = ref(db, "chat/mensajes");
+
+
+/* ELEMENTOS */
+
+const mensajesDiv =
+    document.getElementById("chat-mensajes");
+
+const nombreInput =
+    document.getElementById("chat-nombre");
+
+const mensajeInput =
+    document.getElementById("chat-mensaje");
+
+const enviarBtn =
+    document.getElementById("chat-enviar");
+
+const errorDiv =
+    document.getElementById("chat-error");
+
+
+/* =====================================
+   GUARDAR NOMBRE
+===================================== */
+
+const nombreGuardado =
+    localStorage.getItem("sonomixChatNombre");
+
+if (nombreGuardado) {
+
+    nombreInput.value = nombreGuardado;
+
+}
+
+
+/* =====================================
+   MOSTRAR MENSAJE
+===================================== */
+
+function mostrarMensaje(datos) {
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "chat-mensaje-item";
+
+
+    const usuario =
+        document.createElement("span");
+
+    usuario.className =
+        "chat-mensaje-usuario";
+
+    usuario.textContent =
+        datos.nombre;
+
+
+    const hora =
+        document.createElement("span");
+
+    hora.className =
+        "chat-mensaje-hora";
+
+
+    const fecha =
+        new Date(datos.timestamp || Date.now());
+
+
+    hora.textContent =
+        fecha.toLocaleTimeString(
+            "es-AR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    const texto =
+        document.createElement("div");
+
+    texto.className =
+        "chat-mensaje-texto";
+
+    texto.textContent =
+        datos.texto;
+
+
+    item.appendChild(usuario);
+
+    item.appendChild(hora);
+
+    item.appendChild(texto);
+
+
+    mensajesDiv.appendChild(item);
+
+
+    mensajesDiv.scrollTop =
+        mensajesDiv.scrollHeight;
+
+}
+
+
+/* =====================================
+   RECIBIR MENSAJES
+===================================== */
+
+const mensajesQuery = query(
+
+    mensajesRef,
+
+    orderByChild("timestamp"),
+
+    limitToLast(100)
+
+);
+
+
+let primerCarga = true;
+
+
+onChildAdded(
+    mensajesQuery,
+    snapshot => {
+
+        const datos =
+            snapshot.val();
+
+        if (primerCarga) {
+
+            mostrarMensaje(datos);
+
+        } else {
+
+            mostrarMensaje(datos);
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   ENVIAR MENSAJE
+===================================== */
+
+async function enviarMensaje() {
+
+    const nombre =
+        nombreInput.value.trim();
+
+    const texto =
+        mensajeInput.value.trim();
+
+
+    errorDiv.textContent = "";
+
+
+    if (!nombre) {
+
+        errorDiv.textContent =
+            "Escribí tu nombre o apodo.";
+
+        nombreInput.focus();
+
+        return;
+
+    }
+
+
+    if (!texto) {
+
+        mensajeInput.focus();
+
+        return;
+
+    }
+
+
+    if (nombre.length < 2) {
+
+        errorDiv.textContent =
+            "El nombre debe tener al menos 2 caracteres.";
+
+        return;
+
+    }
+
+
+    if (texto.length > 250) {
+
+        errorDiv.textContent =
+            "El mensaje es demasiado largo.";
+
+        return;
+
+    }
+
+
+    try {
+
+        localStorage.setItem(
+            "sonomixChatNombre",
+            nombre
+        );
+
+
+        await push(
+
+            mensajesRef,
+
+            {
+
+                nombre: nombre,
+
+                texto: texto,
+
+                timestamp: Date.now()
+
+            }
+
+        );
+
+
+        mensajeInput.value = "";
+
+        mensajeInput.focus();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        errorDiv.textContent =
+            "No se pudo enviar el mensaje.";
+
+    }
+
+}
+
+
+/* BOTÓN */
+
+enviarBtn.addEventListener(
+    "click",
+    enviarMensaje
+);
+
+
+/* ENTER */
+
+mensajeInput.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            enviarMensaje();
+
+        }
+
+    }
+);
+
+</script>
     
 <section id="programacion">
     <h2>Programación</h2>
