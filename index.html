@@ -1296,7 +1296,11 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {
     getAuth,
     signInAnonymously,
-    onAuthStateChanged
+    onAuthStateChanged,
+    EmailAuthProvider,
+    linkWithCredential,
+    signInWithEmailAndPassword,
+    signOut
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
@@ -1305,7 +1309,7 @@ import {
     ref,
     push,
     set,
-    runTransaction,
+    get,
     onChildAdded,
     onChildRemoved,
     query,
@@ -1336,11 +1340,14 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+    initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+    getAuth(app);
 
-const db = getDatabase(app);
+const db =
+    getDatabase(app);
 
 
 /* =====================================
@@ -1371,61 +1378,340 @@ let usuarioFirebase = null;
 
 
 /* =====================================
-   CONECTAR ANÓNIMAMENTE
+   CREAR CONTROLES DE CUENTA
 ===================================== */
 
-signInAnonymously(auth)
-    .then(result => {
+const controlesCuenta =
+    document.createElement("div");
 
-        console.log(
-            "Autenticación anónima correcta:",
-            result.user.uid
-        );
+controlesCuenta.style.marginTop = "10px";
+controlesCuenta.style.display = "flex";
+controlesCuenta.style.gap = "8px";
+controlesCuenta.style.flexWrap = "wrap";
 
-    })
-    .catch(error => {
 
-        console.error(
-            "ERROR DE AUTENTICACIÓN FIREBASE:",
-            error
-        );
+const registrarBtn =
+    document.createElement("button");
 
-        errorDiv.textContent =
-            "No se pudo conectar con el chat: " +
-            error.message;
+registrarBtn.textContent =
+    "🔐 Registrar mi nick";
 
-    });
+registrarBtn.type = "button";
 
+
+const ingresarBtn =
+    document.createElement("button");
+
+ingresarBtn.textContent =
+    "🔑 Iniciar sesión";
+
+ingresarBtn.type = "button";
+
+
+const cerrarSesionBtn =
+    document.createElement("button");
+
+cerrarSesionBtn.textContent =
+    "Cerrar sesión";
+
+cerrarSesionBtn.type = "button";
+
+cerrarSesionBtn.style.display =
+    "none";
+
+
+controlesCuenta.appendChild(
+    registrarBtn
+);
+
+controlesCuenta.appendChild(
+    ingresarBtn
+);
+
+controlesCuenta.appendChild(
+    cerrarSesionBtn
+);
+
+
+/*
+ * Los botones aparecen debajo del campo
+ * del nombre.
+ */
+
+if (nombreInput.parentElement) {
+
+    nombreInput.parentElement.appendChild(
+        controlesCuenta
+    );
+
+}
+
+
+/* =====================================
+   ESTILOS DE BOTONES
+===================================== */
+
+[
+    registrarBtn,
+    ingresarBtn,
+    cerrarSesionBtn
+].forEach(boton => {
+
+    boton.style.padding =
+        "7px 12px";
+
+    boton.style.border =
+        "1px solid #444";
+
+    boton.style.borderRadius =
+        "6px";
+
+    boton.style.background =
+        "#222";
+
+    boton.style.color =
+        "#fff";
+
+    boton.style.cursor =
+        "pointer";
+
+});
+
+
+/* =====================================
+   VENTANA DE CUENTA
+===================================== */
+
+const cuentaBox =
+    document.createElement("div");
+
+cuentaBox.style.display =
+    "none";
+
+cuentaBox.style.marginTop =
+    "10px";
+
+cuentaBox.style.padding =
+    "15px";
+
+cuentaBox.style.background =
+    "#181818";
+
+cuentaBox.style.borderRadius =
+    "8px";
+
+cuentaBox.style.border =
+    "1px solid #333";
+
+
+cuentaBox.innerHTML = `
+
+    <div style="margin-bottom:10px;font-weight:bold;">
+        Cuenta del chat
+    </div>
+
+    <input
+        type="email"
+        id="chat-cuenta-email"
+        placeholder="Correo electrónico"
+        autocomplete="email"
+        style="
+            width:100%;
+            padding:9px;
+            margin-bottom:8px;
+            background:#222;
+            color:white;
+            border:1px solid #444;
+            border-radius:5px;
+        "
+    >
+
+    <input
+        type="password"
+        id="chat-cuenta-password"
+        placeholder="Contraseña"
+        autocomplete="new-password"
+        style="
+            width:100%;
+            padding:9px;
+            margin-bottom:8px;
+            background:#222;
+            color:white;
+            border:1px solid #444;
+            border-radius:5px;
+        "
+    >
+
+    <button
+        id="chat-cuenta-confirmar"
+        type="button"
+        style="
+            padding:8px 14px;
+            background:#00aef0;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        "
+    >
+        Continuar
+    </button>
+
+    <button
+        id="chat-cuenta-cancelar"
+        type="button"
+        style="
+            padding:8px 14px;
+            margin-left:5px;
+            background:#444;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        "
+    >
+        Cancelar
+    </button>
+
+    <div
+        id="chat-cuenta-error"
+        style="
+            margin-top:8px;
+            color:#ff6666;
+            font-size:13px;
+        "
+    ></div>
+
+`;
+
+
+if (nombreInput.parentElement) {
+
+    nombreInput.parentElement.appendChild(
+        cuentaBox
+    );
+
+}
+
+
+const cuentaEmail =
+    document.getElementById(
+        "chat-cuenta-email"
+    );
+
+const cuentaPassword =
+    document.getElementById(
+        "chat-cuenta-password"
+    );
+
+const cuentaConfirmar =
+    document.getElementById(
+        "chat-cuenta-confirmar"
+    );
+
+const cuentaCancelar =
+    document.getElementById(
+        "chat-cuenta-cancelar"
+    );
+
+const cuentaError =
+    document.getElementById(
+        "chat-cuenta-error"
+    );
+
+
+let modoCuenta = null;
+
+
+/* =====================================
+   CONECTAR FIREBASE
+===================================== */
 
 onAuthStateChanged(
     auth,
-    user => {
+    async user => {
 
-        console.log("Estado Firebase Auth:", user);
+        console.log(
+            "Estado Firebase Auth:",
+            user
+        );
 
-        usuarioFirebase = user;
 
-        if (user) {
+        usuarioFirebase =
+            user;
+
+
+        /*
+         * Si ya existe una sesión,
+         * no creamos otra cuenta anónima.
+         */
+
+        if (!user) {
 
             console.log(
-                "Usuario autenticado:",
-                user.uid
+                "No hay usuario. Conectando como invitado..."
             );
 
-            enviarBtn.disabled = false;
+            try {
 
-            errorDiv.textContent = "";
+                await signInAnonymously(auth);
+
+            } catch (error) {
+
+                console.error(error);
+
+                errorDiv.textContent =
+                    "No se pudo conectar con el chat.";
+
+            }
+
+            return;
+
+        }
+
+
+        console.log(
+            "Usuario autenticado:",
+            user.uid
+        );
+
+
+        enviarBtn.disabled =
+            false;
+
+        errorDiv.textContent =
+            "";
+
+
+        /*
+         * Usuario registrado
+         */
+
+        if (!user.isAnonymous) {
+
+            registrarBtn.style.display =
+                "none";
+
+            ingresarBtn.style.display =
+                "none";
+
+            cerrarSesionBtn.style.display =
+                "inline-block";
 
         } else {
 
-            console.log(
-                "NO hay usuario autenticado"
-            );
+            /*
+             * Usuario invitado
+             */
 
-            enviarBtn.disabled = true;
+            registrarBtn.style.display =
+                "inline-block";
 
-            errorDiv.textContent =
-                "Conectando con el chat...";
+            ingresarBtn.style.display =
+                "inline-block";
+
+            cerrarSesionBtn.style.display =
+                "none";
 
         }
 
@@ -1454,7 +1740,9 @@ function normalizarNick(nombre) {
 ===================================== */
 
 const nombreGuardado =
-    localStorage.getItem("sonomixChatNombre");
+    localStorage.getItem(
+        "sonomixChatNombre"
+    );
 
 
 if (nombreGuardado) {
@@ -1547,7 +1835,10 @@ function mostrarMensaje(
 ===================================== */
 
 const mensajesRef =
-    ref(db, "chat/mensajes");
+    ref(
+        db,
+        "chat/mensajes"
+    );
 
 
 const mensajesQuery =
@@ -1566,7 +1857,9 @@ onChildAdded(
             snapshot.val();
 
         if (!datos) {
+
             return;
+
         }
 
         mostrarMensaje(
@@ -1606,10 +1899,6 @@ onChildRemoved(
    RESERVAR NICK
 ===================================== */
 
-/* =====================================
-   RESERVAR NICK
-===================================== */
-
 async function reservarNick(nickKey) {
 
     const nickRef =
@@ -1618,21 +1907,12 @@ async function reservarNick(nickKey) {
             "chat/usuarios/" + nickKey
         );
 
+
     try {
-
-        const { get } =
-            await import(
-                "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js"
-            );
-
 
         const snapshot =
             await get(nickRef);
 
-
-        /* =====================================
-           EL NICK YA EXISTE
-        ===================================== */
 
         if (snapshot.exists()) {
 
@@ -1650,45 +1930,19 @@ async function reservarNick(nickKey) {
             );
 
 
-            /*
-             * El nick pertenece al mismo usuario.
-             */
-
             if (
                 propietario ===
                 usuarioFirebase.uid
             ) {
-
-                console.log(
-                    "El nick pertenece al usuario actual."
-                );
 
                 return true;
 
             }
 
 
-            /*
-             * El nick pertenece a otra persona.
-             */
-
-            console.log(
-                "El nick pertenece a otro usuario."
-            );
-
             return false;
 
         }
-
-
-        /* =====================================
-           EL NICK ESTÁ LIBRE
-        ===================================== */
-
-        console.log(
-            "Nick libre. Reservando:",
-            nickKey
-        );
 
 
         await set(
@@ -1698,7 +1952,7 @@ async function reservarNick(nickKey) {
 
 
         console.log(
-            "Nick reservado correctamente:",
+            "Nick reservado:",
             nickKey
         );
 
@@ -1723,10 +1977,6 @@ async function reservarNick(nickKey) {
    ENVIAR MENSAJE
 ===================================== */
 
-/* =====================================
-   ENVIAR MENSAJE
-===================================== */
-
 async function enviarMensaje() {
 
     const nombre =
@@ -1736,7 +1986,8 @@ async function enviarMensaje() {
         mensajeInput.value.trim();
 
 
-    errorDiv.textContent = "";
+    errorDiv.textContent =
+        "";
 
 
     if (!usuarioFirebase) {
@@ -1814,10 +2065,6 @@ async function enviarMensaje() {
     }
 
 
-    /* =====================================
-       SONOMIX RADIO ESTÁ RESERVADO
-    ===================================== */
-
     if (nickKey === "sonomixradio") {
 
         errorDiv.textContent =
@@ -1830,19 +2077,11 @@ async function enviarMensaje() {
 
     try {
 
-        /*
-         * Comprobamos si el nick está libre
-         * o si ya pertenece a este mismo usuario.
-         */
-
         const nickDisponible =
-            await reservarNick(nickKey);
+            await reservarNick(
+                nickKey
+            );
 
-
-        /*
-         * Si pertenece a otro usuario,
-         * no permitimos utilizarlo.
-         */
 
         if (!nickDisponible) {
 
@@ -1854,19 +2093,11 @@ async function enviarMensaje() {
         }
 
 
-        /*
-         * Guardamos el nick en el navegador.
-         */
-
         localStorage.setItem(
             "sonomixChatNombre",
             nombre
         );
 
-
-        /*
-         * Enviamos el mensaje.
-         */
 
         await push(
             mensajesRef,
@@ -1886,11 +2117,8 @@ async function enviarMensaje() {
         );
 
 
-        /*
-         * Limpiamos el campo.
-         */
-
-        mensajeInput.value = "";
+        mensajeInput.value =
+            "";
 
         mensajeInput.focus();
 
@@ -1899,12 +2127,384 @@ async function enviarMensaje() {
 
         console.error(error);
 
-                errorDiv.textContent =
+        errorDiv.textContent =
             "No se pudo enviar el mensaje.";
 
     }
 
 }
+
+
+/* =====================================
+   REGISTRAR NICK
+===================================== */
+
+registrarBtn.addEventListener(
+    "click",
+    () => {
+
+        if (!usuarioFirebase) {
+
+            return;
+
+        }
+
+
+        if (!usuarioFirebase.isAnonymous) {
+
+            return;
+
+        }
+
+
+        modoCuenta =
+            "registro";
+
+
+        cuentaError.textContent =
+            "";
+
+
+        cuentaEmail.value =
+            "";
+
+        cuentaPassword.value =
+            "";
+
+
+        cuentaBox.style.display =
+            "block";
+
+    }
+);
+
+
+/* =====================================
+   INICIAR SESIÓN
+===================================== */
+
+ingresarBtn.addEventListener(
+    "click",
+    () => {
+
+        modoCuenta =
+            "login";
+
+
+        cuentaError.textContent =
+            "";
+
+
+        cuentaEmail.value =
+            "";
+
+        cuentaPassword.value =
+            "";
+
+
+        cuentaBox.style.display =
+            "block";
+
+    }
+);
+
+
+/* =====================================
+   CANCELAR
+===================================== */
+
+cuentaCancelar.addEventListener(
+    "click",
+    () => {
+
+        cuentaBox.style.display =
+            "none";
+
+        cuentaError.textContent =
+            "";
+
+    }
+);
+
+
+/* =====================================
+   CONFIRMAR CUENTA
+===================================== */
+
+cuentaConfirmar.addEventListener(
+    "click",
+    async () => {
+
+        const email =
+            cuentaEmail.value.trim();
+
+        const password =
+            cuentaPassword.value;
+
+
+        cuentaError.textContent =
+            "";
+
+
+        if (!email) {
+
+            cuentaError.textContent =
+                "Ingresá tu correo electrónico.";
+
+            return;
+
+        }
+
+
+        if (!password) {
+
+            cuentaError.textContent =
+                "Ingresá una contraseña.";
+
+            return;
+
+        }
+
+
+        if (password.length < 6) {
+
+            cuentaError.textContent =
+                "La contraseña debe tener al menos 6 caracteres.";
+
+            return;
+
+        }
+
+
+        try {
+
+            /*
+             * REGISTRO
+             */
+
+            if (
+                modoCuenta ===
+                "registro"
+            ) {
+
+                if (
+                    !usuarioFirebase ||
+                    !usuarioFirebase.isAnonymous
+                ) {
+
+                    cuentaError.textContent =
+                        "La sesión actual no permite registrarse.";
+
+                    return;
+
+                }
+
+
+                const nombre =
+                    nombreInput.value.trim();
+
+
+                if (!nombre) {
+
+                    cuentaError.textContent =
+                        "Primero elegí el nick que querés registrar.";
+
+                    nombreInput.focus();
+
+                    return;
+
+                }
+
+
+                const nickKey =
+                    normalizarNick(nombre);
+
+
+                if (
+                    !nickKey ||
+                    nickKey === "sonomixradio"
+                ) {
+
+                    cuentaError.textContent =
+                        "Ese nick no está disponible.";
+
+                    return;
+
+                }
+
+
+                /*
+                 * Reservamos primero el nick
+                 * para el usuario anónimo actual.
+                 */
+
+                const nickDisponible =
+                    await reservarNick(
+                        nickKey
+                    );
+
+
+                if (!nickDisponible) {
+
+                    cuentaError.textContent =
+                        "Ese nick ya está siendo utilizado.";
+
+                    return;
+
+                }
+
+
+                /*
+                 * Vinculamos la cuenta de correo
+                 * con el usuario anónimo.
+                 */
+
+                const credential =
+                    EmailAuthProvider.credential(
+                        email,
+                        password
+                    );
+
+
+                await linkWithCredential(
+                    usuarioFirebase,
+                    credential
+                );
+
+
+                localStorage.setItem(
+                    "sonomixChatNombre",
+                    nombre
+                );
+
+
+                cuentaBox.style.display =
+                    "none";
+
+
+                errorDiv.textContent =
+                    "✅ Tu nick quedó registrado correctamente.";
+
+
+                console.log(
+                    "Cuenta registrada:",
+                    email
+                );
+
+
+                return;
+
+            }
+
+
+            /*
+             * INICIO DE SESIÓN
+             */
+
+            if (
+                modoCuenta ===
+                "login"
+            ) {
+
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+                cuentaBox.style.display =
+                    "none";
+
+
+                errorDiv.textContent =
+                    "✅ Sesión iniciada correctamente.";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "ERROR DE CUENTA:",
+                error
+            );
+
+
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
+                cuentaError.textContent =
+                    "Ese correo ya tiene una cuenta. Usá Iniciar sesión.";
+
+                return;
+
+            }
+
+
+            if (
+                error.code ===
+                "auth/invalid-credential"
+            ) {
+
+                cuentaError.textContent =
+                    "Correo o contraseña incorrectos.";
+
+                return;
+
+            }
+
+
+            if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
+                cuentaError.textContent =
+                    "La contraseña debe tener al menos 6 caracteres.";
+
+                return;
+
+            }
+
+
+            cuentaError.textContent =
+                "No se pudo completar la operación.";
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   CERRAR SESIÓN
+===================================== */
+
+cerrarSesionBtn.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await signOut(auth);
+
+            /*
+             * Firebase volverá a conectarnos
+             * como invitado automáticamente.
+             */
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+);
+
 
 /* =====================================
    BOTÓN ENVIAR
@@ -1914,7 +2514,9 @@ enviarBtn.addEventListener(
     "click",
     () => {
 
-        console.log("BOTÓN ENVIAR PRESIONADO");
+        console.log(
+            "BOTÓN ENVIAR PRESIONADO"
+        );
 
         enviarMensaje();
 
@@ -1923,14 +2525,17 @@ enviarBtn.addEventListener(
 
 
 /* =====================================
-   ENTER PARA ENVIAR
+   ENTER
 ===================================== */
 
 mensajeInput.addEventListener(
     "keydown",
     event => {
 
-        if (event.key === "Enter") {
+        if (
+            event.key ===
+            "Enter"
+        ) {
 
             event.preventDefault();
 
@@ -1940,7 +2545,7 @@ mensajeInput.addEventListener(
 
     }
 );
-    
+
 </script>
     
 <section id="programacion">
