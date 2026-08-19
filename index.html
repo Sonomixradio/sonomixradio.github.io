@@ -1942,7 +1942,271 @@ async function enviarMensaje() {
 
 }
 
+/* =====================================
+   REGISTRO DEL NICK
+===================================== */
 
+const registrarNickBtn =
+    document.getElementById("chat-registrar-nick");
+
+const registroBox =
+    document.getElementById("chat-registro");
+
+const registroNick =
+    document.getElementById("registro-nick");
+
+const registroEmail =
+    document.getElementById("registro-email");
+
+const registroPassword =
+    document.getElementById("registro-password");
+
+const registroConfirmar =
+    document.getElementById("registro-confirmar");
+
+const registroCancelar =
+    document.getElementById("registro-cancelar");
+
+const registroError =
+    document.getElementById("registro-error");
+
+
+/* ABRIR REGISTRO */
+
+registrarNickBtn.addEventListener(
+    "click",
+    () => {
+
+        registroError.textContent = "";
+
+        registroNick.value =
+            nombreInput.value.trim();
+
+        registroBox.style.display =
+            "block";
+
+        registroNick.focus();
+
+    }
+);
+
+
+/* CANCELAR */
+
+registroCancelar.addEventListener(
+    "click",
+    () => {
+
+        registroBox.style.display =
+            "none";
+
+        registroError.textContent = "";
+
+    }
+);
+
+
+/* REGISTRAR */
+
+registroConfirmar.addEventListener(
+    "click",
+    async () => {
+
+        registroError.textContent = "";
+
+        const nick =
+            registroNick.value.trim();
+
+        const email =
+            registroEmail.value.trim();
+
+        const password =
+            registroPassword.value;
+
+
+        if (!nick) {
+
+            registroError.textContent =
+                "Escribí el nick que querés registrar.";
+
+            return;
+
+        }
+
+
+        if (nick.length < 2) {
+
+            registroError.textContent =
+                "El nick debe tener al menos 2 caracteres.";
+
+            return;
+
+        }
+
+
+        if (nick.length > 20) {
+
+            registroError.textContent =
+                "El nick no puede superar 20 caracteres.";
+
+            return;
+
+        }
+
+
+        if (!email) {
+
+            registroError.textContent =
+                "Escribí tu correo electrónico.";
+
+            return;
+
+        }
+
+
+        if (!password || password.length < 6) {
+
+            registroError.textContent =
+                "La contraseña debe tener al menos 6 caracteres.";
+
+            return;
+
+        }
+
+
+        const nickKey =
+            normalizarNick(nick);
+
+
+        if (!nickKey) {
+
+            registroError.textContent =
+                "Ese nick no es válido.";
+
+            return;
+
+        }
+
+
+        if (esNickReservado(nickKey)) {
+
+            registroError.textContent =
+                "Ese nick está reservado para Sonomix Radio.";
+
+            return;
+
+        }
+
+
+        try {
+
+            const nickDisponible =
+                await reservarNick(nickKey);
+
+
+            if (!nickDisponible) {
+
+                registroError.textContent =
+                    "Ese nick ya está siendo utilizado.";
+
+                return;
+
+            }
+
+
+            const credential =
+                EmailAuthProvider.credential(
+                    email,
+                    password
+                );
+
+
+            await linkWithCredential(
+                auth.currentUser,
+                credential
+            );
+
+
+            localStorage.setItem(
+                "sonomixChatNombre",
+                nick
+            );
+
+
+            nombreInput.value =
+                nick;
+
+
+            registroBox.style.display =
+                "none";
+
+
+            registroEmail.value = "";
+
+            registroPassword.value = "";
+
+
+            errorDiv.textContent =
+                "Nick registrado correctamente.";
+
+            errorDiv.style.color =
+                "#4caf50";
+
+
+        } catch (error) {
+
+            console.error(
+                "ERROR REGISTRANDO NICK:",
+                error
+            );
+
+
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
+                registroError.textContent =
+                    "Ese correo ya está registrado. Probá iniciar sesión.";
+
+                return;
+
+            }
+
+
+            if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                registroError.textContent =
+                    "El correo electrónico no es válido.";
+
+                return;
+
+            }
+
+
+            if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
+                registroError.textContent =
+                    "La contraseña debe tener al menos 6 caracteres.";
+
+                return;
+
+            }
+
+
+            registroError.textContent =
+                "No se pudo registrar el nick.";
+
+        }
+
+    }
+);
 
 
 /* =====================================
