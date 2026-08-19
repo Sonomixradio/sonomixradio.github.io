@@ -829,6 +829,44 @@ footer{
 
             <div id="chat-error"></div>
 
+            <div id="chat-registro" style="display:none;">
+
+    <h3>Registrar mi nick</h3>
+
+    <input
+        type="text"
+        id="registro-nick"
+        placeholder="Nick"
+        maxlength="20"
+        autocomplete="off"
+    >
+
+    <input
+        type="email"
+        id="registro-email"
+        placeholder="Correo electrónico"
+        autocomplete="email"
+    >
+
+    <input
+        type="password"
+        id="registro-password"
+        placeholder="Contraseña"
+        autocomplete="new-password"
+    >
+
+    <button id="registro-confirmar">
+        Registrar nick
+    </button>
+
+    <button id="registro-cancelar">
+        Cancelar
+    </button>
+
+    <div id="registro-error"></div>
+
+</div>
+
         </div>
 
     </div>
@@ -1317,10 +1355,11 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {
     getAuth,
     signInAnonymously,
-    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+    EmailAuthProvider,
+    linkWithCredential,
     signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
+    signOut
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
@@ -1902,6 +1941,8 @@ async function enviarMensaje() {
     }
 
 }
+
+
 
 
 /* =====================================
