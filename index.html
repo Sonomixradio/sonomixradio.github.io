@@ -624,6 +624,114 @@ footer{
         grid-template-columns:1fr;
     }
 }
+
+/* =====================================
+   DONACIÓN MERCADO PAGO
+===================================== */
+
+.donacion {
+    text-align: center;
+    margin: 0 auto 40px;
+    max-width: 420px;
+    padding: 0 15px;
+}
+
+.texto-donacion {
+    font-size: 16px;
+    margin-bottom: 8px;
+    opacity: 0.95;
+}
+
+.donacion-info {
+    font-size: 14px;
+    color: #bdbdbd;
+    margin-bottom: 18px;
+}
+
+.alias-box {
+    background: linear-gradient(
+        135deg,
+        #111827,
+        #172554
+    );
+
+    border: 1px solid rgba(79,195,255,.35);
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.4);
+}
+
+.alias-label {
+    display: block;
+
+    color: #aaa;
+
+    font-size: 13px;
+
+    margin-bottom: 6px;
+}
+
+.alias-box strong {
+    display: block;
+
+    color: #4fc3ff;
+
+    font-size: 21px;
+
+    letter-spacing: .5px;
+
+    margin-bottom: 14px;
+}
+
+#copiarAlias {
+    border: none;
+
+    background: #00aef0;
+
+    color: white;
+
+    padding: 11px 18px;
+
+    border-radius: 9px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+#copiarAlias:hover {
+    background: #008dcc;
+
+    transform: translateY(-2px);
+}
+
+.alias-copiado {
+    display: none;
+
+    color: #4caf50;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    margin-top: 10px;
+}
+
+.donacion-ayuda {
+    color: #aaa;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    margin-top: 15px;
+}
     
 </style>
 </head>
@@ -722,12 +830,49 @@ footer{
 </div>
 
 <!-- DONACIÓN MERCADO PAGO -->
+<!-- DONACIÓN MERCADO PAGO -->
 <div class="donacion">
-    <p class="texto-donacion">Si te gusta la radio, podés dejar una donación</p>
-    
-    <a href="https://link.mercadopago.com.ar/sonomixradio" target="_blank">
-        <img src="mercadopago.png" alt="Donar con Mercado Pago">
-    </a>
+
+    <p class="texto-donacion">
+        Si te gusta Sonomix Radio, podés apoyarnos con una donación ❤️
+    </p>
+
+    <p class="donacion-info">
+        Podés transferir directamente desde Mercado Pago.
+    </p>
+
+    <div class="alias-box">
+
+        <span class="alias-label">
+            Alias de Mercado Pago
+        </span>
+
+        <strong id="aliasMercadoPago">
+            cristian.foss
+        </strong>
+
+        <button
+            type="button"
+            id="copiarAlias"
+        >
+            <i class="fa-solid fa-copy"></i>
+            Copiar alias
+        </button>
+
+    </div>
+
+    <p
+        id="aliasCopiado"
+        class="alias-copiado"
+    >
+        ✓ Alias copiado
+    </p>
+
+    <p class="donacion-ayuda">
+        Abrí Mercado Pago, elegí <strong>Transferir</strong>
+        y utilizá el alias <strong>cristian.foss</strong>.
+    </p>
+
 </div>
 
 
@@ -2959,6 +3104,45 @@ form.addEventListener("submit", async function(e) {
 });
 </script>
 
+<script>
+const copiarAliasBtn = document.getElementById("copiarAlias");
+const aliasMercadoPago = document.getElementById("aliasMercadoPago");
+const aliasCopiado = document.getElementById("aliasCopiado");
+
+if (copiarAliasBtn) {
+
+    copiarAliasBtn.addEventListener("click", async () => {
+
+        const alias = aliasMercadoPago.textContent.trim();
+
+        try {
+
+            await navigator.clipboard.writeText(alias);
+
+            aliasCopiado.style.display = "block";
+
+            copiarAliasBtn.innerHTML =
+                '<i class="fa-solid fa-check"></i> Alias copiado';
+
+            setTimeout(() => {
+
+                aliasCopiado.style.display = "none";
+
+                copiarAliasBtn.innerHTML =
+                    '<i class="fa-solid fa-copy"></i> Copiar alias';
+
+            }, 2500);
+
+        } catch (error) {
+
+            alert("No se pudo copiar el alias. Alias: " + alias);
+
+        }
+
+    });
+
+}
+</script>
 
 </body>
 </html>
