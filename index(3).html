@@ -1,0 +1,2964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonomix Radio</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --main:#4f7cff;
+    --bg1:#0b1220;
+    --bg2:#151d33;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;}
+
+nav{background:#020817;}
+.nav-container{max-width:1100px;margin:auto;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;}
+.menu{display:flex;gap:20px;}
+.menu a{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:30px;
+    background:linear-gradient(135deg,#0d1b3d,#1e3a8a);
+    color:#ffffff;
+    text-decoration:none;
+    font-size:.95rem;
+    font-weight:600;
+    letter-spacing:.5px;
+    border:1px solid rgba(255,255,255,0.1);
+    transition:all .3s ease;
+    box-shadow:0 6px 18px rgba(0,0,0,.5);
+}
+
+/* Hover elegante */
+.menu a:hover{
+    background:linear-gradient(135deg,#1e3a8a,#2563eb);
+    color:#ffffff;
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(0,0,0,.6);
+}
+
+/* BOTÓN ACTIVO (importante para look profesional) */
+.menu a.active{
+    background:#ff2f2f; /* rojo branding */
+    color:#fff;
+    box-shadow:0 0 15px rgba(255,47,47,.6);
+}
+.hamburger{display:none;font-size:26px;cursor:pointer;}
+
+
+.descripcion-chat {
+    text-align: center;
+    margin-bottom: 30px; /* espacio entre texto y chat */
+}
+
+/* ===== SECCIÓN CONTACTO ===== */
+
+#contacto {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#contacto h2 {
+  margin-bottom: 20px;
+}
+
+/* Formulario */
+#form-contacto {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs y textarea */
+#form-contacto input,
+#form-contacto textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Altura del textarea */
+#form-contacto textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Botón */
+#form-contacto button {
+  background-color: #1e73ff;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#form-contacto button:hover {
+  background-color: #1557c0;
+}
+
+#chat-radio h2 {
+    text-align: center;
+}
+
+/* ===== RESPONSIVE PARA CELULARES ===== */
+@media (max-width: 768px) {
+  #contacto {
+    padding: 30px 15px;
+  }
+
+  #form-contacto input,
+  #form-contacto textarea {
+    font-size: 16px; /* evita zoom raro en iPhone/Android */
+  }
+
+  #form-contacto button {
+    width: 100%;
+    font-size: 17px;
+  }
+}
+
+
+.player{
+    width:92%;
+    max-width:420px;
+    background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+        url('/fondo.jpg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    border-radius:30px;
+    padding:26px 22px 30px;
+    text-align:center;
+    box-shadow:0 40px 80px rgba(0,0,0,.85);
+    margin:30px auto 10px;
+}
+/* BANNER */
+.top-banner{
+    width:100%;
+    background:transparent;
+    padding:0;
+    margin:0;
+    text-align:center;
+}
+.top-banner img{
+    width:100%;
+    max-width:100%;
+    height:auto;
+    display:block;
+    margin:0;
+    border-radius:0 !important;
+}
+
+/* LOGO VINILO PERFECTO (AJUSTADO + GIRO ANTIHORARIO) */
+.logo{
+    width:180px;
+    height:180px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    overflow:hidden;
+    background:#000;
+    box-shadow:0 0 50px rgba(29,185,84,.35);
+}
+
+.logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    animation:spin 12s linear infinite;
+    animation-play-state:paused;
+}
+
+/* CAMBIO: ahora gira en sentido contrario (como tocadiscos real) */
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(-360deg);}
+}
+
+.station{
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+/* CONTENEDOR SCROLL CORREGIDO (LOOP INFINITO SIN CORTES) */
+.song{
+    width:100%;
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+    height:24px;
+    margin-bottom:6px;
+}
+
+.song-track{
+    display:inline-block;
+    white-space:nowrap;
+    padding-left:100%;
+    padding-right:50px;
+}
+
+.song.scroll .song-track{
+    animation:scrollSong 15s linear infinite;
+}
+
+@keyframes scrollSong{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+.artist{
+    font-size:14px;
+    opacity:.8;
+    margin-bottom:18px;
+}
+
+.play{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:none;
+    background:#1db954;
+    color:#000;
+    font-size:36px;
+    cursor:pointer;
+    box-shadow:0 0 40px rgba(29,185,84,.65);
+    margin-bottom:16px;
+}
+
+.volume{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+}
+.volume input{width:200px;}
+
+.live{
+    font-size:13px;
+    color:#ff2f7a;
+    font-weight:600;
+}
+.live span{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    background:#ff2f7a;
+    border-radius:50%;
+    animation:pulse 1.3s infinite;
+} 
+.tiktok {
+    background: #000;
+    color: #fff;
+}
+
+/* ICONOS REPRODUCTORES EXTERNOS */
+.external-players{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin:15px auto 25px;
+    max-width:420px;
+}
+
+.external-players img{
+    height:40px;
+    width:auto;
+    transition:transform .2s ease;
+}
+
+.external-players img:hover{
+    transform:scale(1.1);
+}
+
+/* NUEVO ICONO VERDE RADIO WEB */
+.radio-web{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:45px;
+    height:45px;
+    background:#1db954; /* verde estilo Spotify */
+    border-radius:50%;
+    color:#000;
+    font-size:20px;
+    text-decoration:none;
+    box-shadow:0 0 20px rgba(29,185,84,.6);
+    transition:all .2s ease;
+}
+
+.radio-web:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 30px rgba(29,185,84,.9);
+}
+
+    
+@keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
+
+/* BOTÓN DESCARGA (NO TOCADO) */
+.download-app{
+    text-align:center;
+    margin:10px auto 30px;
+    max-width:420px;
+}
+.download-app img{
+    width:100%;
+    max-width:380px;
+    height:auto;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+}
+.download-app img:hover{
+    transform:scale(1.04);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+section{
+    max-width:900px;
+    margin:60px auto;
+    padding:0 25px; /* más aire en general */
+}
+section h2{text-align:center;color:var(--main);margin-bottom:20px;}
+
+.contacto input,
+.contacto textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border:none;
+    border-radius:6px;
+}
+.contacto button{
+    width:100%;
+    padding:12px;
+    background:var(--main);
+    border:none;
+    color:#fff;
+    border-radius:6px;
+}
+
+#formMessage{
+    text-align:center;
+    margin-top:10px;
+    font-weight:600;
+    opacity:0;
+    transition:opacity .4s ease;
+}
+
+.redes{
+    text-align:center;
+}
+
+.social-btn{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:55px;
+    height:55px;
+    margin:0 12px;
+    border-radius:50%;
+    font-size:24px;
+    color:#fff;
+    text-decoration:none;
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
+    transition:all .3s ease;
+}
+
+/* Colores oficiales */
+.facebook{
+    background:#1877F2;
+}
+
+.instagram{
+    background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF,#515BD4);
+}
+
+.x{
+    background:#000000;
+}
+
+.whatsapp{
+    background:#25D366;
+}
+
+
+/* Hover efecto */
+.social-btn:hover{
+    transform:translateY(-6px) scale(1.08);
+    box-shadow:0 15px 35px rgba(0,0,0,.6);
+}
+
+footer{
+    background:#020817;
+    text-align:center;
+    padding:20px;
+    font-size:.9rem;
+    color:#bcdcff;
+}
+
+.footer-text p{
+    margin:4px 0;
+    text-align:center;
+}
+
+@media(max-width:768px){
+    .menu{flex-direction:column;display:none;}
+    .menu.active{display:flex;}
+    .hamburger{display:block;}
+}
+
+.video-radio{
+    width:100%;
+    max-width:100%;
+    margin:0;
+    border-radius:0;
+    overflow:hidden;
+}
+
+.video-radio iframe{
+    width:100%;
+    height:500px;
+    border:none;
+    display:block;
+}
+
+/* Adaptación móvil */
+@media(max-width:768px){
+    .video-radio iframe{
+        height:260px;
+    }
+}
+
+/* SECCIÓN DONACIÓN */
+.donacion{
+    text-align:center;
+    margin: 0 auto 40px;
+    max-width:420px;
+}
+
+.texto-donacion{
+    font-size:15px;
+    margin-bottom:12px;
+    opacity:0.9;
+}
+
+.texto-contacto,
+.descripcion-chat{
+    padding:0 5px;
+}
+
+.texto-contacto{
+    font-size:15px;
+    margin-bottom:15px;
+    opacity:0.8;
+}
+
+.donacion img{
+    width:100%;
+    max-width:260px;
+    height:auto;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.donacion img:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+/* FRASE ANIMADA VIDEO */
+.frase-video{
+    width:100%;
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+    background:#ff0000;
+    color:#ffffff;
+    padding:10px 0;
+    margin-bottom:20px;
+    border-radius:8px;
+    font-weight:600;
+}
+
+.frase-track{
+    display:inline-block;
+    white-space:nowrap;
+    padding-left:100%;
+    padding-right:50px;
+    animation:scrollFrase 12s linear infinite;
+}
+
+@keyframes scrollFrase{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+@media(max-width:768px){
+
+    /* MÁS AIRE GENERAL EN TODO EL SITIO */
+    section{
+        padding:0 18px;
+        margin:40px auto;
+    }
+
+    h2{
+        font-size:22px;
+    }
+
+    p{
+        font-size:15px;
+        line-height:1.6;
+    }
+
+    /* CHAT (ANTES ESTABA PEGADO) */
+    #chat-radio{
+        padding:0 15px;
+    }
+
+    #chat-radio .video-radio iframe{
+        height:70vh;
+    }
+
+    /* MENÚ */
+    .menu{
+        padding:10px;
+    }
+
+    /* PLAYER MÁS COMPACTO */
+    .player{
+        width:95%;
+        padding:20px 15px;
+    }
+
+    /* BOTONES REDES MÁS PROLIJOS */
+    .social-btn{
+        width:50px;
+        height:50px;
+        font-size:20px;
+        margin:8px;
+    }
+
+}
+
+/* PROGRAMACION */
+.galeria-programacion{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-top:25px;
+}
+
+.programa{
+    background:#111827;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+    transition:.3s;
+}
+
+.programa:hover{
+    transform:translateY(-5px);
+}
+
+.programa img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+}
+
+/* PODCASTS */
+.podcast-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+    margin-top:30px;
+}
+
+.podcast-card{
+    background:#111827;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.podcast-card h3{
+    text-align:center;
+    margin-bottom:15px;
+    color:#4f7cff;
+}
+
+.podcast-card iframe{
+    border-radius:12px;
+    width:100%;
+}
+
+@media(max-width:768px){
+    .podcast-grid{
+        grid-template-columns:1fr;
+    }
+}
+    
+</style>
+</head>
+
+<body>
+
+<header class="top-banner">
+    <img src="sonomix-banner.jpeg" alt="Sonomix Radio">
+</header>
+
+<nav>
+    <div class="nav-container">
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+ <div class="menu" id="menu">
+    <a href="#inicio">Inicio</a>
+    <a href="#chat">Mira la Radio</a>
+    <a href="#chat-radio">Chat</a>
+    <a href="#programacion">Programacion</a>
+    <a href="podcast.html" target="_blank">Podcast</a>       
+    <a href="#contacto">Contacto</a>
+    <a href="#redes">Redes</a>
+</div>
+    </div>
+</nav>
+
+<!-- PLAYER (MISMO PLAYER, SOLO MEJORADO INTERNAMENTE) -->
+<div class="player" id="inicio">
+    <div class="logo">
+        <img src="/logo-sonomix.png" alt="Sonomix Radio">
+    </div>
+
+    <div class="station">Sonomix Radio</div>
+
+    <div class="song" id="songContainer">
+        <div class="song-track" id="song">Cargando...</div>
+    </div>
+
+    <div class="artist" id="artist"></div>
+
+    <audio id="audio" src="https://s2.servicioderadio.com/8664/stream" crossorigin="anonymous"></audio>
+
+    <button class="play" id="playBtn">
+        <i class="fa-solid fa-play"></i>
+    </button>
+
+    <div class="volume">
+        <i class="fa-solid fa-volume-low"></i>
+        <input type="range" min="0" max="1" step="0.01" value="0.9" id="volume">
+        <i class="fa-solid fa-volume-high"></i>
+    </div>
+
+    <div class="live"><span></span> EN VIVO</div>
+</div>
+<!-- ICONOS REPRODUCTORES EXTERNOS -->
+<div class="external-players">
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls" target="_blank">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/winamp2.png" alt="Winamp">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=asx" target="_blank">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/mediaplayer.png" alt="Windows Media Player">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls" target="_blank">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/vlc.png" alt="VLC">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=pls" target="_blank">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/itunes.png" alt="iTunes">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/cp/links.php?p=8664&m=ram" target="_blank">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/real.png" alt="Real Player">
+    </a>
+
+    <a href="https://s2.servicioderadio.com/8664/stream" target="_blank">
+        <img src="https://s2.servicioderadio.com/cp/inc/images/players/sslplay.png" alt="Reproducir Directo">
+    </a>
+
+    <!-- NUEVO ICONO VERDE -->
+    <a href="https://s2.servicioderadio.com/cp/widgets/player/?p=8664" target="_blank" class="radio-web">
+        <i class="fa-solid fa-radio"></i>
+    </a>
+
+</div>
+
+   
+<!-- BOTÓN DESCARGA (SIN CAMBIOS) -->
+<div class="download-app">
+    <a href="https://www.appcreator24.com/app3935238-ngmrwx" download target="_blank">
+        <img src="descarga.png" alt="Descargar App">
+    </a>
+</div>
+
+<!-- DONACIÓN MERCADO PAGO -->
+<div class="donacion">
+    <p class="texto-donacion">Si te gusta la radio, podés dejar una donación</p>
+    
+    <a href="https://link.mercadopago.com.ar/sonomixradio" target="_blank">
+        <img src="mercadopago.png" alt="Donar con Mercado Pago">
+    </a>
+</div>
+
+
+<section id="chat">
+    <h2>Mirá la Radio</h2>
+
+    <div class="video-radio">
+        <iframe 
+            src="https://vivo.miradiolive.com/?view=693"
+            title="Transmisión en vivo Sonomix Radio"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- FRASE ANIMADA (AHORA DEBAJO DEL VIDEO) -->
+    <div class="frase-video" id="fraseContainer">
+        <div class="frase-track">
+            Cuando estemos transmitiendo en video nos veras aquí
+        </div>
+    </div>
+</section>
+
+<section id="chat-radio">
+
+    <h2>Chat</h2>
+
+    <p class="descripcion-chat">
+        Sumate al chat en vivo y conectate con otros oyentes de Sonomix Radio.
+        Compartí mensajes, saludos y viví la experiencia de la radio en tiempo real.
+    </p>
+
+    <div class="chat-contenedor">
+
+        <div class="chat-header">
+
+            <div>
+                <span class="chat-live">● EN VIVO</span>
+                <span class="chat-titulo">Sonomix Radio</span>
+            </div>
+
+        </div>
+
+
+        <!-- MENSAJES -->
+
+        <div id="chat-mensajes"></div>
+
+
+        <!-- ESCRIBIR MENSAJE -->
+
+        <div class="chat-form">
+
+            <input
+                type="text"
+                id="chat-nombre"
+                placeholder="Tu nombre o apodo"
+                maxlength="20"
+                autocomplete="off"
+            >
+
+            <!-- CUENTA / NICK -->
+
+    <div class="chat-cuenta">
+
+        <button id="chat-registrar-nick">
+            📝 Registrar mi nick
+        </button>
+
+        <button id="chat-iniciar-sesion">
+            🔐 Iniciar sesión
+        </button>
+
+        <button
+            id="chat-cerrar-sesion"
+            style="display:none;"
+        >
+            🚪 Cerrar sesión
+        </button>
+
+    </div>
+
+            <div class="chat-escribir">
+
+                <input
+                    type="text"
+                    id="chat-mensaje"
+                    placeholder="Escribí tu mensaje..."
+                    maxlength="250"
+                    autocomplete="off"
+                >
+
+                <button id="chat-enviar">
+                    Enviar
+                </button>
+
+            </div>
+
+            <div id="chat-error"></div>
+
+            <div id="chat-registro" style="display:none;">
+
+    <h3>Registrar mi nick</h3>
+
+    <input
+        type="text"
+        id="registro-nick"
+        placeholder="Nick"
+        maxlength="20"
+        autocomplete="off"
+    >
+
+    <input
+        type="email"
+        id="registro-email"
+        placeholder="Correo electrónico"
+        autocomplete="email"
+    >
+
+    <input
+        type="password"
+        id="registro-password"
+        placeholder="Contraseña"
+        autocomplete="new-password"
+    >
+
+    <button id="registro-confirmar">
+        Registrar nick
+    </button>
+
+    <button id="registro-cancelar">
+        Cancelar
+    </button>
+
+    <div id="registro-error"></div>
+
+</div>
+
+        </div>
+
+    </div>
+    
+</section>
+
+<style>
+
+.chat-admin {
+    text-align: right;
+    margin-top: 10px;
+}
+
+#chat-admin-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #777;
+    padding: 6px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: .75rem;
+}
+
+#chat-admin-btn:hover {
+    color: #4fc3ff;
+    border-color: #4fc3ff;
+}
+
+.chat-login {
+    margin-top: 10px;
+    padding: 15px;
+    background: #181818;
+    border-radius: 10px;
+}
+
+.chat-login input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    padding: 10px;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 7px;
+    color: white;
+}
+
+#admin-login,
+#admin-logout {
+    background: #00aef0;
+    color: white;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+#admin-logout {
+    background: #444;
+}
+
+#admin-error {
+    color: #ff6b6b;
+    font-size: .8rem;
+    margin-top: 8px;
+}
+
+.chat-borrar {
+    float: right;
+    background: transparent;
+    border: none;
+    color: #777;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.chat-borrar:hover {
+    color: #ff5555;
+}
+
+/* ================================
+   CHAT SONOMIX RADIO
+================================ */
+
+#chat-radio {
+
+    width: 100%;
+    padding: 50px 20px;
+
+}
+
+.chat-radio-contenedor {
+
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+
+    background: #111;
+
+    border: 1px solid rgba(79,195,255,.25);
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 0 30px rgba(0,180,255,.12);
+
+}
+
+/* TITULO */
+
+#chat-radio h2 {
+
+    text-align: center;
+
+    color: #4fc3ff;
+
+    font-size: 2rem;
+
+    margin-bottom: 10px;
+
+}
+
+/* DESCRIPCION */
+
+.descripcion-chat {
+
+    text-align: center;
+
+    color: #ccc;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+
+}
+
+.chat-contenedor {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #222;
+}
+
+/* HEADER */
+
+
+.chat-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px 20px;
+
+    background: #181818;
+
+    border-radius: 12px 12px 0 0;
+
+    border-bottom: 1px solid #292929;
+
+}
+
+.chat-live {
+    color: #4caf50;
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.chat-titulo {
+    color: white;
+    font-weight: bold;
+}
+
+#chat-mensajes {
+    height: 450px;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+/* MENSAJES */
+
+.chat-mensajes {
+
+    height: 400px;
+
+    overflow-y: auto;
+
+    padding: 18px;
+
+    background: #0b0b0b;
+
+}
+
+/* MENSAJE */
+
+.chat-mensaje-item {
+    position: relative;
+    padding: 10px 40px 10px 10px;
+    margin-bottom: 8px;
+    background: #191919;
+    border-radius: 8px;
+}
+
+.chat-mensaje-usuario {
+    color: #4fc3ff;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+
+.chat-mensaje-hora {
+    color: #777;
+    font-size: 11px;
+}
+
+.chat-mensaje-texto {
+    color: #eee;
+    margin-top: 4px;
+    word-wrap: break-word;
+}
+
+.chat-form {
+    padding: 15px;
+    background: #181818;
+    border-top: 1px solid #292929;
+}
+
+/* CARGANDO */
+
+.chat-cargando {
+
+    text-align: center;
+
+    color: #777;
+
+    padding: 30px;
+
+}
+
+/* NOMBRE */
+
+.chat-nombre {
+
+    background: #111;
+
+    padding-top: 12px;
+
+}
+
+.chat-nombre input,
+.chat-escribir input {
+
+    width: 100%;
+
+    border: 1px solid #333;
+
+    background: #1b1b1b;
+
+    color: white;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    box-sizing: border-box;
+
+}
+
+.chat-nombre input:focus,
+.chat-escribir input:focus {
+
+    border-color: #4fc3ff;
+
+}
+
+/* ESCRIBIR */
+
+.chat-escribir {
+
+    display: flex;
+
+    gap: 10px;
+
+    padding-top: 10px;
+
+}
+
+.chat-escribir input {
+
+    flex: 1;
+
+}
+
+#chat-enviar {
+
+    border: none;
+
+    background: #00aef0;
+
+    color: white;
+
+    padding: 0 25px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+#chat-enviar:hover {
+
+    background: #008dcc;
+
+}
+
+/* ERROR */
+
+.chat-error {
+
+    color: #ff6b6b;
+
+    text-align: center;
+
+    font-size: .85rem;
+
+    margin-top: 10px;
+
+}
+
+/* SCROLL */
+
+.chat-mensajes::-webkit-scrollbar {
+
+    width: 7px;
+
+}
+
+.chat-mensajes::-webkit-scrollbar-track {
+
+    background: #0b0b0b;
+
+}
+
+.chat-mensajes::-webkit-scrollbar-thumb {
+
+    background: #333;
+
+    border-radius: 10px;
+
+}
+
+#chat-nombre,
+#chat-mensaje {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px;
+    border-radius: 7px;
+    border: 1px solid #333;
+    background: #222;
+    color: white;
+    outline: none;
+}
+
+#chat-nombre {
+    margin-bottom: 8px;
+}
+
+.chat-escribir {
+    display: flex;
+    gap: 8px;
+}
+
+.chat-escribir input {
+    flex: 1;
+}
+
+#chat-enviar {
+    padding: 0 20px;
+    border: none;
+    border-radius: 7px;
+    background: #00aef0;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#chat-enviar:hover {
+    opacity: .85;
+}
+
+#chat-error {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+
+    #chat-mensajes {
+        height: 400px;
+    }
+
+    .chat-escribir {
+        flex-direction: column;
+    }
+
+    #chat-enviar {
+        padding: 11px;
+    }
+
+}
+
+/* CELULARES */
+
+@media (max-width: 600px) {
+
+    #chat-radio {
+
+        padding: 30px 10px;
+
+    }
+
+    .chat-radio-contenedor {
+
+        padding: 15px;
+
+        border-radius: 15px;
+
+    }
+
+    .chat-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+    .chat-mensajes {
+
+        height: 350px;
+
+    }
+
+    .chat-escribir {
+
+        flex-direction: column;
+
+    }
+
+    #chat-enviar {
+
+        height: 45px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getAuth,
+    signInAnonymously,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    get,
+    runTransaction,
+    onChildAdded,
+    onChildRemoved,
+    query,
+    orderByChild,
+    limitToLast
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+    
+
+
+/* =====================================
+   FIREBASE
+===================================== */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCtfBnFo6dSLxj7MnK3HvdDMcfQhyPRDoI",
+
+    authDomain: "sonomix-radio-chat.firebaseapp.com",
+
+    projectId: "sonomix-radio-chat",
+
+    storageBucket: "sonomix-radio-chat.firebasestorage.app",
+
+    messagingSenderId: "313489578782",
+
+    appId: "1:313489578782:web:8fef3c9315edf5089a870f"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+
+/* =====================================
+   ELEMENTOS DEL CHAT
+===================================== */
+
+const mensajesDiv =
+    document.getElementById("chat-mensajes");
+
+const nombreInput =
+    document.getElementById("chat-nombre");
+
+const mensajeInput =
+    document.getElementById("chat-mensaje");
+
+const enviarBtn =
+    document.getElementById("chat-enviar");
+
+const errorDiv =
+    document.getElementById("chat-error");
+
+
+/* =====================================
+   ELEMENTOS REGISTRO / LOGIN
+===================================== */
+
+const registrarBtn =
+    document.getElementById("chat-registrar-nick");
+
+const loginBtn =
+    document.getElementById("chat-iniciar-sesion");
+
+const logoutBtn =
+    document.getElementById("chat-cerrar-sesion");
+
+
+/* =====================================
+   USUARIO ACTUAL
+===================================== */
+
+let usuarioFirebase = null;
+
+let usuarioRegistrado = false;
+
+
+/* =====================================
+   NORMALIZAR NICK
+===================================== */
+
+function normalizarNick(nombre) {
+
+    return nombre
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+
+}
+
+
+/* =====================================
+   NICK DE SONOMIX RADIO
+===================================== */
+
+function esNickReservado(nickKey) {
+
+    return nickKey === "sonomixradio";
+
+}
+
+
+/* =====================================
+   MOSTRAR MENSAJE
+===================================== */
+
+function mostrarMensaje(datos, mensajeId) {
+
+    if (!datos) {
+        return;
+    }
+
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "chat-mensaje-item";
+
+    item.dataset.id =
+        mensajeId;
+
+
+    const usuario =
+        document.createElement("span");
+
+    usuario.className =
+        "chat-mensaje-usuario";
+
+    usuario.textContent =
+        datos.nombre;
+
+
+    const hora =
+        document.createElement("span");
+
+    hora.className =
+        "chat-mensaje-hora";
+
+
+    const fecha =
+        new Date(
+            datos.timestamp || Date.now()
+        );
+
+
+    hora.textContent =
+        fecha.toLocaleTimeString(
+            "es-AR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    const texto =
+        document.createElement("div");
+
+    texto.className =
+        "chat-mensaje-texto";
+
+    texto.textContent =
+        datos.texto;
+
+
+    item.appendChild(usuario);
+
+    item.appendChild(hora);
+
+    item.appendChild(texto);
+
+    mensajesDiv.appendChild(item);
+
+
+    mensajesDiv.scrollTop =
+        mensajesDiv.scrollHeight;
+
+}
+
+
+/* =====================================
+   CARGAR MENSAJES
+===================================== */
+
+const mensajesRef =
+    ref(db, "chat/mensajes");
+
+
+const mensajesQuery =
+    query(
+        mensajesRef,
+        orderByChild("timestamp"),
+        limitToLast(100)
+    );
+
+
+onChildAdded(
+    mensajesQuery,
+    snapshot => {
+
+        mostrarMensaje(
+            snapshot.val(),
+            snapshot.key
+        );
+
+    }
+);
+
+
+/* =====================================
+   ELIMINAR MENSAJES EN TIEMPO REAL
+===================================== */
+
+onChildRemoved(
+    mensajesRef,
+    snapshot => {
+
+        const elemento =
+            document.querySelector(
+                `.chat-mensaje-item[data-id="${snapshot.key}"]`
+            );
+
+
+        if (elemento) {
+
+            elemento.remove();
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   RESERVAR NICK
+===================================== */
+
+async function reservarNick(nickKey) {
+
+    if (!usuarioFirebase) {
+
+        return false;
+
+    }
+
+
+    if (esNickReservado(nickKey)) {
+
+        return false;
+
+    }
+
+
+    const nickRef =
+        ref(
+            db,
+            "chat/usuarios/" + nickKey
+        );
+
+
+    try {
+
+        const resultado =
+            await runTransaction(
+                nickRef,
+                valorActual => {
+
+                    /*
+                     * Si el nick ya pertenece
+                     * a alguien, no lo modificamos.
+                     */
+
+                    if (valorActual !== null) {
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Nick libre.
+                     * Lo asociamos al usuario actual.
+                     */
+
+                    return usuarioFirebase.uid;
+
+                }
+            );
+
+
+        /*
+         * La transacción se canceló porque
+         * el nick ya estaba ocupado.
+         */
+
+        if (!resultado.committed) {
+
+            const existente =
+                await get(nickRef);
+
+
+            if (
+                existente.exists() &&
+                existente.val() ===
+                usuarioFirebase.uid
+            ) {
+
+                return true;
+
+            }
+
+
+            return false;
+
+        }
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Error reservando nick:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================
+   OBTENER NICK DEL USUARIO REGISTRADO
+===================================== */
+
+async function obtenerNickUsuario() {
+
+    if (!usuarioFirebase) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        const usuariosRef =
+            ref(db, "chat/usuarios");
+
+
+        const snapshot =
+            await get(usuariosRef);
+
+
+        if (!snapshot.exists()) {
+
+            return null;
+
+        }
+
+
+        let nickEncontrado = null;
+
+
+        snapshot.forEach(
+            hijo => {
+
+                if (
+                    hijo.val() ===
+                    usuarioFirebase.uid
+                ) {
+
+                    nickEncontrado =
+                        hijo.key;
+
+                }
+
+            }
+        );
+
+
+        return nickEncontrado;
+
+    } catch (error) {
+
+        console.error(error);
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================
+   ENVIAR MENSAJE
+===================================== */
+
+async function enviarMensaje() {
+
+    const nombre =
+        nombreInput.value.trim();
+
+    const texto =
+        mensajeInput.value.trim();
+
+
+    errorDiv.textContent = "";
+
+
+    if (!usuarioFirebase) {
+
+        errorDiv.textContent =
+            "Conectando con el chat...";
+
+        return;
+
+    }
+
+
+    if (!nombre) {
+
+        errorDiv.textContent =
+            "Escribí tu nombre o apodo.";
+
+        nombreInput.focus();
+
+        return;
+
+    }
+
+
+    if (nombre.length < 2) {
+
+        errorDiv.textContent =
+            "El nombre debe tener al menos 2 caracteres.";
+
+        return;
+
+    }
+
+
+    if (nombre.length > 20) {
+
+        errorDiv.textContent =
+            "El nombre no puede superar 20 caracteres.";
+
+        return;
+
+    }
+
+
+    if (!texto) {
+
+        mensajeInput.focus();
+
+        return;
+
+    }
+
+
+    if (texto.length > 250) {
+
+        errorDiv.textContent =
+            "El mensaje es demasiado largo.";
+
+        return;
+
+    }
+
+
+    const nickKey =
+        normalizarNick(nombre);
+
+
+    if (!nickKey) {
+
+        errorDiv.textContent =
+            "Ese nombre no es válido.";
+
+        return;
+
+    }
+
+
+    if (esNickReservado(nickKey)) {
+
+        errorDiv.textContent =
+            "Ese nombre está reservado para Sonomix Radio.";
+
+        return;
+
+    }
+
+
+    try {
+
+        /*
+         * Comprobamos / reservamos el nick.
+         */
+
+        const nickDisponible =
+            await reservarNick(nickKey);
+
+
+        if (!nickDisponible) {
+
+            errorDiv.textContent =
+                "Ese nick ya está siendo utilizado.";
+
+            return;
+
+        }
+
+
+        /*
+         * Guardamos el nick solamente
+         * en este navegador.
+         */
+
+        localStorage.setItem(
+            "sonomixChatNombre",
+            nombre
+        );
+
+
+        /*
+         * Guardamos el mensaje.
+         */
+
+        await push(
+            mensajesRef,
+            {
+
+                nombre: nombre,
+
+                texto: texto,
+
+                timestamp: Date.now(),
+
+                uid: usuarioFirebase.uid,
+
+                nickKey: nickKey
+
+            }
+        );
+
+
+        mensajeInput.value = "";
+
+        mensajeInput.focus();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        errorDiv.textContent =
+            "No se pudo enviar el mensaje.";
+
+    }
+
+}
+
+/* =====================================
+   REGISTRO DEL NICK
+===================================== */
+
+const registrarNickBtn =
+    document.getElementById("chat-registrar-nick");
+
+const registroBox =
+    document.getElementById("chat-registro");
+
+const registroNick =
+    document.getElementById("registro-nick");
+
+const registroEmail =
+    document.getElementById("registro-email");
+
+const registroPassword =
+    document.getElementById("registro-password");
+
+const registroConfirmar =
+    document.getElementById("registro-confirmar");
+
+const registroCancelar =
+    document.getElementById("registro-cancelar");
+
+const registroError =
+    document.getElementById("registro-error");
+
+
+/* ABRIR REGISTRO */
+
+registrarNickBtn.addEventListener(
+    "click",
+    () => {
+
+        registroError.textContent = "";
+
+        registroNick.value =
+            nombreInput.value.trim();
+
+        registroBox.style.display =
+            "block";
+
+        registroNick.focus();
+
+    }
+);
+
+
+/* CANCELAR */
+
+registroCancelar.addEventListener(
+    "click",
+    () => {
+
+        registroBox.style.display =
+            "none";
+
+        registroError.textContent = "";
+
+    }
+);
+
+
+/* REGISTRAR */
+
+registroConfirmar.addEventListener(
+    "click",
+    async () => {
+
+        registroError.textContent = "";
+
+        const nick =
+            registroNick.value.trim();
+
+        const email =
+            registroEmail.value.trim();
+
+        const password =
+            registroPassword.value;
+
+
+        if (!nick) {
+
+            registroError.textContent =
+                "Escribí el nick que querés registrar.";
+
+            return;
+
+        }
+
+
+        if (nick.length < 2) {
+
+            registroError.textContent =
+                "El nick debe tener al menos 2 caracteres.";
+
+            return;
+
+        }
+
+
+        if (nick.length > 20) {
+
+            registroError.textContent =
+                "El nick no puede superar 20 caracteres.";
+
+            return;
+
+        }
+
+
+        if (!email) {
+
+            registroError.textContent =
+                "Escribí tu correo electrónico.";
+
+            return;
+
+        }
+
+
+        if (!password || password.length < 6) {
+
+            registroError.textContent =
+                "La contraseña debe tener al menos 6 caracteres.";
+
+            return;
+
+        }
+
+
+        const nickKey =
+            normalizarNick(nick);
+
+
+        if (!nickKey) {
+
+            registroError.textContent =
+                "Ese nick no es válido.";
+
+            return;
+
+        }
+
+
+        if (esNickReservado(nickKey)) {
+
+            registroError.textContent =
+                "Ese nick está reservado para Sonomix Radio.";
+
+            return;
+
+        }
+
+
+        try {
+
+            const nickDisponible =
+                await reservarNick(nickKey);
+
+
+            if (!nickDisponible) {
+
+                registroError.textContent =
+                    "Ese nick ya está siendo utilizado.";
+
+                return;
+
+            }
+
+
+            const credential =
+                EmailAuthProvider.credential(
+                    email,
+                    password
+                );
+
+
+            await linkWithCredential(
+                auth.currentUser,
+                credential
+            );
+
+
+            localStorage.setItem(
+                "sonomixChatNombre",
+                nick
+            );
+
+
+            nombreInput.value =
+                nick;
+
+
+            registroBox.style.display =
+                "none";
+
+
+            registroEmail.value = "";
+
+            registroPassword.value = "";
+
+
+            errorDiv.textContent =
+                "Nick registrado correctamente.";
+
+            errorDiv.style.color =
+                "#4caf50";
+
+
+        } catch (error) {
+
+            console.error(
+                "ERROR REGISTRANDO NICK:",
+                error
+            );
+
+
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
+                registroError.textContent =
+                    "Ese correo ya está registrado. Probá iniciar sesión.";
+
+                return;
+
+            }
+
+
+            if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                registroError.textContent =
+                    "El correo electrónico no es válido.";
+
+                return;
+
+            }
+
+
+            if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
+                registroError.textContent =
+                    "La contraseña debe tener al menos 6 caracteres.";
+
+                return;
+
+            }
+
+
+            registroError.textContent =
+                "No se pudo registrar el nick.";
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   BOTÓN ENVIAR
+===================================== */
+
+if (enviarBtn) {
+
+    enviarBtn.addEventListener(
+        "click",
+        enviarMensaje
+    );
+
+}
+
+
+/* =====================================
+   ENTER
+===================================== */
+
+if (mensajeInput) {
+
+    mensajeInput.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                enviarMensaje();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   REGISTRAR CUENTA
+===================================== */
+
+if (registrarBtn) {
+
+    registrarBtn.addEventListener(
+        "click",
+        async () => {
+
+            const nombre =
+                nombreInput.value.trim();
+
+
+            if (!nombre) {
+
+                errorDiv.textContent =
+                    "Primero escribí el nick que querés registrar.";
+
+                nombreInput.focus();
+
+                return;
+
+            }
+
+
+            const nickKey =
+                normalizarNick(nombre);
+
+
+            if (!nickKey) {
+
+                errorDiv.textContent =
+                    "Ese nick no es válido.";
+
+                return;
+
+            }
+
+
+            if (esNickReservado(nickKey)) {
+
+                errorDiv.textContent =
+                    "Ese nick está reservado para Sonomix Radio.";
+
+                return;
+
+            }
+
+
+            const correo =
+                prompt(
+                    "Ingresá tu correo electrónico:"
+                );
+
+
+            if (!correo) {
+
+                return;
+
+            }
+
+
+            const contraseña =
+                prompt(
+                    "Creá una contraseña de al menos 6 caracteres:"
+                );
+
+
+            if (!contraseña) {
+
+                return;
+
+            }
+
+
+            if (contraseña.length < 6) {
+
+                errorDiv.textContent =
+                    "La contraseña debe tener al menos 6 caracteres.";
+
+                return;
+
+            }
+
+
+            try {
+
+                /*
+                 * Primero verificamos si el nick
+                 * está disponible.
+                 */
+
+                const disponible =
+                    await reservarNick(nickKey);
+
+
+                if (!disponible) {
+
+                    errorDiv.textContent =
+                        "Ese nick ya está siendo utilizado.";
+
+                    return;
+
+                }
+
+
+                /*
+                 * Creamos la cuenta.
+                 */
+
+                const resultado =
+                    await createUserWithEmailAndPassword(
+                        auth,
+                        correo.trim(),
+                        contraseña
+                    );
+
+
+                /*
+                 * La cuenta recién creada pasa
+                 * a ser el propietario del nick.
+                 */
+
+                const nuevoUsuario =
+                    resultado.user;
+
+
+                await set(
+                    ref(
+                        db,
+                        "chat/usuarios/" + nickKey
+                    ),
+                    nuevoUsuario.uid
+                );
+
+
+                usuarioFirebase =
+                    nuevoUsuario;
+
+
+                usuarioRegistrado =
+                    true;
+
+
+                localStorage.setItem(
+                    "sonomixChatNombre",
+                    nombre
+                );
+
+
+                nombreInput.value =
+                    nombre;
+
+
+                errorDiv.textContent =
+                    "Nick registrado correctamente.";
+
+                actualizarBotones();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                /*
+                 * Si el correo ya existe.
+                 */
+
+                if (
+                    error.code ===
+                    "auth/email-already-in-use"
+                ) {
+
+                    errorDiv.textContent =
+                        "Ese correo ya está registrado. Usá 'Iniciar sesión'.";
+
+                } else {
+
+                    errorDiv.textContent =
+                        "No se pudo registrar el nick: " +
+                        error.message;
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   INICIAR SESIÓN
+===================================== */
+
+if (loginBtn) {
+
+    loginBtn.addEventListener(
+        "click",
+        async () => {
+
+            const correo =
+                prompt(
+                    "Ingresá tu correo:"
+                );
+
+
+            if (!correo) {
+
+                return;
+
+            }
+
+
+            const contraseña =
+                prompt(
+                    "Ingresá tu contraseña:"
+                );
+
+
+            if (!contraseña) {
+
+                return;
+
+            }
+
+
+            try {
+
+                /*
+                 * Cerramos primero la sesión
+                 * anónima si existe.
+                 */
+
+                if (
+                    auth.currentUser &&
+                    auth.currentUser.isAnonymous
+                ) {
+
+                    await signOut(auth);
+
+                }
+
+
+                const resultado =
+                    await signInWithEmailAndPassword(
+                        auth,
+                        correo.trim(),
+                        contraseña
+                    );
+
+
+                usuarioFirebase =
+                    resultado.user;
+
+
+                usuarioRegistrado =
+                    true;
+
+
+                /*
+                 * Buscamos el nick asociado
+                 * a esta cuenta.
+                 */
+
+                const nick =
+                    await obtenerNickUsuario();
+
+
+                if (nick) {
+
+                    nombreInput.value =
+                        nick;
+
+                    localStorage.setItem(
+                        "sonomixChatNombre",
+                        nick
+                    );
+
+                }
+
+
+                errorDiv.textContent =
+                    "Sesión iniciada correctamente.";
+
+                actualizarBotones();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                errorDiv.textContent =
+                    "Correo o contraseña incorrectos.";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   CERRAR SESIÓN
+===================================== */
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await signOut(auth);
+
+
+                usuarioRegistrado =
+                    false;
+
+
+                /*
+                 * Volvemos a entrar como invitado.
+                 */
+
+                await signInAnonymously(auth);
+
+
+                errorDiv.textContent =
+                    "Volviste a entrar como invitado.";
+
+                actualizarBotones();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   ACTUALIZAR BOTONES
+===================================== */
+
+function actualizarBotones() {
+
+    if (registrarBtn) {
+
+        registrarBtn.style.display =
+            usuarioRegistrado
+                ? "none"
+                : "inline-block";
+
+    }
+
+
+    if (loginBtn) {
+
+        loginBtn.style.display =
+            usuarioRegistrado
+                ? "none"
+                : "inline-block";
+
+    }
+
+
+    if (logoutBtn) {
+
+        logoutBtn.style.display =
+            usuarioRegistrado
+                ? "inline-block"
+                : "none";
+
+    }
+
+}
+
+
+/* =====================================
+   AUTENTICACIÓN
+===================================== */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        console.log(
+            "Estado Firebase Auth:",
+            user
+        );
+
+
+        usuarioFirebase =
+            user;
+
+
+        if (!user) {
+
+            console.log(
+                "No hay usuario. Conectando como invitado..."
+            );
+
+
+            usuarioRegistrado =
+                false;
+
+
+            actualizarBotones();
+
+
+            try {
+
+                await signInAnonymously(auth);
+
+            } catch (error) {
+
+                console.error(error);
+
+                errorDiv.textContent =
+                    "No se pudo conectar con el chat.";
+
+            }
+
+
+            return;
+
+        }
+
+
+        console.log(
+            "Usuario autenticado:",
+            user.uid
+        );
+
+
+        /*
+         * Firebase indica si es anónimo.
+         */
+
+        usuarioRegistrado =
+            !user.isAnonymous;
+
+
+        /*
+         * Si es una cuenta registrada,
+         * buscamos automáticamente su nick.
+         */
+
+        if (usuarioRegistrado) {
+
+            const nick =
+                await obtenerNickUsuario();
+
+
+            if (nick) {
+
+                nombreInput.value =
+                    nick;
+
+                localStorage.setItem(
+                    "sonomixChatNombre",
+                    nick
+                );
+
+            }
+
+        } else {
+
+            /*
+             * Usuario invitado:
+             * recuperamos el nick guardado
+             * solamente en este navegador.
+             */
+
+            const nombreGuardado =
+                localStorage.getItem(
+                    "sonomixChatNombre"
+                );
+
+
+            if (nombreGuardado) {
+
+                nombreInput.value =
+                    nombreGuardado;
+
+            }
+
+        }
+
+
+        enviarBtn.disabled =
+            false;
+
+
+        errorDiv.textContent = "";
+
+
+        actualizarBotones();
+
+    }
+);
+
+
+/* =====================================
+   ESTADO INICIAL DE BOTONES
+===================================== */
+
+actualizarBotones();
+
+</script>
+    
+<section id="programacion">
+    <h2>Programación</h2>
+    <p class="descripcion-chat">
+        Conocé nuestra programación y los programas de Sonomix Radio.
+    </p>
+
+    <div class="galeria-programacion">
+
+        <div class="programa">
+            <img src="programacion.png" alt="programacion">
+        </div>
+
+        
+
+    </div>
+</section>
+
+<section id="contacto">
+  <h2>Contacto</h2>
+  <p class="texto-contacto">
+Podés comunicarte con nosotros enviando un correo a <strong>sonomixradio@gmail.com</strong> o completando el formulario de contacto. Estaremos respondiendo a la brevedad.
+</p>
+
+  <form id="form-contacto" action="https://formspree.io/f/xzdagkze" method="POST">
+    <input type="text" name="nombre" placeholder="Tu nombre" required>
+    <input type="email" name="email" placeholder="Tu email" required>
+    <textarea name="mensaje" placeholder="Tu mensaje" required></textarea>
+    
+    <button type="submit">Enviar mensaje</button>
+  </form>
+
+  <p id="mensaje-enviado" style="display:none; color:green; font-weight:bold; margin-top:10px;">
+    Mensaje enviado
+  </p>
+</section>
+<section class="redes" id="redes">
+    <h2>Seguinos</h2>
+
+    <a href="https://www.facebook.com/sonomixradio" target="_blank" class="social-btn facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="https://www.instagram.com/sonomixradio" target="_blank" class="social-btn instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <a href="https://x.com/sonomixradio" target="_blank" class="social-btn x">
+        <i class="fab fa-x-twitter"></i>
+    </a>
+
+    <a href="https://www.tiktok.com/@sonomixradio" target="_blank" class="social-btn tiktok">
+        <i class="fab fa-tiktok"></i>
+    </a>
+
+    <a href="https://wa.me/5493417124316" target="_blank" class="social-btn whatsapp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</section>
+
+<footer>
+    <div class="footer-text">
+        <p>© 2026 Sonomix Radio</p>
+        <p>Todos los derechos reservados.</p>
+    </div>
+</footer>
+<script>
+function toggleMenu(){
+    const menu = document.getElementById("menu");
+    const icon = document.querySelector(".hamburger i");
+
+    menu.classList.toggle("active");
+
+    if(menu.classList.contains("active")){
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-xmark");
+    }else{
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+    }
+}
+const menuLinks = document.querySelectorAll("#menu a");
+const icon = document.querySelector(".hamburger i");
+
+menuLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        document.getElementById("menu").classList.remove("active");
+
+        // volver icono a hamburguesa
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+    });
+});
+
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+const volume = document.getElementById("volume");
+const song = document.getElementById("song");
+const artist = document.getElementById("artist");
+const container = document.getElementById("songContainer");
+const logo = document.querySelector(".logo img");
+
+audio.volume = volume.value;
+
+playBtn.onclick = () => {
+    if(audio.paused){
+        audio.play();
+        playBtn.innerHTML='<i class="fa-solid fa-pause"></i>';
+        logo.style.animationPlayState = "running";
+    }else{
+        audio.pause();
+        playBtn.innerHTML='<i class="fa-solid fa-play"></i>';
+        logo.style.animationPlayState = "paused";
+    }
+};
+
+volume.oninput = () => audio.volume = volume.value;
+
+function loadMetadata(){
+    fetch("https://s2.servicioderadio.com/cp/get_info.php?p=8664")
+    .then(r=>r.json())
+    .then(data=>{
+        const title = data.title || "En vivo";
+        song.textContent = title;
+        artist.textContent = data.artist || "";
+
+        // Forzar recalculo real del ancho (evita que quede quieto)
+        container.classList.remove("scroll");
+
+        // Espera a que el texto se renderice correctamente
+        requestAnimationFrame(() => {
+            const textWidth = song.scrollWidth;
+            const containerWidth = container.clientWidth;
+
+            // Si el texto es más largo que el reproductor, activa movimiento
+            if(textWidth > containerWidth){
+                container.classList.add("scroll");
+            }
+        });
+    })
+    .catch(()=>{
+        song.textContent="En vivo";
+        artist.textContent="";
+        container.classList.remove("scroll");
+    });
+}
+
+loadMetadata();
+setInterval(loadMetadata,15000);
+</script>
+
+
+
+<script>
+const form = document.getElementById("form-contacto");
+const mensaje = document.getElementById("mensaje-enviado");
+
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const data = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      form.reset();
+      
+      // Mostrar mensaje
+      mensaje.style.display = "block";
+
+      // Ocultarlo después de 4 segundos
+      setTimeout(() => {
+        mensaje.style.display = "none";
+      }, 4000);
+
+    } else {
+      alert("Error al enviar el mensaje");
+    }
+  } catch (error) {
+    alert("Error de conexión");
+  }
+});
+</script>
+
+
+</body>
+</html>
