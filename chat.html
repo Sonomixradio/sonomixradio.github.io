@@ -1,657 +1,429 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Chat - Sonomix Radio</title>
 
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
->
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-    rel="stylesheet"
->
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
 
 <style>
 
-:root {
-    --main: #4fc3ff;
-    --bg1: #0b1220;
-    --bg2: #151d33;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+body{
 
-body {
-
-    min-height: 100vh;
+    min-height:100vh;
 
     background:
         linear-gradient(
             180deg,
-            var(--bg1),
-            var(--bg2)
+            #0b1220,
+            #151d33
         );
 
-    color: white;
+    color:white;
 
 }
 
-
-/* =====================================
+/* ================================
    CONTENEDOR PRINCIPAL
-===================================== */
+================================ */
 
-#chat-radio {
+#chat-radio{
 
-    width: 100%;
+    width:100%;
 
-    min-height: 100vh;
+    min-height:100vh;
 
-    padding: 40px 15px;
+    padding:50px 20px;
 
 }
 
-
-/* =====================================
+/* ================================
    TITULO
-===================================== */
+================================ */
 
-#chat-radio h2 {
+#chat-radio h2{
 
-    text-align: center;
+    text-align:center;
 
-    color: #4fc3ff;
+    color:#4fc3ff;
 
-    font-size: 2rem;
+    font-size:2rem;
 
-    margin-bottom: 10px;
+    margin-bottom:10px;
 
 }
 
-
-/* =====================================
+/* ================================
    DESCRIPCION
-===================================== */
+================================ */
 
-.descripcion-chat {
+.descripcion-chat{
 
-    max-width: 800px;
+    max-width:800px;
 
-    margin: 0 auto 25px;
+    margin:0 auto 25px;
 
-    text-align: center;
+    text-align:center;
 
-    color: #ccc;
+    color:#ccc;
 
-    line-height: 1.6;
+    line-height:1.6;
 
-    font-size: 15px;
+    padding:0 5px;
 
 }
 
-
-/* =====================================
+/* ================================
    CONTENEDOR CHAT
-===================================== */
+================================ */
 
-.chat-contenedor {
+.chat-contenedor{
 
-    width: 100%;
+    width:100%;
 
-    max-width: 900px;
+    max-width:900px;
 
-    margin: 30px auto;
+    margin:30px auto;
 
-    background: #111;
+    background:#111;
 
-    border-radius: 15px;
+    border-radius:15px;
 
-    overflow: hidden;
+    overflow:hidden;
 
-    border: 1px solid #222;
+    border:1px solid #222;
 
     box-shadow:
         0 0 30px rgba(0,180,255,.12);
 
 }
 
-
-/* =====================================
+/* ================================
    HEADER
-===================================== */
+================================ */
 
-.chat-header {
+.chat-header{
 
-    display: flex;
+    display:flex;
 
-    justify-content: space-between;
+    justify-content:space-between;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 15px;
+    gap:15px;
 
-    padding: 15px 20px;
+    padding:15px 20px;
 
-    background: #181818;
+    background:#181818;
 
-    border-bottom: 1px solid #292929;
-
-}
-
-
-.chat-live {
-
-    color: #4caf50;
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-    margin-right: 10px;
+    border-bottom:1px solid #292929;
 
 }
 
+.chat-live{
 
-.chat-titulo {
+    color:#4caf50;
 
-    color: white;
+    font-size:13px;
 
-    font-weight: bold;
+    font-weight:bold;
+
+    margin-right:10px;
 
 }
 
+.chat-titulo{
 
-/* =====================================
+    color:white;
+
+    font-weight:bold;
+
+}
+
+/* ================================
    MENSAJES
-===================================== */
+================================ */
 
-#chat-mensajes {
+#chat-mensajes{
 
-    height: 450px;
+    height:450px;
 
-    overflow-y: auto;
+    overflow-y:auto;
 
-    padding: 15px;
+    padding:15px;
 
-    background: #0b0b0b;
-
-}
-
-
-/* =====================================
-   MENSAJE INDIVIDUAL
-===================================== */
-
-.chat-mensaje-item {
-
-    position: relative;
-
-    padding: 10px 40px 10px 10px;
-
-    margin-bottom: 8px;
-
-    background: #191919;
-
-    border-radius: 8px;
+    background:#0b0b0b;
 
 }
 
+/* ================================
+   MENSAJE
+================================ */
 
-.chat-mensaje-usuario {
+.chat-mensaje-item{
 
-    color: #4fc3ff;
+    position:relative;
 
-    font-weight: bold;
+    padding:10px 40px 10px 10px;
 
-    margin-right: 8px;
+    margin-bottom:8px;
 
-}
+    background:#191919;
 
-
-.chat-mensaje-hora {
-
-    color: #777;
-
-    font-size: 11px;
+    border-radius:8px;
 
 }
 
+.chat-mensaje-usuario{
 
-.chat-mensaje-texto {
+    color:#4fc3ff;
 
-    color: #eee;
+    font-weight:bold;
 
-    margin-top: 4px;
-
-    word-wrap: break-word;
+    margin-right:8px;
 
 }
 
+.chat-mensaje-hora{
 
-/* =====================================
+    color:#777;
+
+    font-size:11px;
+
+}
+
+.chat-mensaje-texto{
+
+    color:#eee;
+
+    margin-top:4px;
+
+    word-wrap:break-word;
+
+}
+
+/* ================================
    FORMULARIO
-===================================== */
+================================ */
 
-.chat-form {
+.chat-form{
 
-    padding: 15px;
+    padding:15px;
 
-    background: #181818;
+    background:#181818;
 
-    border-top: 1px solid #292929;
-
-}
-
-
-/* =====================================
-   NOMBRE
-===================================== */
-
-#chat-nombre {
-
-    width: 100%;
-
-    padding: 11px;
-
-    margin-bottom: 8px;
-
-    border-radius: 7px;
-
-    border: 1px solid #333;
-
-    background: #222;
-
-    color: white;
-
-    outline: none;
+    border-top:1px solid #292929;
 
 }
 
+/* NOMBRE */
 
-#chat-nombre:focus {
+#chat-nombre{
 
-    border-color: #4fc3ff;
+    width:100%;
 
-}
+    padding:11px;
 
+    margin-bottom:8px;
 
-/* =====================================
-   CUENTA
-===================================== */
+    border-radius:7px;
 
-.chat-cuenta {
+    border:1px solid #333;
 
-    display: flex;
+    background:#222;
 
-    flex-wrap: wrap;
+    color:white;
 
-    gap: 8px;
-
-    margin-bottom: 8px;
+    outline:none;
 
 }
 
+#chat-nombre:focus{
 
-.chat-cuenta button {
-
-    border: none;
-
-    padding: 8px 12px;
-
-    border-radius: 7px;
-
-    background: #252525;
-
-    color: #ddd;
-
-    cursor: pointer;
-
-    font-size: 12px;
-
-    transition: .2s;
+    border-color:#4fc3ff;
 
 }
 
-
-.chat-cuenta button:hover {
-
-    background: #333;
-
-    color: #4fc3ff;
-
-}
-
-
-/* =====================================
+/* ================================
    ESCRIBIR
-===================================== */
+================================ */
 
-.chat-escribir {
+.chat-escribir{
 
-    display: flex;
+    display:flex;
 
-    gap: 8px;
-
-}
-
-
-#chat-mensaje {
-
-    flex: 1;
-
-    box-sizing: border-box;
-
-    width: 100%;
-
-    padding: 11px;
-
-    border-radius: 7px;
-
-    border: 1px solid #333;
-
-    background: #222;
-
-    color: white;
-
-    outline: none;
+    gap:8px;
 
 }
 
+#chat-mensaje{
 
-#chat-mensaje:focus {
+    flex:1;
 
-    border-color: #4fc3ff;
+    width:100%;
 
-}
+    padding:11px;
 
+    border-radius:7px;
 
-#chat-enviar {
+    border:1px solid #333;
 
-    padding: 0 20px;
+    background:#222;
 
-    border: none;
+    color:white;
 
-    border-radius: 7px;
-
-    background: #00aef0;
-
-    color: white;
-
-    cursor: pointer;
-
-    font-weight: bold;
-
-    transition: .2s;
+    outline:none;
 
 }
 
+#chat-mensaje:focus{
 
-#chat-enviar:hover {
-
-    background: #008dcc;
-
-}
-
-
-#chat-enviar:disabled {
-
-    opacity: .5;
-
-    cursor: not-allowed;
+    border-color:#4fc3ff;
 
 }
 
+/* ================================
+   BOTON ENVIAR
+================================ */
 
-/* =====================================
-   ERROR / MENSAJES DE ESTADO
-===================================== */
+#chat-enviar{
 
-#chat-error {
+    padding:0 20px;
 
-    color: #ff6b6b;
+    border:none;
 
-    font-size: 12px;
+    border-radius:7px;
 
-    margin-top: 8px;
+    background:#00aef0;
 
-}
+    color:white;
 
+    cursor:pointer;
 
-/* =====================================
-   REGISTRO
-===================================== */
+    font-weight:bold;
 
-#chat-registro {
-
-    margin-top: 15px;
-
-    padding: 15px;
-
-    background: #111;
-
-    border: 1px solid #333;
-
-    border-radius: 10px;
+    transition:.2s;
 
 }
 
+#chat-enviar:hover{
 
-#chat-registro h3 {
-
-    color: #4fc3ff;
-
-    margin-bottom: 15px;
-
-    text-align: center;
+    background:#008dcc;
 
 }
 
+#chat-enviar:disabled{
 
-#chat-registro input {
+    opacity:.5;
 
-    width: 100%;
-
-    box-sizing: border-box;
-
-    margin-bottom: 8px;
-
-    padding: 10px;
-
-    background: #222;
-
-    border: 1px solid #333;
-
-    border-radius: 7px;
-
-    color: white;
-
-    outline: none;
+    cursor:not-allowed;
 
 }
 
+/* ================================
+   ERROR
+================================ */
 
-#chat-registro input:focus {
+#chat-error{
 
-    border-color: #4fc3ff;
+    color:#ff6b6b;
 
-}
+    font-size:12px;
 
-
-#registro-confirmar,
-#registro-cancelar {
-
-    border: none;
-
-    padding: 10px 15px;
-
-    border-radius: 7px;
-
-    cursor: pointer;
-
-    margin-right: 5px;
-
-    margin-top: 5px;
+    margin-top:8px;
 
 }
 
-
-#registro-confirmar {
-
-    background: #00aef0;
-
-    color: white;
-
-}
-
-
-#registro-cancelar {
-
-    background: #444;
-
-    color: white;
-
-}
-
-
-#registro-error {
-
-    color: #ff6b6b;
-
-    font-size: 12px;
-
-    margin-top: 10px;
-
-}
-
-
-/* =====================================
+/* ================================
    SCROLL
-===================================== */
+================================ */
 
-#chat-mensajes::-webkit-scrollbar {
+#chat-mensajes::-webkit-scrollbar{
 
-    width: 7px;
-
-}
-
-
-#chat-mensajes::-webkit-scrollbar-track {
-
-    background: #0b0b0b;
+    width:7px;
 
 }
 
+#chat-mensajes::-webkit-scrollbar-track{
 
-#chat-mensajes::-webkit-scrollbar-thumb {
-
-    background: #333;
-
-    border-radius: 10px;
+    background:#0b0b0b;
 
 }
 
+#chat-mensajes::-webkit-scrollbar-thumb{
 
-/* =====================================
-   CELULARES
-===================================== */
+    background:#333;
 
-@media (max-width: 600px) {
-
-    #chat-radio {
-
-        padding: 25px 10px;
-
-    }
-
-    #chat-radio h2 {
-
-        font-size: 1.6rem;
-
-    }
-
-    .descripcion-chat {
-
-        font-size: 14px;
-
-        padding: 0 5px;
-
-    }
-
-    .chat-contenedor {
-
-        margin: 20px auto;
-
-        border-radius: 12px;
-
-    }
-
-    #chat-mensajes {
-
-        height: 400px;
-
-    }
-
-    .chat-header {
-
-        padding: 14px;
-
-    }
-
-    .chat-form {
-
-        padding: 12px;
-
-    }
-
-    .chat-escribir {
-
-        flex-direction: column;
-
-    }
-
-    #chat-enviar {
-
-        height: 45px;
-
-    }
-
-    .chat-cuenta {
-
-        flex-direction: column;
-
-    }
-
-    .chat-cuenta button {
-
-        width: 100%;
-
-    }
+    border-radius:10px;
 
 }
 
+/* ================================
+   MOVIL
+================================ */
 
-/* =====================================
-   MUY PEQUEÑOS
-===================================== */
+@media(max-width:600px){
 
-@media (max-width: 400px) {
+    #chat-radio{
 
-    #chat-mensajes {
+        padding:30px 10px;
 
-        height: 350px;
+    }
+
+    #chat-radio h2{
+
+        font-size:24px;
+
+    }
+
+    .descripcion-chat{
+
+        font-size:14px;
+
+    }
+
+    .chat-contenedor{
+
+        margin:20px auto;
+
+        border-radius:12px;
+
+    }
+
+    .chat-header{
+
+        padding:13px 15px;
+
+    }
+
+    #chat-mensajes{
+
+        height:400px;
+
+        padding:12px;
+
+    }
+
+    .chat-escribir{
+
+        flex-direction:column;
+
+    }
+
+    #chat-enviar{
+
+        height:45px;
 
     }
 
@@ -660,7 +432,6 @@ body {
 </style>
 
 </head>
-
 
 <body>
 
@@ -672,8 +443,8 @@ body {
     <p class="descripcion-chat">
 
         Sumate al chat en vivo y conectate con otros oyentes
-        de Sonomix Radio. Compartí mensajes, saludos y
-        viví la experiencia de la radio en tiempo real.
+        de Sonomix Radio. Compartí mensajes, saludos y viví
+        la experiencia de la radio en tiempo real.
 
     </p>
 
@@ -712,54 +483,45 @@ body {
         <div class="chat-form">
 
 
-            <!-- NOMBRE -->
-
             <input
+
                 type="text"
+
                 id="chat-nombre"
+
                 placeholder="Tu nombre o apodo"
+
                 maxlength="20"
+
                 autocomplete="off"
+
             >
 
 
-            <!-- CUENTA -->
-
-            <div class="chat-cuenta">
-
-                <button id="chat-registrar-nick">
-                    📝 Registrar mi nick
-                </button>
-
-                <button id="chat-iniciar-sesion">
-                    🔐 Iniciar sesión
-                </button>
-
-                <button
-                    id="chat-cerrar-sesion"
-                    style="display:none;"
-                >
-                    🚪 Cerrar sesión
-                </button>
-
-            </div>
-
-
-            <!-- ESCRIBIR -->
-
             <div class="chat-escribir">
 
+
                 <input
+
                     type="text"
+
                     id="chat-mensaje"
+
                     placeholder="Escribí tu mensaje..."
+
                     maxlength="250"
+
                     autocomplete="off"
+
                 >
 
+
                 <button id="chat-enviar">
+
                     Enviar
+
                 </button>
+
 
             </div>
 
@@ -767,80 +529,23 @@ body {
             <div id="chat-error"></div>
 
 
-            <!-- REGISTRO -->
-
-            <div
-                id="chat-registro"
-                style="display:none;"
-            >
-
-                <h3>
-                    Registrar mi nick
-                </h3>
-
-
-                <input
-                    type="text"
-                    id="registro-nick"
-                    placeholder="Nick"
-                    maxlength="20"
-                    autocomplete="off"
-                >
-
-
-                <input
-                    type="email"
-                    id="registro-email"
-                    placeholder="Correo electrónico"
-                    autocomplete="email"
-                >
-
-
-                <input
-                    type="password"
-                    id="registro-password"
-                    placeholder="Contraseña"
-                    autocomplete="new-password"
-                >
-
-
-                <button id="registro-confirmar">
-                    Registrar nick
-                </button>
-
-
-                <button id="registro-cancelar">
-                    Cancelar
-                </button>
-
-
-                <div id="registro-error"></div>
-
-            </div>
-
-
         </div>
+
 
     </div>
 
 </section>
 
 
-
-<!-- =====================================
+<!-- =================================
      FIREBASE
-===================================== -->
+================================= -->
 
 <script type="module">
 
+import { initializeApp }
 
-import {
-
-    initializeApp
-
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
 import {
@@ -849,21 +554,11 @@ import {
 
     signInAnonymously,
 
-    onAuthStateChanged,
-
-    createUserWithEmailAndPassword,
-
-    signInWithEmailAndPassword,
-
-    signOut,
-
-    EmailAuthProvider,
-
-    linkWithCredential
+    onAuthStateChanged
 
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
@@ -873,12 +568,6 @@ import {
     ref,
 
     push,
-
-    set,
-
-    get,
-
-    runTransaction,
 
     onChildAdded,
 
@@ -891,14 +580,13 @@ import {
     limitToLast
 
 }
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-
-/* =====================================
+/* ================================
    FIREBASE
-===================================== */
+================================ */
 
 const firebaseConfig = {
 
@@ -935,10 +623,9 @@ const db =
     getDatabase(app);
 
 
-
-/* =====================================
+/* ================================
    ELEMENTOS
-===================================== */
+================================ */
 
 const mensajesDiv =
     document.getElementById(
@@ -970,96 +657,106 @@ const errorDiv =
     );
 
 
-const registrarBtn =
-    document.getElementById(
-        "chat-registrar-nick"
-    );
-
-
-const loginBtn =
-    document.getElementById(
-        "chat-iniciar-sesion"
-    );
-
-
-const logoutBtn =
-    document.getElementById(
-        "chat-cerrar-sesion"
-    );
-
-
-
-/* =====================================
-   REGISTRO
-===================================== */
-
-const registroBox =
-    document.getElementById(
-        "chat-registro"
-    );
-
-
-const registroNick =
-    document.getElementById(
-        "registro-nick"
-    );
-
-
-const registroEmail =
-    document.getElementById(
-        "registro-email"
-    );
-
-
-const registroPassword =
-    document.getElementById(
-        "registro-password"
-    );
-
-
-const registroConfirmar =
-    document.getElementById(
-        "registro-confirmar"
-    );
-
-
-const registroCancelar =
-    document.getElementById(
-        "registro-cancelar"
-    );
-
-
-const registroError =
-    document.getElementById(
-        "registro-error"
-    );
-
-
-
-/* =====================================
-   USUARIO
-===================================== */
+/* ================================
+   USUARIO FIREBASE
+================================ */
 
 let usuarioFirebase = null;
 
-let usuarioRegistrado = false;
+
+/* ================================
+   NOMBRE GUARDADO
+================================ */
+
+const nombreGuardado =
+    localStorage.getItem(
+        "sonomixChatNombre"
+    );
 
 
+if(nombreGuardado){
 
-/* =====================================
-   NORMALIZAR NICK
-===================================== */
+    nombreInput.value =
+        nombreGuardado;
 
-function normalizarNick(nombre) {
+}
+
+
+/* ================================
+   AUTENTICACION ANONIMA
+================================ */
+
+signInAnonymously(auth)
+
+.catch(error => {
+
+    console.error(
+        "ERROR FIREBASE:",
+        error
+    );
+
+    errorDiv.textContent =
+        "No se pudo conectar con el chat.";
+
+});
+
+
+/* ================================
+   ESTADO AUTENTICACION
+================================ */
+
+onAuthStateChanged(
+
+    auth,
+
+    user => {
+
+        usuarioFirebase =
+            user;
+
+
+        if(user){
+
+            enviarBtn.disabled =
+                false;
+
+            errorDiv.textContent =
+                "";
+
+        }else{
+
+            enviarBtn.disabled =
+                true;
+
+            errorDiv.textContent =
+                "Conectando con el chat...";
+
+        }
+
+    }
+
+);
+
+
+/* ================================
+   NORMALIZAR NOMBRE
+================================ */
+
+function normalizarNick(nombre){
 
     return nombre
+
         .trim()
+
         .toLowerCase()
+
         .normalize("NFD")
+
         .replace(
             /[\u0300-\u036f]/g,
             ""
         )
+
         .replace(
             /[^a-z0-9]/g,
             ""
@@ -1068,29 +765,34 @@ function normalizarNick(nombre) {
 }
 
 
-
-/* =====================================
-   NICK RESERVADO
-===================================== */
-
-function esNickReservado(nickKey) {
-
-    return nickKey === "sonomixradio";
-
-}
-
-
-
-/* =====================================
+/* ================================
    MOSTRAR MENSAJE
-===================================== */
+================================ */
 
 function mostrarMensaje(
-    datos,
-    mensajeId
-) {
 
-    if (!datos) {
+    datos,
+
+    mensajeId
+
+){
+
+    if(!datos){
+
+        return;
+
+    }
+
+
+    /* Evitar duplicados */
+
+    const existente =
+        document.querySelector(
+            `.chat-mensaje-item[data-id="${mensajeId}"]`
+        );
+
+
+    if(existente){
 
         return;
 
@@ -1111,6 +813,8 @@ function mostrarMensaje(
         mensajeId;
 
 
+    /* USUARIO */
+
     const usuario =
         document.createElement(
             "span"
@@ -1122,8 +826,11 @@ function mostrarMensaje(
 
 
     usuario.textContent =
-        datos.nombre;
+        datos.nombre ||
+        "Anónimo";
 
+
+    /* HORA */
 
     const hora =
         document.createElement(
@@ -1144,13 +851,21 @@ function mostrarMensaje(
 
     hora.textContent =
         fecha.toLocaleTimeString(
+
             "es-AR",
+
             {
-                hour: "2-digit",
-                minute: "2-digit"
+
+                hour:"2-digit",
+
+                minute:"2-digit"
+
             }
+
         );
 
+
+    /* TEXTO */
 
     const texto =
         document.createElement(
@@ -1163,8 +878,11 @@ function mostrarMensaje(
 
 
     texto.textContent =
-        datos.texto;
+        datos.texto ||
+        "";
 
+
+    /* AGREGAR */
 
     item.appendChild(
         usuario
@@ -1186,16 +904,17 @@ function mostrarMensaje(
     );
 
 
+    /* AUTO SCROLL */
+
     mensajesDiv.scrollTop =
         mensajesDiv.scrollHeight;
 
 }
 
 
-
-/* =====================================
-   MENSAJES FIREBASE
-===================================== */
+/* ================================
+   REFERENCIA FIREBASE
+================================ */
 
 const mensajesRef =
     ref(
@@ -1206,228 +925,80 @@ const mensajesRef =
 
 const mensajesQuery =
     query(
+
         mensajesRef,
+
         orderByChild(
             "timestamp"
         ),
+
         limitToLast(100)
+
     );
 
 
+/* ================================
+   CARGAR MENSAJES
+================================ */
+
 onChildAdded(
+
     mensajesQuery,
+
     snapshot => {
 
+        const datos =
+            snapshot.val();
+
+
         mostrarMensaje(
-            snapshot.val(),
+
+            datos,
+
             snapshot.key
+
         );
 
     }
+
 );
 
 
-
-/* =====================================
-   ELIMINAR MENSAJES
-===================================== */
+/* ================================
+   ELIMINAR EN TIEMPO REAL
+================================ */
 
 onChildRemoved(
+
     mensajesRef,
+
     snapshot => {
 
         const elemento =
             document.querySelector(
+
                 `.chat-mensaje-item[data-id="${snapshot.key}"]`
+
             );
 
 
-        if (elemento) {
+        if(elemento){
 
             elemento.remove();
 
         }
 
     }
+
 );
 
 
-
-/* =====================================
-   RESERVAR NICK
-===================================== */
-
-async function reservarNick(
-    nickKey
-) {
-
-    if (!usuarioFirebase) {
-
-        return false;
-
-    }
-
-
-    if (esNickReservado(nickKey)) {
-
-        return false;
-
-    }
-
-
-    const nickRef =
-        ref(
-            db,
-            "chat/usuarios/" +
-            nickKey
-        );
-
-
-    try {
-
-        const resultado =
-            await runTransaction(
-                nickRef,
-                valorActual => {
-
-                    if (
-                        valorActual !== null
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    return usuarioFirebase.uid;
-
-                }
-            );
-
-
-        if (
-            !resultado.committed
-        ) {
-
-            const existente =
-                await get(
-                    nickRef
-                );
-
-
-            if (
-                existente.exists() &&
-                existente.val() ===
-                usuarioFirebase.uid
-            ) {
-
-                return true;
-
-            }
-
-
-            return false;
-
-        }
-
-
-        return true;
-
-
-    } catch (error) {
-
-        console.error(
-            "Error reservando nick:",
-            error
-        );
-
-
-        return false;
-
-    }
-
-}
-
-
-
-/* =====================================
-   OBTENER NICK
-===================================== */
-
-async function obtenerNickUsuario() {
-
-    if (!usuarioFirebase) {
-
-        return null;
-
-    }
-
-
-    try {
-
-        const usuariosRef =
-            ref(
-                db,
-                "chat/usuarios"
-            );
-
-
-        const snapshot =
-            await get(
-                usuariosRef
-            );
-
-
-        if (
-            !snapshot.exists()
-        ) {
-
-            return null;
-
-        }
-
-
-        let nickEncontrado =
-            null;
-
-
-        snapshot.forEach(
-            hijo => {
-
-                if (
-                    hijo.val() ===
-                    usuarioFirebase.uid
-                ) {
-
-                    nickEncontrado =
-                        hijo.key;
-
-                }
-
-            }
-        );
-
-
-        return nickEncontrado;
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        return null;
-
-    }
-
-}
-
-
-
-/* =====================================
+/* ================================
    ENVIAR MENSAJE
-===================================== */
+================================ */
 
-async function enviarMensaje() {
+async function enviarMensaje(){
+
 
     const nombre =
         nombreInput.value.trim();
@@ -1437,14 +1008,13 @@ async function enviarMensaje() {
         mensajeInput.value.trim();
 
 
-    errorDiv.textContent = "";
+    errorDiv.textContent =
+        "";
 
 
-    errorDiv.style.color =
-        "#ff6b6b";
+    /* AUTENTICACION */
 
-
-    if (!usuarioFirebase) {
+    if(!usuarioFirebase){
 
         errorDiv.textContent =
             "Conectando con el chat...";
@@ -1454,7 +1024,9 @@ async function enviarMensaje() {
     }
 
 
-    if (!nombre) {
+    /* NOMBRE */
+
+    if(!nombre){
 
         errorDiv.textContent =
             "Escribí tu nombre o apodo.";
@@ -1466,27 +1038,33 @@ async function enviarMensaje() {
     }
 
 
-    if (nombre.length < 2) {
+    if(nombre.length < 2){
 
         errorDiv.textContent =
             "El nombre debe tener al menos 2 caracteres.";
 
+        nombreInput.focus();
+
         return;
 
     }
 
 
-    if (nombre.length > 20) {
+    if(nombre.length > 20){
 
         errorDiv.textContent =
             "El nombre no puede superar 20 caracteres.";
 
+        nombreInput.focus();
+
         return;
 
     }
 
 
-    if (!texto) {
+    /* MENSAJE */
+
+    if(!texto){
 
         mensajeInput.focus();
 
@@ -1495,7 +1073,7 @@ async function enviarMensaje() {
     }
 
 
-    if (texto.length > 250) {
+    if(texto.length > 250){
 
         errorDiv.textContent =
             "El mensaje es demasiado largo.";
@@ -1505,13 +1083,15 @@ async function enviarMensaje() {
     }
 
 
+    /* NORMALIZAR */
+
     const nickKey =
         normalizarNick(
             nombre
         );
 
 
-    if (!nickKey) {
+    if(!nickKey){
 
         errorDiv.textContent =
             "Ese nombre no es válido.";
@@ -1521,11 +1101,15 @@ async function enviarMensaje() {
     }
 
 
-    if (
-        esNickReservado(
-            nickKey
-        )
-    ) {
+    /* NOMBRES RESERVADOS */
+
+    if(
+
+        nickKey === "sonomixradio" ||
+
+        nickKey === "sonomix"
+
+    ){
 
         errorDiv.textContent =
             "Ese nombre está reservado para Sonomix Radio.";
@@ -1535,32 +1119,26 @@ async function enviarMensaje() {
     }
 
 
-    try {
-
-        const nickDisponible =
-            await reservarNick(
-                nickKey
-            );
+    try{
 
 
-        if (!nickDisponible) {
-
-            errorDiv.textContent =
-                "Ese nick ya está siendo utilizado.";
-
-            return;
-
-        }
-
+        /* GUARDAR NOMBRE */
 
         localStorage.setItem(
+
             "sonomixChatNombre",
+
             nombre
+
         );
 
 
+        /* ENVIAR */
+
         await push(
+
             mensajesRef,
+
             {
 
                 nombre:
@@ -1579,17 +1157,28 @@ async function enviarMensaje() {
                     nickKey
 
             }
+
         );
 
 
-        mensajeInput.value = "";
+        /* LIMPIAR */
+
+        mensajeInput.value =
+            "";
 
         mensajeInput.focus();
 
 
-    } catch (error) {
+    }catch(error){
 
-        console.error(error);
+
+        console.error(
+
+            "ERROR ENVIANDO:",
+            error
+
+        );
+
 
         errorDiv.textContent =
             "No se pudo enviar el mensaje.";
@@ -1599,391 +1188,30 @@ async function enviarMensaje() {
 }
 
 
-
-/* =====================================
-   ABRIR REGISTRO
-===================================== */
-
-registrarBtn.addEventListener(
-    "click",
-    () => {
-
-        registroError.textContent =
-            "";
-
-
-        registroNick.value =
-            nombreInput.value.trim();
-
-
-        registroBox.style.display =
-            "block";
-
-
-        registroNick.focus();
-
-    }
-);
-
-
-
-/* =====================================
-   CANCELAR REGISTRO
-===================================== */
-
-registroCancelar.addEventListener(
-    "click",
-    () => {
-
-        registroBox.style.display =
-            "none";
-
-
-        registroError.textContent =
-            "";
-
-    }
-);
-
-
-
-/* =====================================
-   REGISTRAR CUENTA
-===================================== */
-
-registroConfirmar.addEventListener(
-    "click",
-    async () => {
-
-        registroError.textContent =
-            "";
-
-
-        const nick =
-            registroNick.value.trim();
-
-
-        const email =
-            registroEmail.value.trim();
-
-
-        const password =
-            registroPassword.value;
-
-
-        if (!nick) {
-
-            registroError.textContent =
-                "Escribí el nick que querés registrar.";
-
-            return;
-
-        }
-
-
-        if (nick.length < 2) {
-
-            registroError.textContent =
-                "El nick debe tener al menos 2 caracteres.";
-
-            return;
-
-        }
-
-
-        if (nick.length > 20) {
-
-            registroError.textContent =
-                "El nick no puede superar 20 caracteres.";
-
-            return;
-
-        }
-
-
-        if (!email) {
-
-            registroError.textContent =
-                "Escribí tu correo electrónico.";
-
-            return;
-
-        }
-
-
-        if (
-            !password ||
-            password.length < 6
-        ) {
-
-            registroError.textContent =
-                "La contraseña debe tener al menos 6 caracteres.";
-
-            return;
-
-        }
-
-
-        const nickKey =
-            normalizarNick(
-                nick
-            );
-
-
-        if (!nickKey) {
-
-            registroError.textContent =
-                "Ese nick no es válido.";
-
-            return;
-
-        }
-
-
-        if (
-            esNickReservado(
-                nickKey
-            )
-        ) {
-
-            registroError.textContent =
-                "Ese nick está reservado para Sonomix Radio.";
-
-            return;
-
-        }
-
-
-        try {
-
-            /*
-             * Si estamos como invitado,
-             * vinculamos la cuenta al usuario
-             * anónimo actual.
-             */
-
-            if (
-                auth.currentUser &&
-                auth.currentUser.isAnonymous
-            ) {
-
-                const disponible =
-                    await reservarNick(
-                        nickKey
-                    );
-
-
-                if (!disponible) {
-
-                    registroError.textContent =
-                        "Ese nick ya está siendo utilizado.";
-
-                    return;
-
-                }
-
-
-                const credential =
-                    EmailAuthProvider.credential(
-                        email,
-                        password
-                    );
-
-
-                await linkWithCredential(
-                    auth.currentUser,
-                    credential
-                );
-
-
-                usuarioFirebase =
-                    auth.currentUser;
-
-
-                usuarioRegistrado =
-                    true;
-
-
-                localStorage.setItem(
-                    "sonomixChatNombre",
-                    nick
-                );
-
-
-                nombreInput.value =
-                    nick;
-
-
-                registroBox.style.display =
-                    "none";
-
-
-                registroEmail.value =
-                    "";
-
-
-                registroPassword.value =
-                    "";
-
-
-                errorDiv.textContent =
-                    "Nick registrado correctamente.";
-
-
-                errorDiv.style.color =
-                    "#4caf50";
-
-
-                actualizarBotones();
-
-                return;
-
-            }
-
-
-            /*
-             * Si no hay usuario anónimo,
-             * creamos una cuenta normal.
-             */
-
-            const resultado =
-                await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-
-            usuarioFirebase =
-                resultado.user;
-
-
-            usuarioRegistrado =
-                true;
-
-
-            await set(
-                ref(
-                    db,
-                    "chat/usuarios/" +
-                    nickKey
-                ),
-                usuarioFirebase.uid
-            );
-
-
-            localStorage.setItem(
-                "sonomixChatNombre",
-                nick
-            );
-
-
-            nombreInput.value =
-                nick;
-
-
-            registroBox.style.display =
-                "none";
-
-
-            registroEmail.value =
-                "";
-
-
-            registroPassword.value =
-                "";
-
-
-            errorDiv.textContent =
-                "Nick registrado correctamente.";
-
-
-            errorDiv.style.color =
-                "#4caf50";
-
-
-            actualizarBotones();
-
-
-        } catch (error) {
-
-            console.error(
-                "ERROR REGISTRANDO:",
-                error
-            );
-
-
-            if (
-                error.code ===
-                "auth/email-already-in-use"
-            ) {
-
-                registroError.textContent =
-                    "Ese correo ya está registrado. Probá iniciar sesión.";
-
-                return;
-
-            }
-
-
-            if (
-                error.code ===
-                "auth/invalid-email"
-            ) {
-
-                registroError.textContent =
-                    "El correo electrónico no es válido.";
-
-                return;
-
-            }
-
-
-            if (
-                error.code ===
-                "auth/weak-password"
-            ) {
-
-                registroError.textContent =
-                    "La contraseña debe tener al menos 6 caracteres.";
-
-                return;
-
-            }
-
-
-            registroError.textContent =
-                "No se pudo registrar el nick.";
-
-        }
-
-    }
-);
-
-
-
-/* =====================================
-   ENVIAR
-===================================== */
+/* ================================
+   BOTON
+================================ */
 
 enviarBtn.addEventListener(
+
     "click",
+
     enviarMensaje
+
 );
 
 
-
-/* =====================================
+/* ================================
    ENTER
-===================================== */
+================================ */
 
 mensajeInput.addEventListener(
+
     "keydown",
+
     event => {
 
-        if (
-            event.key === "Enter"
-        ) {
+        if(event.key === "Enter"){
 
             event.preventDefault();
 
@@ -1992,309 +1220,11 @@ mensajeInput.addEventListener(
         }
 
     }
+
 );
-
-
-
-/* =====================================
-   INICIAR SESIÓN
-===================================== */
-
-loginBtn.addEventListener(
-    "click",
-    async () => {
-
-        const correo =
-            prompt(
-                "Ingresá tu correo:"
-            );
-
-
-        if (!correo) {
-
-            return;
-
-        }
-
-
-        const contraseña =
-            prompt(
-                "Ingresá tu contraseña:"
-            );
-
-
-        if (!contraseña) {
-
-            return;
-
-        }
-
-
-        try {
-
-            if (
-                auth.currentUser &&
-                auth.currentUser.isAnonymous
-            ) {
-
-                await signOut(
-                    auth
-                );
-
-            }
-
-
-            const resultado =
-                await signInWithEmailAndPassword(
-                    auth,
-                    correo.trim(),
-                    contraseña
-                );
-
-
-            usuarioFirebase =
-                resultado.user;
-
-
-            usuarioRegistrado =
-                true;
-
-
-            const nick =
-                await obtenerNickUsuario();
-
-
-            if (nick) {
-
-                nombreInput.value =
-                    nick;
-
-
-                localStorage.setItem(
-                    "sonomixChatNombre",
-                    nick
-                );
-
-            }
-
-
-            errorDiv.textContent =
-                "Sesión iniciada correctamente.";
-
-
-            errorDiv.style.color =
-                "#4caf50";
-
-
-            actualizarBotones();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-
-            errorDiv.textContent =
-                "Correo o contraseña incorrectos.";
-
-        }
-
-    }
-);
-
-
-
-/* =====================================
-   CERRAR SESIÓN
-===================================== */
-
-logoutBtn.addEventListener(
-    "click",
-    async () => {
-
-        try {
-
-            await signOut(
-                auth
-            );
-
-
-            usuarioRegistrado =
-                false;
-
-
-            await signInAnonymously(
-                auth
-            );
-
-
-            errorDiv.textContent =
-                "Volviste a entrar como invitado.";
-
-
-            errorDiv.style.color =
-                "#4caf50";
-
-
-            actualizarBotones();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-        }
-
-    }
-);
-
-
-
-/* =====================================
-   BOTONES
-===================================== */
-
-function actualizarBotones() {
-
-    registrarBtn.style.display =
-        usuarioRegistrado
-            ? "none"
-            : "inline-block";
-
-
-    loginBtn.style.display =
-        usuarioRegistrado
-            ? "none"
-            : "inline-block";
-
-
-    logoutBtn.style.display =
-        usuarioRegistrado
-            ? "inline-block"
-            : "none";
-
-}
-
-
-
-/* =====================================
-   AUTENTICACIÓN
-===================================== */
-
-onAuthStateChanged(
-    auth,
-    async user => {
-
-        console.log(
-            "Estado Firebase Auth:",
-            user
-        );
-
-
-        usuarioFirebase =
-            user;
-
-
-        if (!user) {
-
-            usuarioRegistrado =
-                false;
-
-
-            actualizarBotones();
-
-
-            try {
-
-                await signInAnonymously(
-                    auth
-                );
-
-            } catch (error) {
-
-                console.error(error);
-
-
-                errorDiv.textContent =
-                    "No se pudo conectar con el chat.";
-
-            }
-
-
-            return;
-
-        }
-
-
-        usuarioRegistrado =
-            !user.isAnonymous;
-
-
-        if (
-            usuarioRegistrado
-        ) {
-
-            const nick =
-                await obtenerNickUsuario();
-
-
-            if (nick) {
-
-                nombreInput.value =
-                    nick;
-
-
-                localStorage.setItem(
-                    "sonomixChatNombre",
-                    nick
-                );
-
-            }
-
-        } else {
-
-            const nombreGuardado =
-                localStorage.getItem(
-                    "sonomixChatNombre"
-                );
-
-
-            if (
-                nombreGuardado
-            ) {
-
-                nombreInput.value =
-                    nombreGuardado;
-
-            }
-
-        }
-
-
-        enviarBtn.disabled =
-            false;
-
-
-        errorDiv.textContent =
-            "";
-
-
-        actualizarBotones();
-
-    }
-);
-
-
-
-/* =====================================
-   ESTADO INICIAL
-===================================== */
-
-actualizarBotones();
 
 </script>
 
 
 </body>
-
 </html>
