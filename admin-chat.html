@@ -670,14 +670,23 @@ function mostrarMensaje(
         );
 
 
-    hora.textContent =
-        fecha.toLocaleTimeString(
-            "es-AR",
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
+   hora.textContent =
+    fecha.toLocaleDateString(
+        "es-AR",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    ) +
+    " " +
+    fecha.toLocaleTimeString(
+        "es-AR",
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
 
 
     const texto =
