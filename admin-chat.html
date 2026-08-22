@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
@@ -9,7 +10,6 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>Administración - Sonomix Radio</title>
-
 
 <style>
 
@@ -93,7 +93,7 @@ content="width=device-width, initial-scale=1.0">
     }
 
 }
-    
+
 * {
     box-sizing: border-box;
 }
@@ -344,12 +344,9 @@ h1 {
 
 </head>
 
-
 <body>
 
-
 <div class="admin-contenedor">
-
 
 <h1>Sonomix Radio</h1>
 
@@ -357,61 +354,63 @@ h1 {
 Panel de administración del chat
 </div>
 
-
 <!-- LOGIN -->
 
 <div id="login">
 
-    <input
-        type="email"
-        id="email"
-        placeholder="Correo electrónico"
-    >
+```
+<input
+    type="email"
+    id="email"
+    placeholder="Correo electrónico"
+>
 
-    <input
-        type="password"
-        id="password"
-        placeholder="Contraseña"
-    >
+<input
+    type="password"
+    id="password"
+    placeholder="Contraseña"
+>
 
-    <button id="login-btn">
-        Iniciar sesión
-    </button>
+<button id="login-btn">
+    Iniciar sesión
+</button>
 
-    <div id="error"></div>
+<div id="error"></div>
+```
 
 </div>
-
 
 <!-- PANEL -->
 
 <div id="panel">
 
-    <div class="admin-bar">
+```
+<div class="admin-bar">
 
-        <strong>
-            Administración del chat
-        </strong>
-
-        <button
-            class="btn-logout"
-            id="logout-btn"
-        >
-            Cerrar sesión
-        </button>
-
-    </div>
-
+    <strong>
+        Administración del chat
+    </strong>
 
     <button
-        class="btn-vaciar"
-        id="vaciar-btn"
+        class="btn-logout"
+        id="logout-btn"
     >
-        🧹 Vaciar todo el chat
+        Cerrar sesión
     </button>
 
+</div>
 
-    <div id="mensajes"></div>
+
+<button
+    class="btn-vaciar"
+    id="vaciar-btn"
+>
+    🧹 Vaciar todo el chat
+</button>
+
+
+<div id="mensajes"></div>
+
 
 <div class="admin-chat-escribir">
 
@@ -430,12 +429,11 @@ Panel de administración del chat
     <div id="admin-error"></div>
 
 </div>
+```
 
 </div>
 
-
 </div>
-
 
 <script type="module">
 
@@ -465,7 +463,11 @@ import {
 
     push,
 
+    get,
+
     onChildAdded,
+
+    onChildRemoved,
 
     remove
 
@@ -473,7 +475,9 @@ import {
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-/* FIREBASE */
+/* =====================================
+   FIREBASE
+===================================== */
 
 const firebaseConfig = {
 
@@ -504,13 +508,17 @@ const db =
     getDatabase(app);
 
 
-/* TU UID */
+/* =====================================
+   UID DEL ADMINISTRADOR
+===================================== */
 
 const ADMIN_UID =
     "Fw3o0qLH7GSzjiDhQJ0IfLL6vXr2";
 
 
-/* ELEMENTOS */
+/* =====================================
+   ELEMENTOS
+===================================== */
 
 const login =
     document.getElementById("login");
@@ -538,7 +546,8 @@ const mensajes =
 
 const vaciarBtn =
     document.getElementById("vaciar-btn");
-    const adminMensaje =
+
+const adminMensaje =
     document.getElementById("admin-mensaje");
 
 const adminEnviar =
@@ -548,7 +557,17 @@ const adminError =
     document.getElementById("admin-error");
 
 
-/* LOGIN */
+/* =====================================
+   REFERENCIA DE MENSAJES
+===================================== */
+
+const mensajesRef =
+    ref(db, "chat/mensajes");
+
+
+/* =====================================
+   LOGIN
+===================================== */
 
 loginBtn.addEventListener(
     "click",
@@ -577,7 +596,9 @@ loginBtn.addEventListener(
 );
 
 
-/* LOGOUT */
+/* =====================================
+   LOGOUT
+===================================== */
 
 logoutBtn.addEventListener(
     "click",
@@ -589,18 +610,41 @@ logoutBtn.addEventListener(
 );
 
 
-/* MOSTRAR MENSAJE */
+/* =====================================
+   MOSTRAR MENSAJE
+===================================== */
 
 function mostrarMensaje(
     datos,
     id
 ) {
 
+    if (!datos) {
+        return;
+    }
+
+
+    /* Evitar duplicados */
+
+    if (
+        document.querySelector(
+            `.mensaje[data-id="${id}"]`
+        )
+    ) {
+
+        return;
+
+    }
+
+
     const item =
         document.createElement("div");
 
     item.className =
         "mensaje";
+
+    item.dataset.id =
+        id;
 
 
     const usuario =
@@ -610,7 +654,7 @@ function mostrarMensaje(
         "usuario";
 
     usuario.textContent =
-        datos.nombre;
+        datos.nombre || "Usuario";
 
 
     const hora =
@@ -643,7 +687,7 @@ function mostrarMensaje(
         "texto";
 
     texto.textContent =
-        datos.texto;
+        datos.texto || "";
 
 
     const eliminar =
@@ -660,17 +704,21 @@ function mostrarMensaje(
         "click",
         async () => {
 
-            if (!auth.currentUser ||
-                auth.currentUser.uid !== ADMIN_UID) {
+            if (
+                !auth.currentUser ||
+                auth.currentUser.uid !== ADMIN_UID
+            ) {
 
                 return;
 
             }
 
 
-            if (!confirm(
-                "¿Eliminar este mensaje?"
-            )) {
+            if (
+                !confirm(
+                    "¿Eliminar este mensaje?"
+                )
+            ) {
 
                 return;
 
@@ -685,8 +733,6 @@ function mostrarMensaje(
                         "chat/mensajes/" + id
                     )
                 );
-
-                item.remove();
 
             } catch (e) {
 
@@ -716,48 +762,189 @@ function mostrarMensaje(
 }
 
 
-/* CARGAR MENSAJES */
+/* =====================================
+   CARGAR TODOS LOS MENSAJES EXISTENTES
+===================================== */
 
-const mensajesRef =
-    ref(db, "chat/mensajes");
+async function cargarMensajes() {
 
+    if (
+        !auth.currentUser ||
+        auth.currentUser.uid !== ADMIN_UID
+    ) {
+
+        return;
+
+    }
+
+
+    mensajes.innerHTML = "";
+
+
+    try {
+
+        const snapshot =
+            await get(mensajesRef);
+
+
+        if (!snapshot.exists()) {
+
+            return;
+
+        }
+
+
+        const datos =
+            snapshot.val();
+
+
+        Object.entries(datos)
+            .forEach(
+                ([id, mensaje]) => {
+
+                    mostrarMensaje(
+                        mensaje,
+                        id
+                    );
+
+                }
+            );
+
+
+        /* Ordenar visualmente por timestamp */
+
+        const elementos =
+            Array.from(
+                mensajes.children
+            );
+
+
+        elementos.sort(
+            (a, b) => {
+
+                const textoA =
+                    a.querySelector(".hora")
+                        ?.textContent || "";
+
+                const textoB =
+                    b.querySelector(".hora")
+                        ?.textContent || "";
+
+                return 0;
+
+            }
+        );
+
+
+        mensajes.scrollTop =
+            mensajes.scrollHeight;
+
+
+    } catch (e) {
+
+        console.error(
+            "Error cargando mensajes:",
+            e
+        );
+
+    }
+
+}
+
+
+/* =====================================
+   NUEVOS MENSAJES EN TIEMPO REAL
+===================================== */
 
 onChildAdded(
     mensajesRef,
     snapshot => {
 
-        if (!auth.currentUser ||
-            auth.currentUser.uid !== ADMIN_UID) {
+        if (
+            !auth.currentUser ||
+            auth.currentUser.uid !== ADMIN_UID
+        ) {
 
             return;
 
         }
+
 
         mostrarMensaje(
             snapshot.val(),
             snapshot.key
         );
 
+
+        mensajes.scrollTop =
+            mensajes.scrollHeight;
+
     }
 );
 
 
-/* ESTADO DE AUTENTICACIÓN */
+/* =====================================
+   ELIMINACIÓN EN TIEMPO REAL
+===================================== */
+
+onChildRemoved(
+    mensajesRef,
+    snapshot => {
+
+        const elemento =
+            document.querySelector(
+                `.mensaje[data-id="${snapshot.key}"]`
+            );
+
+
+        if (elemento) {
+
+            elemento.remove();
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   ESTADO DE AUTENTICACIÓN
+===================================== */
 
 onAuthStateChanged(
     auth,
-    user => {
+    async user => {
+
+        console.log(
+            "Estado Firebase Auth:",
+            user
+        );
+
 
         if (
             user &&
             user.uid === ADMIN_UID
         ) {
 
+            console.log(
+                "Administrador autenticado:",
+                user.uid
+            );
+
+
             login.style.display =
                 "none";
 
             panel.style.display =
                 "block";
+
+
+            /*
+             * AHORA CARGAMOS LOS MENSAJES
+             * DESPUÉS DE SABER QUE ES EL ADMIN.
+             */
+
+            await cargarMensajes();
 
 
         } else {
@@ -774,6 +961,7 @@ onAuthStateChanged(
 
     }
 );
+
 
 /* =====================================
    ENVIAR COMO SONOMIX RADIO
@@ -818,7 +1006,7 @@ async function enviarComoSonomix() {
     try {
 
         await push(
-            ref(db, "chat/mensajes"),
+            mensajesRef,
             {
 
                 nombre: "Sonomix Radio",
@@ -873,24 +1061,30 @@ adminMensaje.addEventListener(
     }
 );
 
-    
-/* VACIAR CHAT */
+
+/* =====================================
+   VACIAR TODO EL CHAT
+===================================== */
 
 vaciarBtn.addEventListener(
     "click",
     async () => {
 
-        if (!auth.currentUser ||
-            auth.currentUser.uid !== ADMIN_UID) {
+        if (
+            !auth.currentUser ||
+            auth.currentUser.uid !== ADMIN_UID
+        ) {
 
             return;
 
         }
 
 
-        if (!confirm(
-            "¿Seguro que querés eliminar TODOS los mensajes?"
-        )) {
+        if (
+            !confirm(
+                "¿Seguro que querés eliminar TODOS los mensajes?"
+            )
+        ) {
 
             return;
 
@@ -900,14 +1094,20 @@ vaciarBtn.addEventListener(
         try {
 
             await remove(
-                ref(db, "chat/mensajes")
+                mensajesRef
             );
+
 
             mensajes.innerHTML = "";
 
+
         } catch (e) {
 
-            console.error(e);
+            console.error(
+                "ERROR VACIANDO CHAT:",
+                e
+            );
+
 
             alert(
                 "No se pudo vaciar el chat."
@@ -919,7 +1119,6 @@ vaciarBtn.addEventListener(
 );
 
 </script>
-
 
 </body>
 
