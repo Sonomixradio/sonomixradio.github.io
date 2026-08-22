@@ -1381,7 +1381,7 @@ const nombreGuardado =
     localStorage.getItem("sonomixChatNombre");
 
 
-if (nombreGuardado) {
+if (nombreGuardado && nombreInput) {
 
     nombreInput.value =
         nombreGuardado;
@@ -1409,8 +1409,12 @@ signInAnonymously(auth)
             error
         );
 
-        errorDiv.textContent =
-            "No se pudo conectar con el chat.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "No se pudo conectar con el chat.";
+
+        }
 
     });
 
@@ -1440,11 +1444,21 @@ onAuthStateChanged(
                 user.uid
             );
 
-            enviarBtn.disabled =
-                false;
 
-            errorDiv.textContent =
-                "";
+            if (enviarBtn) {
+
+                enviarBtn.disabled =
+                    false;
+
+            }
+
+
+            if (errorDiv) {
+
+                errorDiv.textContent =
+                    "";
+
+            }
 
         } else {
 
@@ -1452,11 +1466,21 @@ onAuthStateChanged(
                 "NO hay usuario autenticado"
             );
 
-            enviarBtn.disabled =
-                true;
 
-            errorDiv.textContent =
-                "Conectando con el chat...";
+            if (enviarBtn) {
+
+                enviarBtn.disabled =
+                    true;
+
+            }
+
+
+            if (errorDiv) {
+
+                errorDiv.textContent =
+                    "Conectando con el chat...";
+
+            }
 
         }
 
@@ -1489,8 +1513,10 @@ function mostrarMensaje(
     mensajeId
 ) {
 
-    if (!datos) {
+    if (!datos || !mensajesDiv) {
+
         return;
+
     }
 
 
@@ -1505,7 +1531,9 @@ function mostrarMensaje(
 
 
     if (existente) {
+
         return;
+
     }
 
 
@@ -1521,7 +1549,9 @@ function mostrarMensaje(
         mensajeId;
 
 
-    /* USUARIO */
+    /* =====================================
+       USUARIO
+    ===================================== */
 
     const usuario =
         document.createElement("span");
@@ -1535,7 +1565,9 @@ function mostrarMensaje(
         datos.nombre || "Anónimo";
 
 
-    /* HORA */
+    /* =====================================
+       FECHA Y HORA
+    ===================================== */
 
     const hora =
         document.createElement("span");
@@ -1551,26 +1583,28 @@ function mostrarMensaje(
         );
 
 
-   hora.textContent =
-    fecha.toLocaleDateString(
-        "es-AR",
-        {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-        }
-    ) +
-    " " +
-    fecha.toLocaleTimeString(
-        "es-AR",
-        {
-            hour: "2-digit",
-            minute: "2-digit"
-        }
-    );
+    hora.textContent =
+        fecha.toLocaleDateString(
+            "es-AR",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            }
+        ) +
+        " " +
+        fecha.toLocaleTimeString(
+            "es-AR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
 
 
-    /* TEXTO */
+    /* =====================================
+       TEXTO
+    ===================================== */
 
     const texto =
         document.createElement("div");
@@ -1584,7 +1618,9 @@ function mostrarMensaje(
         datos.texto || "";
 
 
-    /* AGREGAR AL MENSAJE */
+    /* =====================================
+       ARMAR MENSAJE
+    ===================================== */
 
     item.appendChild(usuario);
 
@@ -1593,14 +1629,15 @@ function mostrarMensaje(
     item.appendChild(texto);
 
 
-    /* AGREGAR AL CHAT */
+    /* =====================================
+       AGREGAR AL CHAT
+    ===================================== */
 
     mensajesDiv.appendChild(item);
 
 
     /*
-     * Bajar automáticamente
-     * al mensaje más reciente.
+     * Llevar automáticamente al último mensaje.
      */
 
     mensajesDiv.scrollTop =
@@ -1610,7 +1647,7 @@ function mostrarMensaje(
 
 
 /* =====================================
-   CARGAR MENSAJES
+   REFERENCIA DE MENSAJES
 ===================================== */
 
 const mensajesRef =
@@ -1620,6 +1657,10 @@ const mensajesRef =
     );
 
 
+/* =====================================
+   CONSULTA DE MENSAJES
+===================================== */
+
 const mensajesQuery =
     query(
         mensajesRef,
@@ -1628,17 +1669,19 @@ const mensajesQuery =
     );
 
 
+/* =====================================
+   MENSAJES EN TIEMPO REAL
+===================================== */
+
 /*
- * IMPORTANTE:
+ * onChildAdded hace DOS cosas:
  *
- * onChildAdded se ejecuta:
+ * 1. Carga los últimos 100 mensajes
+ *    cuando entra el usuario.
  *
- * 1. Para los mensajes antiguos
- *    cuando se carga el chat.
- *
- * 2. Para cada mensaje nuevo
- *    inmediatamente cuando se envía.
- *
+ * 2. Detecta automáticamente cada
+ *    mensaje nuevo y lo muestra sin
+ *    necesidad de actualizar la página.
  */
 
 onChildAdded(
@@ -1650,8 +1693,16 @@ onChildAdded(
 
 
         if (!datos) {
+
             return;
+
         }
+
+
+        console.log(
+            "Nuevo mensaje recibido:",
+            snapshot.key
+        );
 
 
         mostrarMensaje(
@@ -1664,12 +1715,24 @@ onChildAdded(
 
 
 /* =====================================
-   ELIMINAR EN TIEMPO REAL
+   ELIMINACIÓN EN TIEMPO REAL
 ===================================== */
+
+/*
+ * Si el administrador elimina un mensaje,
+ * desaparece automáticamente del chat
+ * general sin recargar la página.
+ */
 
 onChildRemoved(
     mensajesRef,
     snapshot => {
+
+        console.log(
+            "Mensaje eliminado:",
+            snapshot.key
+        );
+
 
         const elemento =
             document.querySelector(
@@ -1701,28 +1764,44 @@ async function enviarMensaje() {
         mensajeInput.value.trim();
 
 
-    errorDiv.textContent =
-        "";
+    if (errorDiv) {
+
+        errorDiv.textContent =
+            "";
+
+    }
 
 
-    /* COMPROBAR AUTENTICACIÓN */
+    /* =====================================
+       COMPROBAR AUTENTICACIÓN
+    ===================================== */
 
     if (!usuarioFirebase) {
 
-        errorDiv.textContent =
-            "Conectando con el chat...";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Conectando con el chat...";
+
+        }
 
         return;
 
     }
 
 
-    /* COMPROBAR NOMBRE */
+    /* =====================================
+       COMPROBAR NOMBRE
+    ===================================== */
 
     if (!nombre) {
 
-        errorDiv.textContent =
-            "Escribí tu nombre o apodo.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Escribí tu nombre o apodo.";
+
+        }
 
         nombreInput.focus();
 
@@ -1733,8 +1812,12 @@ async function enviarMensaje() {
 
     if (nombre.length < 2) {
 
-        errorDiv.textContent =
-            "El nombre debe tener al menos 2 caracteres.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "El nombre debe tener al menos 2 caracteres.";
+
+        }
 
         nombreInput.focus();
 
@@ -1745,8 +1828,12 @@ async function enviarMensaje() {
 
     if (nombre.length > 20) {
 
-        errorDiv.textContent =
-            "El nombre no puede superar 20 caracteres.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "El nombre no puede superar 20 caracteres.";
+
+        }
 
         nombreInput.focus();
 
@@ -1755,7 +1842,9 @@ async function enviarMensaje() {
     }
 
 
-    /* COMPROBAR MENSAJE */
+    /* =====================================
+       COMPROBAR MENSAJE
+    ===================================== */
 
     if (!texto) {
 
@@ -1768,15 +1857,21 @@ async function enviarMensaje() {
 
     if (texto.length > 250) {
 
-        errorDiv.textContent =
-            "El mensaje es demasiado largo.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "El mensaje es demasiado largo.";
+
+        }
 
         return;
 
     }
 
 
-    /* NORMALIZAR NICK */
+    /* =====================================
+       NORMALIZAR NICK
+    ===================================== */
 
     const nickKey =
         normalizarNick(nombre);
@@ -1784,8 +1879,12 @@ async function enviarMensaje() {
 
     if (!nickKey) {
 
-        errorDiv.textContent =
-            "Ese nombre no es válido.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Ese nombre no es válido.";
+
+        }
 
         return;
 
@@ -1801,13 +1900,21 @@ async function enviarMensaje() {
         nickKey === "sonomix"
     ) {
 
-        errorDiv.textContent =
-            "Ese nombre está reservado para Sonomix Radio.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Ese nombre está reservado para Sonomix Radio.";
+
+        }
 
         return;
 
     }
 
+
+    /* =====================================
+       ENVIAR
+    ===================================== */
 
     try {
 
@@ -1827,7 +1934,11 @@ async function enviarMensaje() {
 
 
         /*
-         * Enviar mensaje directamente.
+         * Guardamos el mensaje en Firebase.
+         *
+         * onChildAdded lo detectará
+         * automáticamente y lo mostrará
+         * en tiempo real.
          */
 
         await push(
@@ -1849,7 +1960,8 @@ async function enviarMensaje() {
 
 
         /*
-         * Limpiar mensaje.
+         * Limpiar solamente el campo
+         * del mensaje.
          */
 
         mensajeInput.value =
@@ -1866,8 +1978,12 @@ async function enviarMensaje() {
         );
 
 
-        errorDiv.textContent =
-            "No se pudo enviar el mensaje.";
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "No se pudo enviar el mensaje.";
+
+        }
 
     }
 
@@ -1887,6 +2003,7 @@ if (enviarBtn) {
             console.log(
                 "BOTÓN ENVIAR PRESIONADO"
             );
+
 
             enviarMensaje();
 
