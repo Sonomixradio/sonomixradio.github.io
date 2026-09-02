@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat - Sonomix Radio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root { color-scheme: dark; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+html, body { width:100%; height:100%; overflow:hidden; background:#0b0b0b; color:#fff; }
+body { min-height:100vh; min-height:100dvh; }
+#chat-radio { width:100%; height:100vh; height:100dvh; padding:0; margin:0; overflow:hidden; }
+.chat-contenedor { width:100%; height:100%; max-width:none; margin:0; background:#111; border:none; border-radius:0; overflow:hidden; display:flex; flex-direction:column; }
+.chat-header { flex:0 0 auto; display:flex; align-items:center; padding:12px 16px; background:#181818; border-bottom:1px solid #292929; }
+.chat-live { color:#4caf50; font-size:13px; font-weight:bold; margin-right:10px; }
+.chat-titulo { color:#fff; font-weight:600; }
+#chat-mensajes { flex:1 1 auto; min-height:0; width:100%; overflow-y:auto; overflow-x:hidden; padding:12px; background:#0b0b0b; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+.chat-mensaje-item { position:relative; max-width:100%; padding:10px 40px 10px 10px; margin-bottom:8px; background:#191919; border-radius:8px; overflow-wrap:anywhere; word-break:break-word; }
+.chat-mensaje-usuario { color:#4fc3ff; font-weight:bold; margin-right:8px; }
+.chat-mensaje-hora { color:#777; font-size:11px; }
+.chat-mensaje-texto { color:#eee; margin-top:4px; overflow-wrap:anywhere; word-break:break-word; }
+.chat-form { flex:0 0 auto; padding:10px 12px 12px; background:#181818; border-top:1px solid #292929; }
+#chat-nombre, #chat-mensaje { width:100%; min-width:0; max-width:100%; padding:11px; border-radius:7px; border:1px solid #333; background:#222; color:#fff; outline:none; font-size:16px; }
+#chat-nombre { margin-bottom:8px; }
+#chat-nombre:focus, #chat-mensaje:focus { border-color:#4fc3ff; }
+.chat-escribir { width:100%; display:flex; gap:8px; }
+.chat-escribir input { flex:1 1 auto; min-width:0; }
+#chat-enviar { flex:0 0 auto; min-width:88px; min-height:44px; padding:0 18px; border:none; border-radius:7px; background:#00aef0; color:#fff; cursor:pointer; font-weight:bold; font-size:15px; }
+#chat-enviar:hover { opacity:.85; }
+#chat-error { color:#ff6b6b; font-size:12px; margin-top:6px; }
+.chat-conectando { text-align:center; color:#777; padding:30px 10px; }
+#chat-mensajes::-webkit-scrollbar { width:5px; }
+#chat-mensajes::-webkit-scrollbar-track { background:#0b0b0b; }
+#chat-mensajes::-webkit-scrollbar-thumb { background:#333; border-radius:10px; }
+@media (max-width:480px) { .chat-header{padding:10px 12px;} #chat-mensajes{padding:9px;} .chat-form{padding:8px 9px 10px;} #chat-enviar{min-width:78px;padding:0 12px;} }
+@media (max-width:340px) { .chat-escribir{gap:6px;} #chat-enviar{min-width:70px;padding:0 9px;font-size:14px;} }
+</style>
+</head>
+<body>
+<section id="chat-radio">
+<div class="chat-contenedor">
+
+        <div class="chat-header">
+
+    <div>
+        <span class="chat-live">● EN VIVO</span>
+        <span class="chat-titulo">Sonomix Radio</span>
+    </div>
+
+</div>
+
+
+<div id="chat-mensajes">
+    <div class="chat-conectando">
+        Conectando con Sonomix Radio...
+    </div>
+</div>
+
+
+<div class="chat-form">
+
+    <input
+        type="text"
+        id="chat-nombre"
+        placeholder="Tu nombre o apodo"
+        maxlength="20"
+        autocomplete="off"
+    >
+
+    <div class="chat-escribir">
+
+        <input
+            type="text"
+            id="chat-mensaje"
+            placeholder="Escribí tu mensaje..."
+            maxlength="250"
+            autocomplete="off"
+        >
+
+        <button id="chat-enviar">
+            Enviar
+        </button>
+
+    </div>
+
+    <div id="chat-error"></div>
+
+</div>
+
+    </div>
+    
+</section>
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getAuth,
+    signInAnonymously,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    onChildAdded,
+    onChildRemoved,
+    query,
+    orderByChild,
+    limitToLast
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* =====================================
+   FIREBASE
+===================================== */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCtfBnFo6dSLxj7MnK3HvdDMcfQhyPRDoI",
+
+    authDomain: "sonomix-radio-chat.firebaseapp.com",
+
+    projectId: "sonomix-radio-chat",
+
+    storageBucket: "sonomix-radio-chat.firebasestorage.app",
+
+    messagingSenderId: "313489578782",
+
+    appId: "1:313489578782:web:8fef3c9315edf5089a870f"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const auth =
+    getAuth(app);
+
+
+const db =
+    getDatabase(app);
+
+
+/* =====================================
+   ELEMENTOS DEL CHAT
+===================================== */
+
+const mensajesDiv =
+    document.getElementById("chat-mensajes");
+
+const nombreInput =
+    document.getElementById("chat-nombre");
+
+const mensajeInput =
+    document.getElementById("chat-mensaje");
+
+const enviarBtn =
+    document.getElementById("chat-enviar");
+
+const errorDiv =
+    document.getElementById("chat-error");
+
+
+/* =====================================
+   USUARIO FIREBASE
+===================================== */
+
+let usuarioFirebase = null;
+
+
+/* =====================================
+   NICK GUARDADO EN ESTE NAVEGADOR
+===================================== */
+
+const nombreGuardado =
+    localStorage.getItem("sonomixChatNombre");
+
+
+if (nombreGuardado && nombreInput) {
+
+    nombreInput.value =
+        nombreGuardado;
+
+}
+
+
+/* =====================================
+   AUTENTICACIÓN ANÓNIMA
+===================================== */
+
+signInAnonymously(auth)
+    .then(resultado => {
+
+        console.log(
+            "Autenticación anónima correcta:",
+            resultado.user.uid
+        );
+
+    })
+    .catch(error => {
+
+        console.error(
+            "ERROR DE AUTENTICACIÓN FIREBASE:",
+            error
+        );
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "No se pudo conectar con el chat.";
+
+        }
+
+    });
+
+
+/* =====================================
+   ESTADO DE AUTENTICACIÓN
+===================================== */
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        console.log(
+            "Estado Firebase Auth:",
+            user
+        );
+
+
+        usuarioFirebase =
+            user;
+
+
+        if (user) {
+
+            console.log(
+                "Usuario autenticado:",
+                user.uid
+            );
+
+
+            if (enviarBtn) {
+
+                enviarBtn.disabled =
+                    false;
+
+            }
+
+
+            if (errorDiv) {
+
+                errorDiv.textContent =
+                    "";
+
+            }
+
+        } else {
+
+            console.log(
+                "NO hay usuario autenticado"
+            );
+
+
+            if (enviarBtn) {
+
+                enviarBtn.disabled =
+                    true;
+
+            }
+
+
+            if (errorDiv) {
+
+                errorDiv.textContent =
+                    "Conectando con el chat...";
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   NORMALIZAR NICK
+===================================== */
+
+function normalizarNick(nombre) {
+
+    return nombre
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+
+}
+
+
+/* =====================================
+   MOSTRAR MENSAJE
+===================================== */
+
+function mostrarMensaje(
+    datos,
+    mensajeId
+) {
+
+    if (!datos || !mensajesDiv) {
+
+        return;
+
+    }
+
+
+    /*
+     * Evitamos duplicar mensajes.
+     */
+
+    const existente =
+        document.querySelector(
+            `.chat-mensaje-item[data-id="${mensajeId}"]`
+        );
+
+
+    if (existente) {
+
+        return;
+
+    }
+
+
+    const item =
+        document.createElement("div");
+
+
+    item.className =
+        "chat-mensaje-item";
+
+
+    item.dataset.id =
+        mensajeId;
+
+
+    /* =====================================
+       USUARIO
+    ===================================== */
+
+    const usuario =
+        document.createElement("span");
+
+
+    usuario.className =
+        "chat-mensaje-usuario";
+
+
+    usuario.textContent =
+        datos.nombre || "Anónimo";
+
+
+    /* =====================================
+       FECHA Y HORA
+    ===================================== */
+
+    const hora =
+        document.createElement("span");
+
+
+    hora.className =
+        "chat-mensaje-hora";
+
+
+    const fecha =
+        new Date(
+            datos.timestamp || Date.now()
+        );
+
+
+    hora.textContent =
+        fecha.toLocaleDateString(
+            "es-AR",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            }
+        ) +
+        " " +
+        fecha.toLocaleTimeString(
+            "es-AR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    /* =====================================
+       TEXTO
+    ===================================== */
+
+    const texto =
+        document.createElement("div");
+
+
+    texto.className =
+        "chat-mensaje-texto";
+
+
+    texto.textContent =
+        datos.texto || "";
+
+
+    /* =====================================
+       ARMAR MENSAJE
+    ===================================== */
+
+    item.appendChild(usuario);
+
+    item.appendChild(hora);
+
+    item.appendChild(texto);
+
+
+    /* =====================================
+       AGREGAR AL CHAT
+    ===================================== */
+
+    mensajesDiv.appendChild(item);
+
+
+    /*
+     * Llevar automáticamente al último mensaje.
+     */
+
+    mensajesDiv.scrollTop =
+        mensajesDiv.scrollHeight;
+
+}
+
+
+/* =====================================
+   REFERENCIA DE MENSAJES
+===================================== */
+
+const mensajesRef =
+    ref(
+        db,
+        "chat/mensajes"
+    );
+
+
+/* =====================================
+   CONSULTA DE MENSAJES
+===================================== */
+
+const mensajesQuery =
+    query(
+        mensajesRef,
+        orderByChild("timestamp"),
+        limitToLast(100)
+    );
+
+
+/* =====================================
+   MENSAJES EN TIEMPO REAL
+===================================== */
+
+/*
+ * onChildAdded hace DOS cosas:
+ *
+ * 1. Carga los últimos 100 mensajes
+ *    cuando entra el usuario.
+ *
+ * 2. Detecta automáticamente cada
+ *    mensaje nuevo y lo muestra sin
+ *    necesidad de actualizar la página.
+ */
+
+onChildAdded(
+    mensajesQuery,
+    snapshot => {
+
+        const datos =
+            snapshot.val();
+
+
+        if (!datos) {
+
+            return;
+
+        }
+
+
+        console.log(
+            "Nuevo mensaje recibido:",
+            snapshot.key
+        );
+
+
+        mostrarMensaje(
+            datos,
+            snapshot.key
+        );
+
+    }
+);
+
+
+/* =====================================
+   ELIMINACIÓN EN TIEMPO REAL
+===================================== */
+
+/*
+ * Si el administrador elimina un mensaje,
+ * desaparece automáticamente del chat
+ * general sin recargar la página.
+ */
+
+onChildRemoved(
+    mensajesRef,
+    snapshot => {
+
+        console.log(
+            "Mensaje eliminado:",
+            snapshot.key
+        );
+
+
+        const elemento =
+            document.querySelector(
+                `.chat-mensaje-item[data-id="${snapshot.key}"]`
+            );
+
+
+        if (elemento) {
+
+            elemento.remove();
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   ENVIAR MENSAJE
+===================================== */
+
+async function enviarMensaje() {
+
+    const nombre =
+        nombreInput.value.trim();
+
+
+    const texto =
+        mensajeInput.value.trim();
+
+
+    if (errorDiv) {
+
+        errorDiv.textContent =
+            "";
+
+    }
+
+
+    /* =====================================
+       COMPROBAR AUTENTICACIÓN
+    ===================================== */
+
+    if (!usuarioFirebase) {
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Conectando con el chat...";
+
+        }
+
+        return;
+
+    }
+
+
+    /* =====================================
+       COMPROBAR NOMBRE
+    ===================================== */
+
+    if (!nombre) {
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Escribí tu nombre o apodo.";
+
+        }
+
+        nombreInput.focus();
+
+        return;
+
+    }
+
+
+    if (nombre.length < 2) {
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "El nombre debe tener al menos 2 caracteres.";
+
+        }
+
+        nombreInput.focus();
+
+        return;
+
+    }
+
+
+    if (nombre.length > 20) {
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "El nombre no puede superar 20 caracteres.";
+
+        }
+
+        nombreInput.focus();
+
+        return;
+
+    }
+
+
+    /* =====================================
+       COMPROBAR MENSAJE
+    ===================================== */
+
+    if (!texto) {
+
+        mensajeInput.focus();
+
+        return;
+
+    }
+
+
+    if (texto.length > 250) {
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "El mensaje es demasiado largo.";
+
+        }
+
+        return;
+
+    }
+
+
+    /* =====================================
+       NORMALIZAR NICK
+    ===================================== */
+
+    const nickKey =
+        normalizarNick(nombre);
+
+
+    if (!nickKey) {
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Ese nombre no es válido.";
+
+        }
+
+        return;
+
+    }
+
+
+    /* =====================================
+       SONOMIX RADIO ESTÁ RESERVADO
+    ===================================== */
+
+    if (
+        nickKey === "sonomixradio" ||
+        nickKey === "sonomix"
+    ) {
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "Ese nombre está reservado para Sonomix Radio.";
+
+        }
+
+        return;
+
+    }
+
+
+    /* =====================================
+       ENVIAR
+    ===================================== */
+
+    try {
+
+        /*
+         * Guardamos el nick solamente
+         * en este navegador.
+         *
+         * NO se registra.
+         * NO se reserva.
+         * NO se bloquea para otros usuarios.
+         */
+
+        localStorage.setItem(
+            "sonomixChatNombre",
+            nombre
+        );
+
+
+        /*
+         * Guardamos el mensaje en Firebase.
+         *
+         * onChildAdded lo detectará
+         * automáticamente y lo mostrará
+         * en tiempo real.
+         */
+
+        await push(
+            mensajesRef,
+            {
+
+                nombre: nombre,
+
+                texto: texto,
+
+                timestamp: Date.now(),
+
+                uid: usuarioFirebase.uid,
+
+                nickKey: nickKey
+
+            }
+        );
+
+
+        /*
+         * Limpiar solamente el campo
+         * del mensaje.
+         */
+
+        mensajeInput.value =
+            "";
+
+        mensajeInput.focus();
+
+
+    } catch (error) {
+
+        console.error(
+            "ERROR ENVIANDO MENSAJE:",
+            error
+        );
+
+
+        if (errorDiv) {
+
+            errorDiv.textContent =
+                "No se pudo enviar el mensaje.";
+
+        }
+
+    }
+
+}
+
+
+/* =====================================
+   BOTÓN ENVIAR
+===================================== */
+
+if (enviarBtn) {
+
+    enviarBtn.addEventListener(
+        "click",
+        () => {
+
+            console.log(
+                "BOTÓN ENVIAR PRESIONADO"
+            );
+
+
+            enviarMensaje();
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   ENTER PARA ENVIAR
+===================================== */
+
+if (mensajeInput) {
+
+    mensajeInput.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                enviarMensaje();
+
+            }
+
+        }
+    );
+
+}
+
+
+</script>
+</body>
+</html>
