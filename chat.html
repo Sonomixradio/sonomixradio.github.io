@@ -1059,7 +1059,71 @@ if (mensajeInput) {
     );
 
 }
+/* =====================================
+   TECLADO EN CELULAR / WEBVIEW
+===================================== */
 
+function mostrarUltimoMensaje() {
+
+    if (!mensajesDiv) {
+        return;
+    }
+
+    setTimeout(() => {
+
+        mensajesDiv.scrollTop =
+            mensajesDiv.scrollHeight;
+
+    }, 150);
+}
+
+
+/*
+ * Cuando el usuario toca el campo
+ * del nombre o del mensaje,
+ * llevamos el chat hasta abajo.
+ */
+
+if (nombreInput) {
+
+    nombreInput.addEventListener(
+        "focus",
+        mostrarUltimoMensaje
+    );
+}
+
+if (mensajeInput) {
+
+    mensajeInput.addEventListener(
+        "focus",
+        mostrarUltimoMensaje
+    );
+}
+
+
+/*
+ * Cuando aparece o desaparece
+ * el teclado Android, cambia el
+ * tamaño visible del WebView.
+ *
+ * Volvemos a llevar el chat al
+ * último mensaje después del cambio.
+ */
+
+if (window.visualViewport) {
+
+    window.visualViewport.addEventListener(
+        "resize",
+        mostrarUltimoMensaje
+    );
+
+} else {
+
+    window.addEventListener(
+        "resize",
+        mostrarUltimoMensaje
+    );
+}
 
 </script>
 </body>
