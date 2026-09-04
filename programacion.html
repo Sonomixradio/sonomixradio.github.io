@@ -2,122 +2,68 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Programación | Sonomix Radio</title>
+    <meta
+        name="viewport"
+        content="width=device-width,
+                 initial-scale=1.0,
+                 maximum-scale=1.0,
+                 user-scalable=no">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Programación - Sonomix Radio</title>
 
     <style>
-        :root{
-            --main:#4f7cff;
-            --bg1:#0b1220;
-            --bg2:#151d33;
-            --card:#111827;
-        }
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         html,
-        body{
-            width:100%;
-            min-height:100%;
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
         }
 
-        body{
-            font-family:'Poppins',sans-serif;
-            background:linear-gradient(180deg,var(--bg1),var(--bg2));
-            color:#fff;
-            min-height:100vh;
+        body {
+            position: fixed;
+            inset: 0;
         }
 
-        .programacion{
-            width:100%;
-            max-width:1100px;
-            margin:0 auto;
-            padding:50px 20px 60px;
+        .programacion {
+            position: fixed;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background: #000;
         }
 
-        .programacion h1{
-            text-align:center;
-            color:var(--main);
-            font-size:2rem;
-            margin-bottom:12px;
+        .programacion img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            max-width: 100%;
+            max-height: 100%;
+
+            object-fit: contain;
+            object-position: center;
+
+            border: 0;
         }
 
-        .descripcion{
-            max-width:700px;
-            margin:0 auto 30px;
-            text-align:center;
-            font-size:15px;
-            line-height:1.6;
-            color:rgba(255,255,255,.85);
-        }
-
-        .galeria-programacion{
-            width:100%;
-            display:flex;
-            justify-content:center;
-        }
-
-        .programa{
-            width:100%;
-            max-width:900px;
-            background:var(--card);
-            border-radius:18px;
-            overflow:hidden;
-            box-shadow:0 10px 30px rgba(0,0,0,.45);
-        }
-
-        .programa img{
-            display:block;
-            width:100%;
-            height:auto;
-            object-fit:contain;
-        }
-
-        @media (max-width:768px){
-            .programacion{
-                padding:30px 12px 40px;
-            }
-
-            .programacion h1{
-                font-size:1.6rem;
-            }
-
-            .descripcion{
-                font-size:14px;
-                margin-bottom:22px;
-                padding:0 6px;
-            }
-
-            .programa{
-                border-radius:12px;
-            }
-        }
-
-        @media (max-width:480px){
-            .programacion{
-                padding-left:8px;
-                padding-right:8px;
-            }
-
-            .programacion h1{
-                font-size:1.45rem;
-            }
-
-            .descripcion{
-                font-size:13.5px;
-            }
-
-            .programa{
-                border-radius:8px;
-            }
-        }
     </style>
 </head>
 
@@ -125,19 +71,9 @@
 
     <main class="programacion">
 
-        <h1>Programación</h1>
-
-        <p class="descripcion">
-            Conocé nuestra programación y los programas de Sonomix Radio.
-        </p>
-
-        <div class="galeria-programacion">
-
-            <div class="programa">
-                <img src="programacion.png" alt="Programación de Sonomix Radio">
-            </div>
-
-        </div>
+        <img
+            src="programacion1.png"
+            alt="Programación de Sonomix Radio">
 
     </main>
 
