@@ -1,0 +1,659 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>App Sonomix Radio - Próximamente</title>
+
+    <meta name="description" content="Próximamente podrás descargar la aplicación oficial de Sonomix Radio para Android.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top, rgba(29,185,84,0.15), transparent 35%),
+                linear-gradient(160deg, #121212, #050505);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .pagina {
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 30px 20px 50px;
+        }
+
+        /* CABECERA */
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+
+            background: rgba(20,20,20,0.94);
+
+            padding: 30px;
+
+            border-radius: 24px;
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            box-shadow: 0 15px 50px rgba(0,0,0,0.55);
+        }
+
+        .app-icon {
+            width: 145px;
+            height: 145px;
+
+            border-radius: 28px;
+
+            object-fit: cover;
+
+            flex-shrink: 0;
+
+            box-shadow:
+                0 0 0 4px rgba(255,255,255,0.05),
+                0 0 35px rgba(29,185,84,0.25);
+        }
+
+        .app-info {
+            flex: 1;
+        }
+
+        .estado {
+            display: inline-block;
+
+            background: #1db954;
+            color: #000000;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            padding: 7px 13px;
+
+            border-radius: 50px;
+
+            margin-bottom: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: clamp(30px, 6vw, 48px);
+            margin-bottom: 8px;
+        }
+
+        .desarrollador {
+            color: #1db954;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .descripcion-corta {
+            line-height: 1.6;
+            color: #ffffff;
+            max-width: 700px;
+        }
+
+        /* BOTON DESCARGA */
+
+        .descarga {
+            margin-top: 22px;
+        }
+
+        .boton-descarga {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            background: #2b2b2b;
+
+            color: #ffffff;
+
+            padding: 15px 28px;
+
+            border-radius: 12px;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            text-decoration: none;
+
+            border: 1px solid #444444;
+
+            cursor: not-allowed;
+
+            opacity: 0.8;
+        }
+
+        .boton-descarga span {
+            font-size: 22px;
+        }
+
+        .nota-descarga {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #cccccc;
+        }
+
+        /* DATOS */
+
+        .datos-app {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+        .dato {
+            background: rgba(30,30,30,0.95);
+
+            padding: 18px;
+
+            border-radius: 16px;
+
+            text-align: center;
+
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .dato strong {
+            display: block;
+            color: #1db954;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .dato span {
+            font-size: 13px;
+            color: #ffffff;
+        }
+
+        /* SECCIONES */
+
+        .seccion {
+            margin-top: 30px;
+
+            background: rgba(20,20,20,0.94);
+
+            padding: 30px;
+
+            border-radius: 24px;
+
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .seccion h2 {
+            margin-bottom: 20px;
+            font-size: 25px;
+        }
+
+        .seccion p {
+            line-height: 1.75;
+            color: #ffffff;
+        }
+
+        /* CAPTURA DE APP */
+
+        .capturas {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 25px;
+
+            flex-wrap: wrap;
+        }
+
+        .telefono {
+            width: 220px;
+            height: 430px;
+
+            background:
+                linear-gradient(160deg, #212121, #080808);
+
+            border: 7px solid #333333;
+
+            border-radius: 35px;
+
+            position: relative;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            box-shadow: 0 20px 45px rgba(0,0,0,0.55);
+        }
+
+        .telefono::before {
+            content: "";
+
+            position: absolute;
+
+            top: 12px;
+
+            width: 65px;
+            height: 6px;
+
+            background: #444444;
+
+            border-radius: 20px;
+        }
+
+        .logo-captura {
+            width: 120px;
+            height: 120px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            margin-bottom: 24px;
+
+            box-shadow: 0 0 30px rgba(29,185,84,0.25);
+        }
+
+        .telefono h3 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .telefono p {
+            font-size: 13px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .play {
+            width: 60px;
+            height: 60px;
+
+            border-radius: 50%;
+
+            background: #1db954;
+
+            color: #000000;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-top: 25px;
+
+            font-size: 26px;
+        }
+
+        /* CARACTERISTICAS */
+
+        .caracteristicas {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+        .caracteristica {
+            background: #181818;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .caracteristica h3 {
+            color: #1db954;
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        .caracteristica p {
+            font-size: 14px;
+        }
+
+        /* AVISO */
+
+        .aviso {
+            border: 1px solid rgba(29,185,84,0.4);
+
+            background: rgba(29,185,84,0.08);
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            margin-top: 25px;
+        }
+
+        .aviso strong {
+            color: #1db954;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+
+            margin-top: 35px;
+
+            font-size: 13px;
+
+            color: #cccccc;
+
+            line-height: 1.8;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .app-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .app-icon {
+                width: 125px;
+                height: 125px;
+            }
+
+            .datos-app {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .caracteristicas {
+                grid-template-columns: 1fr;
+            }
+
+            .descarga {
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .pagina {
+                padding: 15px 12px 35px;
+            }
+
+            .app-header,
+            .seccion {
+                padding: 22px 18px;
+                border-radius: 18px;
+            }
+
+            .datos-app {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .dato {
+                padding: 15px 10px;
+            }
+
+            .boton-descarga {
+                width: 100%;
+            }
+
+            .telefono {
+                width: 190px;
+                height: 375px;
+            }
+
+            .logo-captura {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="pagina">
+
+    <!-- CABECERA DE LA APP -->
+
+    <section class="app-header">
+
+        <!--
+        Poné el logo de Sonomix Radio en la misma carpeta
+        con el nombre "logo-sonomix.png"
+        -->
+
+        <img
+            src="logo-sonomix.png"
+            alt="Logo Sonomix Radio"
+            class="app-icon"
+        >
+
+        <div class="app-info">
+
+            <div class="estado">
+                Próximamente
+            </div>
+
+            <h1>Sonomix Radio</h1>
+
+            <div class="desarrollador">
+                Aplicación oficial
+            </div>
+
+            <p class="descripcion-corta">
+                Llevá Sonomix Radio siempre con vos.
+                Estamos desarrollando nuestra aplicación oficial para Android,
+                pensada para que puedas escuchar la radio de una forma rápida,
+                sencilla y cómoda desde tu celular.
+            </p>
+
+            <div class="descarga">
+
+                <!--
+                CUANDO LA APP ESTÉ LISTA:
+                
+                Cambiar este DIV por un enlace como:
+
+                <a href="sonomix-radio.apk" class="boton-descarga">
+                    <span>⬇</span>
+                    Descargar APK
+                </a>
+
+                -->
+
+                <div class="boton-descarga">
+                    <span>🤖</span>
+                    Próximamente para Android
+                </div>
+
+            </div>
+
+            <div class="nota-descarga">
+                La aplicación todavía se encuentra en desarrollo.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DATOS DE LA APP -->
+
+    <section class="datos-app">
+
+        <div class="dato">
+            <strong>Android</strong>
+            <span>Plataforma</span>
+        </div>
+
+        <div class="dato">
+            <strong>Gratis</strong>
+            <span>Precio</span>
+        </div>
+
+        <div class="dato">
+            <strong>24/7</strong>
+            <span>Radio online</span>
+        </div>
+
+        <div class="dato">
+            <strong>Oficial</strong>
+            <span>Sonomix Radio</span>
+        </div>
+
+    </section>
+
+
+    <!-- CAPTURA SIMULADA -->
+
+    <section class="seccion">
+
+        <h2>La radio en tu celular</h2>
+
+        <div class="capturas">
+
+            <div class="telefono">
+
+                <img
+                    src="logo-sonomix.png"
+                    alt="Sonomix Radio"
+                    class="logo-captura"
+                >
+
+                <h3>Sonomix Radio</h3>
+
+                <p>
+                    Más allá del silencio
+                </p>
+
+                <div class="play">
+                    ▶
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INFORMACION -->
+
+    <section class="seccion">
+
+        <h2>Sobre la aplicación</h2>
+
+        <p>
+            La aplicación oficial de <strong>Sonomix Radio</strong>
+            permitirá escuchar nuestra transmisión online directamente
+            desde dispositivos Android.
+            <br><br>
+            Estamos trabajando para ofrecer una experiencia simple,
+            moderna y especialmente diseñada para acompañarte donde estés.
+            Desde la aplicación vas a poder acceder rápidamente a la radio
+            y disfrutar de nuestra programación durante las 24 horas.
+        </p>
+
+    </section>
+
+
+    <!-- CARACTERISTICAS -->
+
+    <section class="seccion">
+
+        <h2>Características</h2>
+
+        <div class="caracteristicas">
+
+            <div class="caracteristica">
+                <h3>🎧 Radio en vivo</h3>
+                <p>
+                    Escuchá Sonomix Radio en directo desde cualquier lugar
+                    con conexión a Internet.
+                </p>
+            </div>
+
+            <div class="caracteristica">
+                <h3>📱 Diseñada para celulares</h3>
+                <p>
+                    Una interfaz sencilla y optimizada especialmente
+                    para dispositivos Android.
+                </p>
+            </div>
+
+            <div class="caracteristica">
+                <h3>🎵 Música y programación</h3>
+                <p>
+                    Accedé a nuestra programación, programas especiales
+                    y selección musical durante las 24 horas.
+                </p>
+            </div>
+
+            <div class="caracteristica">
+                <h3>🔊 Reproducción continua</h3>
+                <p>
+                    Pensada para seguir escuchando la radio cómodamente
+                    mientras utilizás tu teléfono.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="aviso">
+            <strong>La aplicación todavía no está disponible.</strong>
+            <br><br>
+            Estamos trabajando en los últimos detalles.
+            Cuando esté terminada, el botón de descarga aparecerá
+            habilitado en esta misma página.
+        </div>
+
+    </section>
+
+
+    <footer>
+        © 2026 Sonomix Radio
+        <br>
+        Más allá del silencio
+        <br>
+        Una radio, todos los estilos
+    </footer>
+
+</div>
+
+</body>
+</html>
+```
