@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <title>Colaborá con Sonomix Radio</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: #121212;
+      --border: #2b2b2b;
+      --text: #ffffff;
+      --muted: #b8b8b8;
+      --red: #ff0a0a;
+      --mp: #00b1ea;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0;
+      padding: max(20px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom));
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, #241111 0, var(--bg) 45%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+    main { width: min(100%, 430px); }
+    .brand { margin-bottom: 18px; }
+    .brand-logo { display: block; width: min(210px, 58vw); height: auto; margin: 0 auto; }
+    .brand p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+    .card {
+      padding: 24px 20px 20px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: rgba(18, 18, 18, .97);
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+    }
+    .mp-label { color: var(--mp); font-size: 14px; font-weight: 700; letter-spacing: .4px; }
+    h2 { margin: 7px 0 8px; font-size: 24px; }
+    .intro { margin: 0 auto 20px; max-width: 330px; color: var(--muted); line-height: 1.45; font-size: 15px; }
+    .qr-wrap {
+      width: min(70vw, 230px);
+      margin: 0 auto 20px;
+      padding: 10px;
+      border-radius: 18px;
+      background: #fff;
+    }
+    .qr-wrap img { display: block; width: 100%; height: auto; border-radius: 10px; }
+    .or { display: flex; align-items: center; gap: 10px; margin: 0 0 13px; color: #888; font-size: 12px; }
+    .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .alias-title { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
+    .alias-row { display: flex; gap: 9px; }
+    .alias {
+      flex: 1; min-width: 0; padding: 15px 10px; border: 1px solid #3b3b3b; border-radius: 13px;
+      background: #0a0a0a; color: #fff; font-weight: 700; font-size: clamp(16px, 5vw, 19px); overflow-wrap: anywhere;
+    }
+    button { border: 0; border-radius: 13px; padding: 0 16px; background: var(--red); color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; }
+    button:active { transform: scale(.97); }
+    .note { margin: 18px 4px 0; color: #aaa; line-height: 1.35; font-size: 12px; }
+    .ok { color: #75d990; }
+    footer { margin-top: 17px; color: #858585; font-size: 12px; }
+    @media (max-height: 650px) {
+      body { padding-top: 14px; padding-bottom: 14px; }
+      .brand { margin-bottom: 10px; }
+      .card { padding-top: 16px; }
+      .qr-wrap { width: min(46vw, 180px); margin-bottom: 12px; }
+      .intro { margin-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="brand">
+      <img class="brand-logo" src="logo-sonomix.png" alt="Sonomix Radio">
+      <p>Más allá del silencio</p>
+    </header>
+
+    <section class="card" aria-labelledby="titulo-donar">
+      <div class="mp-label">MERCADO PAGO</div>
+      <h2 id="titulo-donar">Colaborá con la radio</h2>
+      <p class="intro">Escaneá el código QR o transferí al alias para apoyar a Sonomix Radio.</p>
+
+      <div class="qr-wrap">
+        <img src="assets/qr-sonomixradio.png" alt="Código QR de Mercado Pago para colaborar con Sonomix Radio">
+      </div>
+
+      <div class="or">O transferí al alias</div>
+      <p class="alias-title">Alias Mercado Pago</p>
+      <div class="alias-row">
+        <div class="alias" id="alias">sonomixradio</div>
+        <button type="button" id="copyButton" aria-label="Copiar alias">Copiar</button>
+      </div>
+      <p class="note"><span class="ok">●</span> Elegí <strong>Transferencia</strong> al pagar. Así colaborás directamente con la radio.</p>
+    </section>
+    <footer>Gracias por ser parte de Sonomix Radio.</footer>
+  </main>
+
+  <script>
+    const button = document.getElementById('copyButton');
+    const alias = document.getElementById('alias').textContent;
+
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(alias);
+      } catch {
+        const input = document.createElement('input');
+        input.value = alias;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        input.remove();
+      }
+      button.textContent = '¡Copiado!';
+      setTimeout(() => { button.textContent = 'Copiar'; }, 1800);
+    });
+  </script>
+</body>
+</html>
