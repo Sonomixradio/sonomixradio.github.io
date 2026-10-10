@@ -1,74 +1,83 @@
 const STREAM_URL = 'https://s2.servicioderadio.com/8664/stream';
 const INFO_URL = 'https://s2.servicioderadio.com/cp/get_info.php?p=8664';
-const audio = document.getElementById('radio');
-const playButton = document.getElementById('playButton');
+const audio = document.getElementById('audio');
+const player = document.querySelector('.player');
+const playBtn = document.getElementById('playBtn');
 const playIcon = document.getElementById('playIcon');
-const status = document.getElementById('status');
 const volume = document.getElementById('volume');
+const song = document.getElementById('song');
 const artist = document.getElementById('artist');
-const title = document.getElementById('title');
-const record = document.getElementById('record');
+const container = document.getElementById('songContainer');
+const status = document.getElementById('status');
 
 audio.src = STREAM_URL;
-audio.volume = .85;
+audio.volume = Number(volume.value);
 
 function setPlaying(playing) {
+  player.classList.toggle('playing', playing);
   playIcon.textContent = playing ? 'Ⅱ' : '▶';
   playIcon.classList.toggle('pause', playing);
-  record.classList.toggle('playing', playing);
-  playButton.setAttribute('aria-label', playing ? 'Pausar Sonomix Radio' : 'Reproducir Sonomix Radio');
-}
-async function togglePlayback() {
-  if (!audio.paused) { audio.pause(); return; }
-  status.textContent = 'Conectando…';
-  try { await audio.play(); } catch { status.textContent = 'No se pudo iniciar. Probá nuevamente.'; }
+  playBtn.setAttribute('aria-label', playing ? 'Pausar Sonomix Radio' : 'Reproducir Sonomix Radio');
 }
 
-async function startAutomatically() {
+async function startPlayback() {
   status.textContent = 'Conectando…';
-  try {
-    await audio.play();
-  } catch {
-    status.textContent = 'Tocá play para escuchar';
-  }
+  try { await audio.play(); }
+  catch { status.textContent = 'Tocá play para escuchar'; }
 }
 
-playButton.addEventListener('click', togglePlayback);
+playBtn.addEventListener('click', () => {
+  if (audio.paused) startPlayback();
+  else audio.pause();
+});
+volume.addEventListener('input', () => { audio.volume = Number(volume.value); });
 audio.addEventListener('playing', () => { setPlaying(true); status.textContent = 'Estás escuchando Sonomix Radio'; });
-audio.addEventListener('pause', () => { setPlaying(false); status.textContent = 'Pausado'; });
+audio.addEventListener('pause', () => { setPlaying(false); status.textContent = 'Radio pausada'; });
 audio.addEventListener('waiting', () => { if (!audio.paused) status.textContent = 'Reconectando…'; });
-audio.addEventListener('error', () => { setPlaying(false); status.textContent = 'Se perdió la conexión. Probá nuevamente.'; });
-volume.addEventListener('input', () => { audio.volume = Number(volume.value) / 100; });
+audio.addEventListener('error', () => { setPlaying(false); status.textContent = 'No se pudo conectar. Probá nuevamente.'; });
 
-function updateMediaSession() {
-  if (!('mediaSession' in navigator)) return;
-  navigator.mediaSession.metadata = new MediaMetadata({ title: title.textContent, artist: artist.textContent, album: 'Sonomix Radio', artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
+function updateScroll() {
+  container.classList.remove('scroll');
+  requestAnimationFrame(() => { if (song.scrollWidth > container.clientWidth) container.classList.add('scroll'); });
 }
-if ('mediaSession' in navigator) {
-  navigator.mediaSession.setActionHandler('play', () => audio.play());
-  navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+
+function showSong(rawTitle, directArtist) {
+  const raw = String(rawTitle || '').replace(/\s+/g, ' ').trim();
+  const split = raw.match(/^(.+?)\s*[-–—]\s*(.+)$/);
+  if (directArtist) {
+    song.textContent = raw || 'En vivo';
+    artist.textContent = String(directArtist).trim();
+  } else if (split) {
+    song.textContent = split[2].trim();
+    artist.textContent = split[1].trim();
+  } else {
+    song.textContent = raw || 'En vivo';
+    artist.textContent = '';
+  }
+  updateScroll();
+  updateMediaSession();
 }
-async function updateSong() {
+
+async function loadMetadata() {
   try {
     const response = await fetch(INFO_URL, { cache: 'no-store' });
     const data = await response.json();
-    const current = data?.songtitle || data?.data?.songtitle || data?.title || data?.data?.title || '';
-    if (!current) return;
-    const cleanCurrent = String(current).replace(/\s+/g, ' ').trim();
-    const match = cleanCurrent.match(/^(.+?)\s*[-–—]\s*(.+)$/);
-    if (match) {
-      artist.textContent = match[1].trim();
-      title.textContent = match[2].trim();
-    } else {
-      title.textContent = cleanCurrent;
-      artist.textContent = 'Sonomix Radio';
-    }
-    updateMediaSession();
-  } catch { /* el audio continúa aunque los metadatos no respondan */ }
+    showSong(data?.songtitle || data?.data?.songtitle || data?.title || data?.data?.title, data?.artist || data?.data?.artist);
+  } catch { showSong('En vivo', ''); }
 }
-updateSong(); setInterval(updateSong, 15000);
 
+function updateMediaSession() {
+  if (!('mediaSession' in navigator)) return;
+  navigator.mediaSession.metadata = new MediaMetadata({ title: song.textContent, artist: artist.textContent || 'Sonomix Radio', album: 'Sonomix Radio', artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
+}
+if ('mediaSession' in navigator) {
+  navigator.mediaSession.setActionHandler('play', startPlayback);
+  navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+}
+
+loadMetadata();
+setInterval(loadMetadata, 15000);
 window.addEventListener('load', () => {
-  startAutomatically();
+  startPlayback();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 });
