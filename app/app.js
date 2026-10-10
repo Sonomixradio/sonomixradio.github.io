@@ -7,14 +7,15 @@ const status = document.getElementById('status');
 const volume = document.getElementById('volume');
 const artist = document.getElementById('artist');
 const title = document.getElementById('title');
-const installButton = document.getElementById('installButton');
-let deferredPrompt;
+const record = document.getElementById('record');
 
 audio.src = STREAM_URL;
 audio.volume = .85;
 
 function setPlaying(playing) {
-  playIcon.textContent = playing ? '❚❚' : '▶';
+  playIcon.textContent = playing ? 'Ⅱ' : '▶';
+  playIcon.classList.toggle('pause', playing);
+  record.classList.toggle('playing', playing);
   playButton.setAttribute('aria-label', playing ? 'Pausar Sonomix Radio' : 'Reproducir Sonomix Radio');
 }
 async function togglePlayback() {
@@ -51,7 +52,4 @@ async function updateSong() {
 }
 updateSong(); setInterval(updateSong, 15000);
 
-window.addEventListener('beforeinstallprompt', event => { event.preventDefault(); deferredPrompt = event; installButton.hidden = false; });
-installButton.addEventListener('click', async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; installButton.hidden = true; });
-window.addEventListener('appinstalled', () => { installButton.hidden = true; });
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
