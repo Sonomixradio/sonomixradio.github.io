@@ -16,14 +16,14 @@
   <main class="app-shell" aria-label="Reproductor de Sonomix Radio">
     <section class="radio-player">
       <p class="online"><i></i> RADIO ONLINE</p>
-      <div id="record" class="record" aria-label="Disco de Sonomix Radio"><img class="vinyl" src="vinyl-ring.png" alt=""><span class="label"><img src="logo-sonomix.png" alt="Sonomix Radio"></span></div>
+      <div id="record" class="record" aria-label="Disco de Sonomix Radio"><img class="vinyl" src="vinyl-ring.png" alt=""><span class="label"><img src="logo-centro.png" alt="Sonomix Radio"></span></div>
       <section class="track" aria-live="polite"><p>AHORA SONANDO</p><h1 id="title">Más allá del silencio</h1><span id="artist">Sonomix Radio</span></section>
       <button id="playButton" class="play" type="button" aria-label="Reproducir Sonomix Radio"><span id="playIcon">▶</span></button>
       <p id="status" class="status">Radio detenida</p>
       <div class="volume"><span class="speaker" aria-hidden="true">🔊</span><input id="volume" type="range" min="0" max="100" value="85" aria-label="Volumen"></div>
     </section>
   </main>
-  <audio id="radio" preload="none" playsinline></audio>
+  <audio id="radio" preload="none" playsinline autoplay></audio>
   <script src="app.js"></script>
 </body>
 </html>

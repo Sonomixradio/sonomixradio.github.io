@@ -23,6 +23,16 @@ async function togglePlayback() {
   status.textContent = 'Conectando…';
   try { await audio.play(); } catch { status.textContent = 'No se pudo iniciar. Probá nuevamente.'; }
 }
+
+async function startAutomatically() {
+  status.textContent = 'Conectando…';
+  try {
+    await audio.play();
+  } catch {
+    status.textContent = 'Tocá play para escuchar';
+  }
+}
+
 playButton.addEventListener('click', togglePlayback);
 audio.addEventListener('playing', () => { setPlaying(true); status.textContent = 'Estás escuchando Sonomix Radio'; });
 audio.addEventListener('pause', () => { setPlaying(false); status.textContent = 'Pausado'; });
@@ -42,14 +52,23 @@ async function updateSong() {
   try {
     const response = await fetch(INFO_URL, { cache: 'no-store' });
     const data = await response.json();
-    const current = data?.songtitle || data?.title || data?.data?.songtitle || data?.data?.title || '';
+    const current = data?.songtitle || data?.data?.songtitle || data?.title || data?.data?.title || '';
     if (!current) return;
-    const parts = current.split(' - ');
-    artist.textContent = parts.length > 1 ? parts.shift() : 'Sonomix Radio';
-    title.textContent = parts.length > 1 ? parts.join(' - ') : current;
+    const cleanCurrent = String(current).replace(/\s+/g, ' ').trim();
+    const match = cleanCurrent.match(/^(.+?)\s*[-–—]\s*(.+)$/);
+    if (match) {
+      artist.textContent = match[1].trim();
+      title.textContent = match[2].trim();
+    } else {
+      title.textContent = cleanCurrent;
+      artist.textContent = 'Sonomix Radio';
+    }
     updateMediaSession();
   } catch { /* el audio continúa aunque los metadatos no respondan */ }
 }
 updateSong(); setInterval(updateSong, 15000);
 
-if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+window.addEventListener('load', () => {
+  startAutomatically();
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+});
