@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071a2b">
+  <meta name="description" content="Reproductor oficial de Sonomix Radio">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <title>Sonomix Radio</title>
+</head>
+<body>
+  <main class="player" aria-label="Reproductor de Sonomix Radio">
+    <img class="logo" src="logo-sonomix.png" alt="Sonomix Radio">
+    <p class="live"><span></span> EN VIVO</p>
+    <h1>Sonomix Radio</h1>
+    <p class="tagline">Más allá del silencio</p>
+
+    <section class="track" aria-live="polite">
+      <p class="track-label">SONANDO AHORA</p>
+      <p id="artist" class="artist">Sonomix Radio</p>
+      <p id="title" class="title">Tu música, estés donde estés</p>
+    </section>
+
+    <button id="playButton" class="play" type="button" aria-label="Reproducir Sonomix Radio">
+      <span id="playIcon">▶</span>
+    </button>
+    <p id="status" class="status">Tocá el botón para escuchar</p>
+
+    <div class="volume">
+      <span aria-hidden="true">🔊</span>
+      <input id="volume" type="range" min="0" max="100" value="85" aria-label="Volumen">
+    </div>
+
+    <button id="installButton" class="install" type="button" hidden>Instalar app</button>
+    <a class="back" href="https://sonomixradio.com.ar">Ir al sitio de Sonomix Radio</a>
+  </main>
+  <audio id="radio" preload="none" playsinline></audio>
+  <script src="app.js"></script>
+</body>
+</html>
