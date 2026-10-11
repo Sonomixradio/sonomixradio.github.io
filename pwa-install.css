@@ -1,0 +1,13 @@
+.sonomix-install-dialog{color-scheme:light;box-sizing:border-box;width:min(440px,calc(100% - 32px));max-height:calc(100dvh - 32px);overflow-y:auto;margin:auto;padding:30px 24px 24px;border:1px solid #dce5ef;border-radius:18px;background:#fff;color:#172b45;box-shadow:0 24px 80px #102f5960;text-align:center;font-family:Arial,sans-serif;line-height:1.55}
+.sonomix-install-dialog::backdrop{background:#09234599;backdrop-filter:blur(3px)}
+.sonomix-install-dialog .sonomix-install-close{position:absolute;right:12px;top:9px;display:grid;place-items:center;min-width:44px;min-height:44px;border:0;border-radius:50%;background:transparent;color:#34516f;font-size:28px;cursor:pointer}
+.sonomix-install-logo{display:block;width:76px;height:76px;margin:0 auto 16px;border-radius:50%;object-fit:contain}
+.sonomix-install-dialog h2{margin:0 0 12px;color:#111;font-size:1.45rem;font-weight:700;line-height:1.3}
+.sonomix-install-dialog p{margin:0 0 22px;font-size:.94rem}
+.sonomix-install-actions{display:flex;flex-direction:column;gap:10px}
+.sonomix-install-dialog .sonomix-install-confirm,.sonomix-install-dialog .sonomix-install-open{box-sizing:border-box;display:block;min-height:46px;padding:12px 16px;border:0;border-radius:8px;text-decoration:none;font:600 .94rem Arial,sans-serif;line-height:1.45;cursor:pointer}
+.sonomix-install-dialog .sonomix-install-confirm{background:#07519b;color:#fff}
+.sonomix-install-dialog .sonomix-install-confirm:disabled{background:#e7edf5;color:#697b8d;cursor:wait}
+.sonomix-install-dialog .sonomix-install-open{background:#e8f1fc;color:#07519b}
+.sonomix-install-dialog :focus-visible{outline:3px solid #4b9bee;outline-offset:3px}
+.sonomix-install-dialog [hidden],[data-app-install-control][hidden]{display:none!important}

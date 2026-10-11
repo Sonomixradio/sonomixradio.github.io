@@ -1,0 +1,32 @@
+SONOMIX RADIO — WEB PRINCIPAL + APP WEB
+
+El paquete está listo para alojamiento estático: no requiere Node, compilación ni una base de datos propia.
+
+CONTENIDO
+index.html y assets/: web principal actualizada.
+app/: reproductor oficial y manifiesto de la app web.
+pwa-install.js, pwa-install.css y sw.js: instalación compartida y archivos del reproductor disponibles sin conexión.
+donar.html: página de colaboración con QR y copia de alias.
+Imágenes, logos de programas, fuentes y sus licencias incluidos.
+Incluye los últimos cambios del chat, WhatsApp, pie de página y Podcasts (11/10/2026).
+
+PROBAR EN GITHUB PAGES
+1. Descomprimí este ZIP en tu computadora.
+2. Subí TODO su contenido a la raíz del repositorio de prueba, manteniendo las carpetas assets y app. index.html debe quedar directamente en la raíz, no dentro de una carpeta adicional.
+3. Si .nojekyll no aparece al subir, crealo desde Add file → Create new file, con ese nombre exacto y el texto “Sitio estático”.
+4. En Settings → Pages elegí Deploy from a branch, la rama usada (por ejemplo main) y /(root).
+5. Cuando GitHub termine, abrí la URL HTTPS de Pages. La app estará en esa misma dirección seguida de app/. No hace falta cambiar ninguna dirección en los archivos.
+6. En PC, “La app” y “Descargar para Android” abren ese reproductor en otra pestaña.
+7. En Chrome para Android, esos dos botones llaman al cuadro nativo de instalación cuando el navegador ofrece la app. La persona confirma “Instalar”. Si todavía está preparándose, se muestra un panel y el botón “Instalar aplicación” se habilita cuando esté disponible. Puede requerir permanecer en la página o volver a visitarla, según el navegador.
+8. La app instalada abre el reproductor de app/, no la portada de la web.
+
+DOMINIO CON CPANEL, CUANDO DECIDAS USARLO
+Subí el mismo contenido a public_html o a la carpeta raíz asignada al dominio. Conservá app/ dentro de ella y activá HTTPS.
+Web principal: https://sonomixradio.com.ar/
+App web: https://sonomixradio.com.ar/app/
+Los enlaces relativos y el manifiesto se adaptan solos a ambas ubicaciones. El ZIP no contiene un archivo CNAME ni modifica el dominio de GitHub.
+
+INSTALACIÓN Y CONEXIÓN
+El navegador controla cuándo ofrece la instalación; ninguna web puede instalar una app sin la confirmación de la persona. En iPhone/iPad, Safari requiere Compartir → Agregar a pantalla de inicio y muestra instrucciones al tocar los botones. Abrir index.html como archivo local no permite probar la instalación: usá la URL HTTPS publicada.
+Si la app ya está instalada, puede abrirse desde su ícono. Los archivos del reproductor se guardan para mostrar la interfaz sin conexión; la emisión en vivo, los metadatos, el chat, el video y el envío de consultas requieren Internet y sus servicios externos.
+Se verificaron compilación, rutas, recursos y lógica de instalación con pruebas automatizadas. Falta la prueba visual y del cuadro nativo en un celular real.

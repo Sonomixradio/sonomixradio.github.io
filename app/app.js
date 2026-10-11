@@ -79,5 +79,4 @@ loadMetadata();
 setInterval(loadMetadata, 15000);
 window.addEventListener('load', () => {
   startPlayback();
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 });
